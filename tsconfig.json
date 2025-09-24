@@ -1,13 +1,13 @@
-// tsconfig.json
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    "baseUrl": "./", // Or "./src" if your code is in a 'src' folder
+    "baseUrl": "./", // root is project folder
     "paths": {
-      "@/*": ["src/*"], // Alias for 'src' folder
-      "@components/*": ["src/components/*"], // Alias for 'src/components'
-      "@utils/*": ["src/utils/*"] // Alias for 'src/utils'
+      "@/*": ["src/*"], // ✅ Matches src/ and everything inside
+      "@components/*": ["src/components/*"], // ✅ Matches src/components/... and nested files
+      "@utils/*": ["src/utils/*"], // ✅ Matches src/utils/... and nested files
+      "@navigation/*": ["src/navigation/*"] // ✅ Matches src/utils/... and nested files
     }
   }
 }

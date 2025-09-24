@@ -1,9 +1,9 @@
 import "./global.css";
-import { View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import NText from "./components/global/NText";
+import { ThemeProvider } from "./context/ThemeProvider";
+import Navigation from "./navigation/Navigation";
 
 // Keep splash screen until we hide it manually
 SplashScreen.preventAutoHideAsync();
@@ -28,8 +28,8 @@ export default function App() {
   }, []);
 
   return (
-    <View className="flex-1 items-center justify-center bg-blue-300">
-      <NText className="text-xl font-FFRegular  text-blue-500">Welcome to Nitto Ponno!</NText>
-    </View>
+    <ThemeProvider>
+      <Navigation />
+    </ThemeProvider>
   );
 }
