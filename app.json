@@ -4,7 +4,7 @@
     "slug": "nittoponno",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/splash.png",
+    "icon": "./src/assets/splash.png",
     "backgroundColor": "#facc14",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
+        "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#facc14"
       },
       "edgeToEdgeEnabled": true,
@@ -22,7 +22,7 @@
       "appName": "Nitto Ponno"
     },
     "web": {
-      "favicon": "./src/assets/images/icon.jpg",
+      "favicon": "./src/assets/icon.jpg",
       "bundler": "metro"
     },
     "plugins": [
@@ -30,9 +30,9 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#facc14",
-          "image": "./src/assets/images/splash.png",
+          "image": "./src/assets/splash.png",
           "dark": {
-            "image": "./src/assets/images/splash.png",
+            "image": "./src/assets/splash.png",
             "backgroundColor": "#facc14"
           },
           "imageWidth": 200
