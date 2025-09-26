@@ -4,6 +4,7 @@ import GContainer from "@/components/global/GContainer";
 import NText from "@/components/global/NText";
 import { Colors, useTheme } from "@/context/ThemeProvider";
 import { Camera, Moon, ThermometerSun } from "lucide-react-native";
+import CollapsibleHeader from "@/test/CollapsibleHeader";
 
 const HomeScreen = () => {
   const { toggleTheme, theme } = useTheme();
@@ -21,6 +22,7 @@ const HomeScreen = () => {
         <NText className="capitalize text-heading">{theme}</NText>
         <Moon color={Colors.heading} size={20} />
       </TouchableOpacity>
+      <CollapsibleHeader />
     </GContainer>
   );
 };
