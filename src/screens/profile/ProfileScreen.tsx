@@ -3,6 +3,7 @@ import GContainer from "@/components/global/GContainer";
 import { View, Text, TouchableOpacity } from "react-native";
 import NText from "@/components/global/NText";
 import { navigate } from "@/utils/NavigationUtils";
+import { showErrorToast, showSuccessAlert, showToast, showWarningToast } from "@/utils/commonFunction";
 
 const ProfileScreen = () => {
   return (
@@ -10,7 +11,8 @@ const ProfileScreen = () => {
       <TouchableOpacity>
         <NText
           onPress={() => {
-            navigate("Signup");
+            // navigate("Signup");
+            showSuccessAlert({ message: "Navigating to the sign in screen" });
           }}
           className="text-heading"
         >

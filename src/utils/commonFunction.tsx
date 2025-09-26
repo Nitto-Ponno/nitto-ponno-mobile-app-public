@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-escape */
 import Toast from "react-native-toast-message";
-import { navigate } from "./NavigationUtils";
 import { Linking, Share } from "react-native";
 
 interface ToastOptions {
@@ -12,7 +11,39 @@ interface ToastOptions {
 
 export const showToast = ({ message, color, background, type }: ToastOptions): void => {
   Toast.show({
-    type: "tomatoToast", // This matches the key defined in toastConfig
+    type: "errorToast",
+    text1: message,
+    position: "bottom",
+    props: { color, background, type: type || "default" },
+  });
+};
+export const showSuccessAlert = ({ message, color, background, type }: ToastOptions): void => {
+  Toast.show({
+    type: "successToast",
+    text1: message,
+    position: "bottom",
+    props: { color, background, type: type || "default" },
+  });
+};
+export const showWarningToast = ({ message, color, background, type }: ToastOptions): void => {
+  Toast.show({
+    type: "warningToast",
+    text1: message,
+    position: "bottom",
+    props: { color, background, type: type || "default" },
+  });
+};
+export const showErrorToast = ({ message, color, background, type }: ToastOptions): void => {
+  Toast.show({
+    type: "errorToast",
+    text1: message,
+    position: "bottom",
+    props: { color, background, type: type || "default" },
+  });
+};
+export const showAlert = ({ message, color, background, type }: ToastOptions): void => {
+  Toast.show({
+    type: "warningToast",
     text1: message,
     position: "bottom",
     props: { color, background, type: type || "default" },

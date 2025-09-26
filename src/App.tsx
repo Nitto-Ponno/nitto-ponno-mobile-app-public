@@ -1,4 +1,4 @@
-import "@/global.css";
+import "./global.css";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
@@ -8,6 +8,8 @@ import { Provider } from "react-redux";
 import store, { persistor } from "@/store/index";
 import { PersistGate } from "redux-persist/integration/react";
 import Splash from "@/components/global/Splash";
+import Toast from "react-native-toast-message";
+import { toastConfig } from "./utils/ToastConfig";
 // Keep splash screen until we hide it manually
 SplashScreen.preventAutoHideAsync();
 
@@ -35,6 +37,7 @@ export default function App() {
       <PersistGate loading={<Splash />} persistor={persistor}>
         <ThemeProvider>
           <Navigation />
+          <Toast config={toastConfig} />
         </ThemeProvider>
       </PersistGate>
     </Provider>
