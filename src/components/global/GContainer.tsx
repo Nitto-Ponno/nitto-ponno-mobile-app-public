@@ -1,4 +1,5 @@
 import { Colors, useTheme } from "@/context/ThemeProvider";
+import { cn } from "@/utils/cn";
 import React, { ReactNode, useMemo } from "react";
 import {
   ActivityIndicator,
@@ -20,7 +21,7 @@ type StatusBarStyle = "light-content" | "dark-content" | "default";
 
 export interface GContainerProps {
   children?: ReactNode;
-
+  className?: string;
   /** Layout */
   scroll?: boolean; // Use ScrollView when true, View otherwise
   contentContainerStyle?: StyleProp<ViewStyle>;
@@ -76,6 +77,7 @@ export const GContainer: React.FC<GContainerProps> = ({
   header,
   footer,
   testID,
+  className,
 }) => {
   const { theme } = useTheme();
   const ContainerBg = useMemo(
@@ -143,7 +145,7 @@ export const GContainer: React.FC<GContainerProps> = ({
   );
 
   return (
-    <View className="bg-background" style={styles.flex} testID={testID}>
+    <View className={cn("bg-background", className)} style={styles.flex} testID={testID}>
       <StatusBar
         barStyle={theme === "dark" ? "light-content" : theme === "light" ? "dark-content" : statusBarStyle}
         backgroundColor={statusBarBg ?? backgroundColor}
