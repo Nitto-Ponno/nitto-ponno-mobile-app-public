@@ -1,3 +1,8 @@
+import GContainer from "@/components/global/GContainer";
+import NText from "@/components/global/NText";
+import { Colors } from "@/context/ThemeProvider";
+import { goBack } from "@/utils/NavigationUtils";
+import { ArrowLeftCircle } from "lucide-react-native";
 import React, { useState, useRef, useEffect } from "react";
 import {
   View,
@@ -142,27 +147,29 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <GContainer>
+      <ArrowLeftCircle onPress={goBack} size={40} color={Colors.heading} style={{ marginLeft: 16 }} className="bg-slate-800" />
+
       <ScrollView className="flex-1 px-6">
         {/* Header */}
         <View className="mt-16 mb-12">
-          <Text className="text-4xl font-bold text-black text-center mb-4">Verify Code</Text>
-          <Text className="text-gray-500 text-center text-base leading-6 px-4">
+          <NText className="text-4xl font-bold text-heading text-center mb-4">Verify Code</NText>
+          <NText className="text-body text-center text-base leading-6 px-4">
             Enter the 6-digit code sent to your {verificationMethod === "email" ? "email" : "phone number"}
-          </Text>
-          <Text className="text-green-600 text-center text-base font-medium mt-2">{maskContactInfo(contactInfo)}</Text>
+          </NText>
+          <NText className="text-green-600 text-center text-base font-medium mt-2">{maskContactInfo(contactInfo)}</NText>
         </View>
 
         {/* OTP Input Fields */}
         <View className="mb-8">
-          <Text className="text-gray-700 text-base mb-4 font-medium text-center">Verification Code</Text>
+          <NText className="text-heading text-base mb-4 font-medium text-center">Verification Code</NText>
           <View className="flex-row justify-between px-4">
             {otp.map((digit, index) => (
               <TextInput
                 key={index}
                 ref={(ref) => setInputRef(ref, index)}
-                className={`w-12 h-12 border-2 rounded-lg text-center text-xl font-bold ${
-                  digit ? "border-green-500 bg-green-50" : "border-gray-300 bg-gray-50"
+                className={`w-16  h-20 border-2 rounded-lg text-center text-heading text-2xl font-bold bg-foreground ${
+                  digit ? "border-green-500 " : "border-border"
                 }`}
                 value={digit}
                 onChangeText={(value) => handleOtpChange(value, index)}
@@ -173,6 +180,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
                 accessible={true}
                 accessibilityLabel={`OTP digit ${index + 1}`}
                 accessibilityHint="Enter a single digit"
+                keyboardAppearance="dark"
               />
             ))}
           </View>
@@ -181,10 +189,10 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
         {/* Timer and Resend */}
         <View className="items-center mb-8">
           {!canResend ? (
-            <Text className="text-gray-500 text-base mb-4">Resend code in {formatTime(timer)}</Text>
+            <NText className="text-body text-base mb-4">Resend code in {formatTime(timer)}</NText>
           ) : (
             <TouchableOpacity onPress={handleResendOTP} className="mb-4" accessible={true} accessibilityLabel="Resend verification code">
-              <Text className="text-green-600 text-base font-semibold underline">Resend Code</Text>
+              <NText className="text-green-600 text-base font-semibold underline">Resend Code</NText>
             </TouchableOpacity>
           )}
         </View>
@@ -196,36 +204,29 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
           accessible={true}
           accessibilityLabel="Verify OTP code"
         >
-          <Text className="text-white text-center text-lg font-semibold">Verify Code</Text>
+          <NText className="text-white text-center text-lg font-semibold">Verify Code</NText>
         </TouchableOpacity>
 
         {/* Info Message */}
         <View className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-8">
           <View className="flex-row">
-            <Text className="text-yellow-600 text-lg mr-3">⚠️</Text>
-            <Text className="text-yellow-700 text-sm leading-5 flex-1">
+            <NText className="text-yellow-600 text-lg mr-3">⚠️</NText>
+            <NText className="text-yellow-700 text-sm leading-5 flex-1">
               Didn't receive the code? Check your {verificationMethod === "email" ? "spam folder" : "messages"} or try resending after the
               timer expires.
-            </Text>
+            </NText>
           </View>
         </View>
 
         {/* Change Method */}
         <View className="flex-row justify-center items-center mb-6">
-          <Text className="text-gray-500 text-base">Wrong {verificationMethod === "email" ? "email" : "phone"}? </Text>
+          <NText className="text-body text-base">Wrong {verificationMethod === "email" ? "email" : "phone"}? </NText>
           <TouchableOpacity onPress={handleChangeMethod} accessible={true} accessibilityLabel="Change verification method">
-            <Text className="text-green-600 text-base font-semibold">Change Method</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Help Section */}
-        <View className="items-center mb-8">
-          <TouchableOpacity onPress={handleContactSupport} accessible={true} accessibilityLabel="Contact support for help">
-            <Text className="text-gray-600 text-base underline">Having trouble? Contact Support</Text>
+            <NText className="text-green-600 text-base font-semibold">Change Method</NText>
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </GContainer>
   );
 };
 

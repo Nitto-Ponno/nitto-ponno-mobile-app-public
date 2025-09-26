@@ -1,7 +1,7 @@
 import NText from "@/components/global/NText";
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { CheckCircle, AlertCircle, XCircle, TriangleAlert } from "lucide-react-native";
+import { CheckCircle, XCircle, TriangleAlert } from "lucide-react-native";
 import { screenHeight } from "./Sizes";
 import { Colors } from "@/context/ThemeProvider";
 import Toast from "react-native-toast-message";

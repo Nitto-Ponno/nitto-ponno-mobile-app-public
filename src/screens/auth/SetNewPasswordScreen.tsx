@@ -1,3 +1,4 @@
+import NText from "@/components/global/NText";
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Alert } from "react-native";
 
@@ -183,8 +184,8 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
 
   const ValidationItem: React.FC<{ isValid: boolean; text: string }> = ({ isValid, text }) => (
     <View className="flex-row items-center mb-1">
-      <Text className={`mr-2 text-sm ${isValid ? "text-green-500" : "text-gray-400"}`}>{isValid ? "✓" : "○"}</Text>
-      <Text className={`text-sm ${isValid ? "text-green-600" : "text-gray-500"}`}>{text}</Text>
+      <NText className={`mr-2 text-sm ${isValid ? "text-green-500" : "text-gray-400"}`}>{isValid ? "✓" : "○"}</NText>
+      <NText className={`text-sm ${isValid ? "text-green-600" : "text-gray-500"}`}>{text}</NText>
     </View>
   );
 
@@ -193,22 +194,22 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
       <ScrollView className="flex-1 px-6">
         {/* Header */}
         <View className="mt-16 mb-12">
-          <Text className="text-4xl font-bold text-black text-center mb-4">Set New Password</Text>
-          <Text className="text-gray-500 text-center text-base leading-6 px-4">Create a strong password for your account</Text>
+          <NText className="text-4xl font-bold text-black text-center mb-4">Set New Password</NText>
+          <NText className="text-gray-500 text-center text-base leading-6 px-4">Create a strong password for your account</NText>
           {userIdentifier && (
-            <Text className="text-green-600 text-center text-base font-medium mt-3">{maskUserIdentifier(userIdentifier)}</Text>
+            <NText className="text-green-600 text-center text-base font-medium mt-3">{maskUserIdentifier(userIdentifier)}</NText>
           )}
         </View>
 
         {/* Verification Success Badge */}
         <View className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
           <View className="flex-row items-center">
-            <Text className="text-green-500 text-2xl mr-3">✅</Text>
+            <NText className="text-green-500 text-2xl mr-3">✅</NText>
             <View className="flex-1">
-              <Text className="text-green-800 text-base font-semibold mb-1">Identity Verified</Text>
-              <Text className="text-green-700 text-sm">
+              <NText className="text-green-800 text-base font-semibold mb-1">Identity Verified</NText>
+              <NText className="text-green-700 text-sm">
                 Your {verificationMethod === "email" ? "email" : "phone number"} has been verified successfully.
-              </Text>
+              </NText>
             </View>
           </View>
         </View>
@@ -217,10 +218,10 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
         <View className="space-y-6">
           {/* New Password */}
           <View>
-            <Text className="text-gray-700 text-base mb-3 font-medium">New Password</Text>
+            <NText className="text-gray-700 text-base mb-3 font-medium">New Password</NText>
             <View className="relative">
               <TextInput
-                className={`border rounded-lg px-4 py-4 pl-12 pr-12 text-base bg-gray-50 ${
+                className={`border text-heading rounded-lg px-4 py-4 pl-12 pr-12 text-base bg-gray-50 ${
                   errors.newPassword ? "border-red-500" : "border-gray-200"
                 }`}
                 placeholder="Enter your new password"
@@ -231,27 +232,27 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
                 autoCapitalize="none"
               />
               <View className="absolute left-4 top-4">
-                <Text className="text-gray-400 text-lg">🔑</Text>
+                <NText className="text-gray-400 text-lg">🔑</NText>
               </View>
               <TouchableOpacity className="absolute right-4 top-4" onPress={() => setShowNewPassword(!showNewPassword)}>
-                <Text className="text-gray-400 text-lg">{showNewPassword ? "🙈" : "👁️"}</Text>
+                <NText className="text-gray-400 text-lg">{showNewPassword ? "🙈" : "👁️"}</NText>
               </TouchableOpacity>
             </View>
-            {errors.newPassword && <Text className="text-red-500 text-sm mt-1">{errors.newPassword}</Text>}
+            {errors.newPassword && <NText className="text-red-500 text-sm mt-1">{errors.newPassword}</NText>}
           </View>
 
           {/* Password Requirements & Strength */}
           {newPassword.length > 0 && (
             <View className="bg-gray-50 rounded-lg p-4">
               <View className="flex-row items-center justify-between mb-3">
-                <Text className="text-gray-700 text-base font-medium">Password Strength</Text>
-                <Text
+                <NText className="text-gray-700 text-base font-medium">Password Strength</NText>
+                <NText
                   className={`text-sm font-bold uppercase tracking-wide ${
                     passwordStrength === "weak" ? "text-red-500" : passwordStrength === "medium" ? "text-yellow-500" : "text-green-500"
                   }`}
                 >
                   {passwordStrength}
-                </Text>
+                </NText>
               </View>
 
               {/* Strength Bar */}
@@ -260,7 +261,7 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
               </View>
 
               {/* Requirements */}
-              <Text className="text-gray-600 text-sm font-medium mb-2">Requirements:</Text>
+              <NText className="text-gray-600 text-sm font-medium mb-2">Requirements:</NText>
               <ValidationItem isValid={validation.minLength} text="At least 8 characters" />
               <ValidationItem isValid={validation.hasUppercase} text="One uppercase letter (A-Z)" />
               <ValidationItem isValid={validation.hasLowercase} text="One lowercase letter (a-z)" />
@@ -271,10 +272,10 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
 
           {/* Confirm Password */}
           <View>
-            <Text className="text-gray-700 text-base mb-3 font-medium">Confirm New Password</Text>
+            <NText className="text-gray-700 text-base mb-3 font-medium">Confirm New Password</NText>
             <View className="relative">
               <TextInput
-                className={`border rounded-lg px-4 py-4 pl-12 pr-12 text-base bg-gray-50 ${
+                className={`border text-heading rounded-lg px-4 py-4 pl-12 pr-12 text-base bg-gray-50 ${
                   errors.confirmPassword ? "border-red-500" : "border-gray-200"
                 }`}
                 placeholder="Confirm your new password"
@@ -285,15 +286,15 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
                 autoCapitalize="none"
               />
               <View className="absolute left-4 top-4">
-                <Text className="text-gray-400 text-lg">🔒</Text>
+                <NText className="text-gray-400 text-lg">🔒</NText>
               </View>
               <TouchableOpacity className="absolute right-4 top-4" onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-                <Text className="text-gray-400 text-lg">{showConfirmPassword ? "🙈" : "👁️"}</Text>
+                <NText className="text-gray-400 text-lg">{showConfirmPassword ? "🙈" : "👁️"}</NText>
               </TouchableOpacity>
             </View>
-            {errors.confirmPassword && <Text className="text-red-500 text-sm mt-1">{errors.confirmPassword}</Text>}
+            {errors.confirmPassword && <NText className="text-red-500 text-sm mt-1">{errors.confirmPassword}</NText>}
             {!errors.confirmPassword && confirmPassword && newPassword === confirmPassword && (
-              <Text className="text-green-500 text-sm mt-1 flex-row items-center">✓ Passwords match</Text>
+              <NText className="text-green-500 text-sm mt-1 flex-row items-center">✓ Passwords match</NText>
             )}
           </View>
         </View>
@@ -305,27 +306,27 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
             onPress={handleSetPassword}
             disabled={isLoading}
           >
-            <Text className="text-white text-center text-lg font-semibold">{isLoading ? "Setting Password..." : "Set New Password"}</Text>
+            <NText className="text-white text-center text-lg font-semibold">{isLoading ? "Setting Password..." : "Set New Password"}</NText>
           </TouchableOpacity>
         </View>
 
         {/* Back to Login */}
         <View className="flex-row justify-center items-center mb-8">
           <TouchableOpacity onPress={handleBackToLogin}>
-            <Text className="text-green-600 text-base font-semibold underline">Back to Login</Text>
+            <NText className="text-green-600 text-base font-semibold underline">Back to Login</NText>
           </TouchableOpacity>
         </View>
 
         {/* Security Info */}
         <View className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
           <View className="flex-row">
-            <Text className="text-blue-500 text-lg mr-3">🛡️</Text>
+            <NText className="text-blue-500 text-lg mr-3">🛡️</NText>
             <View className="flex-1">
-              <Text className="text-blue-700 text-sm font-medium mb-1">Security Tips:</Text>
-              <Text className="text-blue-700 text-sm leading-5">
+              <NText className="text-blue-700 text-sm font-medium mb-1">Security Tips:</NText>
+              <NText className="text-blue-700 text-sm leading-5">
                 • Use a unique password you haven't used elsewhere{"\n"}• Store it securely (consider a password manager){"\n"}• Don't share
                 your password with anyone
-              </Text>
+              </NText>
             </View>
           </View>
         </View>

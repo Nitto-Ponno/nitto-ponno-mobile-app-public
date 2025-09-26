@@ -11,7 +11,7 @@ const ProfileScreen = () => {
       <TouchableOpacity>
         <NText
           onPress={() => {
-            // navigate("Signup");
+            navigate("Signup");
             showSuccessAlert({ message: "Navigating to the sign in screen" });
           }}
           className="text-heading"
