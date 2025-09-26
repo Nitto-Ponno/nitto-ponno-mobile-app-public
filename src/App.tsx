@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import store, { persistor } from "@/store/index";
 import { PersistGate } from "redux-persist/integration/react";
 import Splash from "@/components/global/Splash";
-
 // Keep splash screen until we hide it manually
 SplashScreen.preventAutoHideAsync();
 
