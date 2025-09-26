@@ -1,10 +1,13 @@
-import "./global.css";
+import "@/global.css";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import { ThemeProvider } from "./context/ThemeProvider";
-import Navigation from "./navigation/Navigation";
-
+import { ThemeProvider } from "@/context/ThemeProvider";
+import Navigation from "@/navigation/Navigation";
+import { Provider } from "react-redux";
+import store, { persistor } from "@/store/index";
+import { PersistGate } from "redux-persist/integration/react";
+import Splash from "@/components/global/Splash";
 // Keep splash screen until we hide it manually
 SplashScreen.preventAutoHideAsync();
 
@@ -28,8 +31,12 @@ export default function App() {
   }, []);
 
   return (
-    <ThemeProvider>
-      <Navigation />
-    </ThemeProvider>
+    <Provider store={store}>
+      <PersistGate loading={<Splash />} persistor={persistor}>
+        <ThemeProvider>
+          <Navigation />
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
   );
 }

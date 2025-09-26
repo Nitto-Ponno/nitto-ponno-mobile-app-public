@@ -8,17 +8,17 @@ import Splash from "@/components/global/Splash";
 /** 1) Define colors ONCE and export (so others can import if needed) */
 export const COLOR_TOKENS = {
   light: {
-    primary: "#0635d0",
-    secondary: "#F7F7F7",
+    primary: "#00a303",
+    secondary: "#f0e800",
+    background: "#fcfcfc",
+    foreground: "#ededed",
     heading: "#252525",
     body: "#8E8E8E",
     line: "#ECECEC",
     border: "#E7E7E7",
     success: "#17b723",
     warning: "#F59E0B",
-    error: "#EF4444",
-    background: "#FFFFFF",
-    foreground: "#f8f8f8",
+    error: "#db2500",
   },
   dark: {
     primary: "#0635d0",
@@ -31,8 +31,7 @@ export const COLOR_TOKENS = {
     warning: "#F59E0B",
     error: "#EF4444",
     background: "#0B0B0B",
-    foreground: "#111111",
-  },
+    foreground: "#111111",  },
 } as const;
 
 export type ThemeName = keyof typeof COLOR_TOKENS;
