@@ -11,7 +11,7 @@ interface ToastOptions {
 
 export const showToast = ({ message, color, background, type }: ToastOptions): void => {
   Toast.show({
-    type: "errorToast",
+    type: "tomatoToast",
     text1: message,
     position: "bottom",
     props: { color, background, type: type || "default" },

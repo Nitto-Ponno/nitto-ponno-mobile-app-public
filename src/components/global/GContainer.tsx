@@ -1,6 +1,6 @@
 import { Colors, useTheme } from "@/context/ThemeProvider";
 import { cn } from "@/utils/cn";
-import React, { ReactNode, useMemo } from "react";
+import React, { ReactNode, useMemo, useRef } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -85,10 +85,13 @@ export const GContainer: React.FC<GContainerProps> = ({
     [backgroundColor, style, centered, padding]
   );
 
+  const contentWrapperRef = useRef<ScrollView | View>(null);
+
   const ContentWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (scroll) {
       return (
         <ScrollView
+          ref={contentWrapperRef}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={[styles.scrollContent, centered && styles.centered, contentContainerStyle]}
           refreshControl={onRefresh ? <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} /> : undefined}

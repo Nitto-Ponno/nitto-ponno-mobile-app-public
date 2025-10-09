@@ -21,8 +21,8 @@ export const COLOR_TOKENS = {
     error: "#db2500",
   },
   dark: {
-    primary: "#0635d0",
-    secondary: "#1D1D1D",
+    primary: "#00a303",
+    secondary: "#f0e800",
     heading: "#FFFFFF",
     body: "#C8C8C8",
     line: "#2C2C2C",
@@ -31,7 +31,8 @@ export const COLOR_TOKENS = {
     warning: "#F59E0B",
     error: "#EF4444",
     background: "#0B0B0B",
-    foreground: "#111111",  },
+    foreground: "#111111",
+  },
 } as const;
 
 export type ThemeName = keyof typeof COLOR_TOKENS;
