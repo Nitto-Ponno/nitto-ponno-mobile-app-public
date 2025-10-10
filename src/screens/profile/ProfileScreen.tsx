@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, TouchableOpacity, Image } from "react-native";
+import { View, ScrollView, TouchableOpacity, Image, Text } from "react-native";
 import {
   Package,
   Heart,
@@ -21,7 +21,9 @@ import { Colors } from "@/context/ThemeProvider";
 import { navigate } from "@/utils/NavigationUtils";
 import { showToast } from "@/utils/commonFunction";
 import NText from "@/components/global/NText";
-import { useAppSelector } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { setToken, setUser } from "@/store/reducer/authReducer";
+import Images from "@/constants/Images";
 
 interface ProfileScreenProps {
   user?: {
@@ -62,7 +64,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
     wishlistItems: 12,
     savedAddresses: 3,
   },
-  onSignUp = () => showToast({ message: "Coming soon..." }),
+  onSignUp = () => navigate("Signup"),
   onEditProfile = () => showToast({ message: "Coming soon..." }),
   onWishlist = () => showToast({ message: "Coming soon..." }),
   onAddresses = () => showToast({ message: "Coming soon..." }),
@@ -72,9 +74,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onSecurity = () => showToast({ message: "Coming soon..." }),
   onHelp = () => showToast({ message: "Coming soon..." }),
   onSettings = () => showToast({ message: "Coming soon..." }),
-  onLogout = () => console.log("Logout pressed"),
 }) => {
   const { token } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const MenuItem = ({
     icon: Icon,
     title,
@@ -98,12 +100,12 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         <Icon size={20} color={iconColor} strokeWidth={2} />
       </View>
       <View className="flex-1">
-        <NText className="text-white font-semibold text-base">{title}</NText>
-        {subtitle && <NText className="text-body text-sm mt-0.5">{subtitle}</NText>}
+        <Text className="text-heading font-semibold text-base">{title}</Text>
+        {subtitle && <Text className="text-body text-sm mt-0.5">{subtitle}</Text>}
       </View>
       {badge && (
         <View className="bg-[#14b8a6] px-2.5 py-1 rounded-full mr-2">
-          <NText className="text-white text-xs font-semibold">{badge}</NText>
+          <Text className="text-heading text-xs font-semibold">{badge}</Text>
         </View>
       )}
       <ChevronRight size={20} color="#6b7280" strokeWidth={2} />
@@ -115,8 +117,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
       <View className="w-12 h-12 rounded-full items-center justify-center mb-2" style={{ backgroundColor: `${iconColor}20` }}>
         <Icon size={24} color={iconColor} strokeWidth={2} />
       </View>
-      <NText className="text-white text-xl font-bold">{value}</NText>
-      <NText className="text-body text-xs mt-1">{label}</NText>
+      <Text className="text-heading text-xl font-bold">{value}</Text>
+      <Text className="text-body text-xs mt-1">{label}</Text>
     </View>
   );
 
@@ -126,32 +128,32 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         <ScrollView className="flex-1 px-5 pt-6">
           {/* Header */}
           <View className="mb-8">
-            <NText className="text-heading text-3xl font-bold">Profile</NText>
-            <NText className="text-body text-base mt-2">Sign in to access your account</NText>
+            <Text className="text-heading text-3xl font-bold">Profile</Text>
+            <Text className="text-body text-base mt-2">Sign in to access your account</Text>
           </View>
 
           {/* Welcome Card */}
           <View className="bg-foreground border border-border p-6 rounded-2xl mb-6">
             <View className="w-16 h-16 bg-primary rounded-full items-center justify-center mb-4">
-              <ShoppingBag size={32} color="#ffffff" strokeWidth={2} />
+              <ShoppingBag size={32} color={Colors.heading} strokeWidth={2} />
             </View>
-            <NText className="text-heading text-2xl font-bold mb-2">Welcome to Nitto Ponno</NText>
-            <NText className="text-body text-base leading-relaxed mb-6">
+            <Text className="text-heading text-2xl font-bold mb-2">Welcome to Nitto Ponno</Text>
+            <Text className="text-body text-base leading-relaxed mb-6">
               Sign in to track orders, save favorites, and enjoy a personalized shopping experience
-            </NText>
+            </Text>
             <View className="flex-row gap-3">
               <TouchableOpacity onPress={() => navigate("Signin")} className="flex-1 bg-primary py-3.5 rounded-xl active:opacity-80">
-                <NText className="text-white text-center font-bold text-base">Sign In</NText>
+                <Text className="text-heading text-center font-bold text-base">Sign In</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={onSignUp} className="flex-1 bg-secondary py-3.5 rounded-xl border border-border active:opacity-80">
-                <NText className="text-gray-800 text-center font-bold text-base">Sign Up</NText>
+                <Text className="text-gray-800 text-center font-bold text-base">Sign Up</Text>
               </TouchableOpacity>
             </View>
           </View>
 
           {/* Guest Features */}
           <View className="mb-6">
-            <NText className="text-heading text-lg font-bold mb-4">Browse as Guest</NText>
+            <Text className="text-heading text-lg font-bold mb-4">Browse as Guest</Text>
             <MenuItem
               icon={Package}
               title="Track Order"
@@ -172,19 +174,19 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
       <ScrollView className="flex-1 px-5">
         {/* Header */}
         <View className="mb-4">
-          <NText className="text-heading text-3xl font-bold">Profile</NText>
+          <Text className="text-heading text-3xl font-bold">Profile</Text>
         </View>
 
         {/* Profile Card */}
         <View className="bg-foreground p-5 rounded-2xl mb-6">
           <View className="flex-row items-center mb-4">
-            <Image source={{ uri: user.avatar }} className="w-20 h-20 rounded-full mr-4" />
+            <Image source={Images.LOGO} className="w-20 h-20 rounded-full mr-4" />
             <View className="flex-1">
-              <NText className="text-heading text-xl font-bold">{user.name}</NText>
-              <NText className="text-body text-sm mt-1">{user.email}</NText>
+              <Text className="text-heading text-xl font-bold">{user.name}</Text>
+              <Text className="text-body text-sm mt-1">{user.email}</Text>
               <View className="flex-row items-center mt-2">
                 <Clock size={14} color={Colors.body} strokeWidth={2} />
-                <NText className="text-body text-xs ml-1.5">Member since {user.memberSince}</NText>
+                <Text className="text-body text-xs ml-1.5">Member since {user.memberSince}</Text>
               </View>
             </View>
           </View>
@@ -193,21 +195,21 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
           <View className="bg-gradient-to-r from-[#14b8a6] to-[#0891b2] p-4 rounded-xl flex-row items-center justify-between">
             <View className="flex-row items-center">
               <View className="w-10 h-10 bg-secondary rounded-full items-center justify-center mr-3">
-                <Star size={20} color="#ffffff" strokeWidth={2} fill="#ffffff" />
+                <Star size={20} color={Colors.heading} strokeWidth={2} fill={Colors.heading} />
               </View>
               <View>
-                <NText className="text-white/80 text-xs font-medium">Loyalty Points</NText>
-                <NText className="text-white text-2xl font-bold">{user.loyaltyPoints?.toLocaleString()}</NText>
+                <Text className="text-heading/80 text-xs font-medium">Loyalty Points</Text>
+                <Text className="text-heading text-2xl font-bold">{user.loyaltyPoints?.toLocaleString()}</Text>
               </View>
             </View>
             <TouchableOpacity onPress={onRewards} className="bg-secondary px-4 py-2 rounded-lg active:opacity-80">
-              <NText className="text-white font-semibold text-sm">Redeem</NText>
+              <Text className="text-heading font-semibold text-sm">Redeem</Text>
             </TouchableOpacity>
           </View>
 
           {/* Edit Profile Button */}
-          <TouchableOpacity onPress={onEditProfile} className="bg-background py-3 rounded-xl mt-4 active:opacity-80">
-            <NText className="text-[#14b8a6] text-center font-semibold text-base">Edit Profile</NText>
+          <TouchableOpacity onPress={onEditProfile} className="bg-primary py-3 rounded-xl mt-4 active:opacity-80">
+            <Text className="text-white text-center font-semibold text-base">Edit Profile</Text>
           </TouchableOpacity>
         </View>
 
@@ -220,7 +222,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
         {/* Shopping Section */}
         <View className="mb-6">
-          <NText className="text-white text-lg font-bold mb-4">Shopping</NText>
+          <Text className="text-heading text-lg font-bold mb-4">Shopping</Text>
           <MenuItem
             icon={Package}
             title="My Orders"
@@ -252,7 +254,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
         {/* Account Section */}
         <View className="mb-6">
-          <NText className="text-white text-lg font-bold mb-4">Account</NText>
+          <Text className="text-heading text-lg font-bold mb-4">Account</Text>
           <MenuItem icon={Bell} title="Notifications" subtitle="Order updates and offers" onPress={onNotifications} iconColor="#3b82f6" />
           <MenuItem
             icon={Shield}
@@ -267,11 +269,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
         {/* Logout Button */}
         <TouchableOpacity
-          onPress={onLogout}
+          onPress={() => {
+            dispatch(setToken(null));
+            dispatch(setUser(null));
+          }}
           className="bg-foreground border border-border p-4 rounded-xl mb-8 flex-row items-center justify-center active:opacity-80"
         >
           <LogOut size={20} color="#ef4444" strokeWidth={2} />
-          <NText className="text-[#ef4444] font-semibold text-base ml-2">Log Out</NText>
+          <Text className="text-[#ef4444] font-semibold text-base ml-2">Log Out</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

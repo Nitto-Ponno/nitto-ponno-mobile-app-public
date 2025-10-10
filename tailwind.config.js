@@ -189,4 +189,104 @@ body {
   letter-spacing: var(--tracking-normal);
 }
 
+
+
+# Prompt: E-commerce Mobile Home (React Native + NativeWind)
+
+You are a senior React Native engineer.
+Generate a complete **home screen** for a modern e-commerce app using **React Native** and **NativeWind** (Tailwind for RN). Use only Tailwind classes that exist in my config.
+
+## Design constraints
+
+* **Brand tokens (from my `tailwind.config.js`):**
+
+  * Primary: `{colors.primary.DEFAULT}` / emphasis `{colors.primary.600}` / soft `{colors.primary.50}`
+  * Accent: `{colors.accent.DEFAULT}`
+  * Neutral text: `{colors.gray.900}` on light, `{colors.gray.100}` on dark
+  * Backgrounds: `{colors.background}` (light), `{colors.backgroundDark}` (dark)
+* **Typography:** use my Tailwind font tokens `{fontFamily.sans}`, sizes `{text-sm/md/lg/xl/2xl}`.
+* **Radius & shadows:** use my radius scale `{rounded-md/lg/full}` and shadow tokens `{shadow-sm/md/lg}`.
+* **Dark mode:** support `class="dark"` variants for all surfaces and text.
+* **Safe area:** wrap with `SafeAreaView` and scroll with `ScrollView` (bouncy).
+
+## Screen structure (top → bottom)
+
+1. **Top bar**
+
+   * Left: small brand mark or emoji placeholder.
+   * Center: greeting “Hi, {firstName}” and location chip.
+   * Right: cart (with badge), notifications.
+   * Sticky, translucent on scroll, background blur if available (fallback solid).
+2. **Search**
+
+   * Full-width input with leading search icon, trailing voice icon.
+   * Press opens dedicated search screen (stub handler).
+3. **Category chips**
+
+   * Horizontal scroll of 8–10 rounded chips with icon + label (e.g., “Shoes”, “Bags”, “Electronics”…).
+   * Active chip uses **primary** solid; inactive uses **primary.50** / outline.
+4. **Hero / promo carousel**
+
+   * Auto-scrolling cards (snap) with image, overline, bold title, CTA.
+   * Pagination dots; accessible labels.
+5. **Featured row**
+
+   * Section header “Featured for you” with “See all” button (right aligned).
+   * Horizontal product cards: image, brand, name (2-line clamp), price, rating, favorite toggle.
+6. **Grid**
+
+   * Two-column Masonry-like grid (equal height for simplicity).
+   * Each card supports: wishlist toggle, add-to-cart button, discount badge.
+7. **Bottom CTA banner**
+
+   * “Free shipping over {currency}{threshold}” with icon and dismiss “×”.
+8. **Tab bar (persistent)**
+
+   * Home, Search, Wishlist, Cart, Profile. Active tint = **primary**.
+
+## UX details
+
+* Touch targets ≥ 44×44.
+* Skeleton loaders for hero + product cards.
+* Empty states and network error state (retry button).
+* Animations: subtle scale on press, fade-in images.
+* i18n ready: no hardcoded currency formatting (use a util).
+
+## Data model (mock)
+
+* Provide a `products` array with fields: `id`, `name`, `brand`, `price`, `currency`, `rating`, `image`, `isFavorite`, `discountPct`, `tags`.
+* Provide a `categories` array with `id`, `label`, `icon`.
+
+## Output requirements
+
+* **One file** `HomeScreen.tsx` that compiles.
+* Use: `react-native`, `react-native-safe-area-context`, `react-native-gesture-handler`, `nativewind`.
+* Use Tailwind classes only (no inline styles except for RN-required props like `resizeMode`).
+* Include small helper components **inline**:
+
+  * `TopBar`, `SearchBar`, `CategoryChips`, `PromoCarousel`, `ProductCard`, `SectionHeader`, `BottomBanner`, `TabBar`.
+* Accessibility: `accessibilityRole`, `accessibilityLabel`, and `Pressable` states. Support dark mode via `className="dark:…"`.
+* State stubs: `onSearch`, `onSelectCategory`, `onToggleFavorite`, `onAddToCart`, `onSeeAll`.
+* Colors/classes MUST reference my Tailwind tokens, e.g.:
+
+  * Containers: `bg-background dark:bg-backgroundDark`
+  * Primary buttons: `bg-primary text-white dark:text-gray-900`
+  * Muted surfaces: `bg-primary/10 dark:bg-primary/20`
+  * Text: `text-gray-900 dark:text-gray-100`
+* Use `line-clamp-2` for titles if configured; otherwise implement manual truncation.
+
+## Visual polish
+
+* Cards: `rounded-lg shadow-md bg-white dark:bg-gray-900`
+* Badges: `rounded-full px-2 py-0.5 text-xs bg-primary/10 text-primary`
+* Ratings: star icon row; if not available, use unicode ★.
+
+## What to include at the end
+
+* A short “How to wire up real data” comment with notes on hooking a products API and image CDN.
+* A note showing how to toggle dark mode in NativeWind (`<View className="dark">` wrapper or system).
+
+Return only the complete `HomeScreen.tsx` code block with mock data and the inline components.
+
+
 */

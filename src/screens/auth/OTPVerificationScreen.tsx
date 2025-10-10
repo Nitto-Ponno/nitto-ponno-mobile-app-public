@@ -1,40 +1,38 @@
 import GContainer from "@/components/global/GContainer";
 import NText from "@/components/global/NText";
 import { Colors } from "@/context/ThemeProvider";
-import { goBack } from "@/utils/NavigationUtils";
+import { RootStackParamList } from "@/navigation/AppStack";
+import { goBack, navigate } from "@/utils/NavigationUtils";
+import { RouteProp } from "@react-navigation/native";
 import { ArrowLeftCircle } from "lucide-react-native";
 import React, { useState, useRef, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-  Alert,
-  NativeSyntheticEvent,
-  TextInputKeyPressEventData,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, NativeSyntheticEvent, TextInputKeyPressEventData } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type VerificationMethod = "email" | "phone";
 
-interface OTPVerificationScreenProps {
-  verificationMethod?: VerificationMethod;
-  contactInfo?: string;
-  onVerifySuccess?: (otp: string) => void;
-  onResendOTP?: () => void;
-  onChangeMethod?: () => void;
-  onContactSupport?: () => void;
-}
+// interface OTPVerificationScreenProps {
+//   verificationMethod?: VerificationMethod;
+//   contactInfo?: string;
+//   onVerifySuccess?: (otp: string) => void;
+//   onResendOTP?: () => void;
+//   onChangeMethod?: () => void;
+//   onContactSupport?: () => void;
+// }
 
-const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
-  verificationMethod = "email",
-  contactInfo = "user@example.com",
-  onVerifySuccess,
-  onResendOTP,
-  onChangeMethod,
-  onContactSupport,
-}) => {
+type OTPVerificationScreenRouteProp = RouteProp<RootStackParamList, "OTPVerification">;
+
+const OTPVerificationScreen = ({ route }: { route: OTPVerificationScreenRouteProp }) => {
+  const verificationMethod = "email";
+  const contactInfo = "user@example.com";
+  const onResendOTP = () => {};
+  const onChangeMethod = () => {};
+  const onContactSupport = () => {};
+  const onVerifySuccess = (otp: string) => {
+    console.log("otp", JSON.stringify(otp, null, 2));
+    navigate("Signin");
+  };
+  console.log("route", JSON.stringify(route, null, 2));
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState<number>(60);
   const [canResend, setCanResend] = useState<boolean>(false);
@@ -147,7 +145,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
   };
 
   return (
-    <GContainer>
+    <SafeAreaView className="flex-1 bg-background">
       <ArrowLeftCircle onPress={goBack} size={40} color={Colors.heading} style={{ marginLeft: 16 }} className="bg-slate-800" />
 
       <ScrollView className="flex-1 px-6">
@@ -226,7 +224,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </GContainer>
+    </SafeAreaView>
   );
 };
 

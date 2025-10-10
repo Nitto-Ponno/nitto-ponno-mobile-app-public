@@ -5,6 +5,9 @@ import { goBack, navigate } from "@/utils/NavigationUtils";
 import { Colors } from "@/context/ThemeProvider";
 import { ArrowLeftCircle, Inbox, LockIcon, Mail, Phone, User, User2Icon } from "lucide-react-native";
 import NText from "@/components/global/NText";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useAppDispatch } from "@/store";
+import { setUser } from "@/store/reducer/authReducer";
 
 const SignUpScreen = () => {
   const [fullName, setFullName] = useState("");
@@ -12,9 +15,20 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const dispatch = useAppDispatch();
 
   const handleRegister = () => {
-    navigate("Signin");
+    dispatch(setUser({ name: fullName, email, phone }));
+    navigate("OTPVerification", {
+      verificationMethod: "email",
+      contactInfo: "user@example.com",
+      onResendOTP: () => {},
+      onChangeMethod: () => {},
+      onContactSupport: () => {},
+      onVerifySuccess: () => {
+        navigate("Signin");
+      },
+    });
   };
 
   const handleGoogleSignUp = () => {
@@ -31,12 +45,12 @@ const SignUpScreen = () => {
   };
 
   return (
-    <GContainer>
+    <SafeAreaView className="flex-1 bg-background">
       <ArrowLeftCircle onPress={goBack} size={40} color={Colors.heading} style={{ marginLeft: 16 }} className="bg-slate-800" />
       <ScrollView className="flex-1 px-6">
         {/* Header */}
 
-        <View className="mt-12 mb-12">
+        <View className="mt-8 mb-8">
           <NText className="text-4xl font-bold text-heading text-center mb-4">Signing Up</NText>
           <NText className="text-body text-center text-base leading-6">Create an account by sign up with provider or email, password</NText>
         </View>
@@ -148,7 +162,7 @@ const SignUpScreen = () => {
         </TouchableOpacity>
 
         {/* Google Sign Up Button */}
-        <TouchableOpacity className="bg-green-600 rounded-lg py-4 mb-8 flex-row items-center justify-center" onPress={handleGoogleSignUp}>
+        <TouchableOpacity className="bg-blue-600 rounded-lg py-4 mb-8 flex-row items-center justify-center" onPress={handleGoogleSignUp}>
           <NText className="text-white text-2xl mr-3">G</NText>
           <NText className="text-white text-lg font-semibold">Sign Up With Google</NText>
         </TouchableOpacity>
@@ -161,7 +175,7 @@ const SignUpScreen = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </GContainer>
+    </SafeAreaView>
   );
 };
 

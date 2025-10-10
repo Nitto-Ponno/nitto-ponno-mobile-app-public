@@ -5,7 +5,7 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming, runOnJS } from "react-native-reanimated";
 import { useTheme } from "../context/ThemeProvider";
 import { gGap } from "@/utils/Sizes";
-import { Home, User } from "lucide-react-native";
+import { Home, LayoutGrid, ShoppingCart, User } from "lucide-react-native";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -27,8 +27,11 @@ const TabIcon: React.FC<TabIconProps> = ({ routeName, isFocused }) => {
   const getIconContent = () => {
     switch (routeName) {
       case "HomeStack":
-      case "Home":
         return <Home size={20} color={iconColor} />;
+      case "CategoryStack":
+        return <LayoutGrid size={20} color={iconColor} />;
+      case "CartStack":
+        return <ShoppingCart size={20} color={iconColor} />;
       case "ProfileStack":
         return <User size={20} color={iconColor} />;
       default:
@@ -60,10 +63,13 @@ const TabIcon: React.FC<TabIconProps> = ({ routeName, isFocused }) => {
   const getTabLabel = () => {
     switch (routeName) {
       case "HomeStack":
-      case "Home":
         return "Home";
+      case "CategoryStack":
+        return "Categories";
+      case "CartStack":
+        return "Cart";
       case "ProfileStack":
-        return "Account";
+        return "Profile";
       default:
         return routeName;
     }
