@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Search, ShoppingCart, Bell, Heart, Star, ChevronRight, MapPin, Mic, Plus, TrendingUp, Zap, CloudSun } from "lucide-react-native";
 import { Colors, useTheme } from "@/context/ThemeProvider";
 import Images from "@/constants/Images";
+import Basic from "@/components/Animation/Basic";
 
 // Mock Data
 const categories = [
@@ -428,6 +429,7 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
       <TopBar />
       <SearchBar onSearch={handleSearch} />
+      <Basic />
 
       <ScrollView showsVerticalScrollIndicator={false} bounces={true} className="flex-1">
         <CategoryChips categories={categories} activeId={activeCategory} onSelect={handleSelectCategory} />

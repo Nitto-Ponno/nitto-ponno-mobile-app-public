@@ -8,6 +8,7 @@ import NText from "@/components/global/NText";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch } from "@/store";
 import { setUser } from "@/store/reducer/authReducer";
+import apiService from "@/services/api";
 
 const SignUpScreen = () => {
   const [fullName, setFullName] = useState("");
@@ -17,18 +18,31 @@ const SignUpScreen = () => {
   const [phone, setPhone] = useState("");
   const dispatch = useAppDispatch();
 
-  const handleRegister = () => {
-    dispatch(setUser({ name: fullName, email, phone }));
-    navigate("OTPVerification", {
-      verificationMethod: "email",
-      contactInfo: "user@example.com",
-      onResendOTP: () => {},
-      onChangeMethod: () => {},
-      onContactSupport: () => {},
-      onVerifySuccess: () => {
-        navigate("Signin");
-      },
-    });
+  const handleRegister = async () => {
+    try {
+      const response = await apiService.customerRegister({
+        email: "shuvajit+1@gmail.com",
+        password: "Shuvajit#1",
+        phoneNumber: "+8801934897896",
+        name: {
+          firstName: "Shuvajit",
+          middleName: "",
+          lastName: "Maitra",
+        },
+      });
+      console.log("response", JSON.stringify(response, null, 2));
+    } catch (error: any) {}
+    // dispatch(setUser({ name: fullName, email, phone }));
+    // navigate("OTPVerification", {
+    //   verificationMethod: "email",
+    //   contactInfo: "user@example.com",
+    //   onResendOTP: () => {},
+    //   onChangeMethod: () => {},
+    //   onContactSupport: () => {},
+    //   onVerifySuccess: () => {
+    //     navigate("Signin");
+    //   },
+    // });
   };
 
   const handleGoogleSignUp = () => {

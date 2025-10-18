@@ -1,5 +1,6 @@
 import NText from "@/components/global/NText";
 import { Colors } from "@/context/ThemeProvider";
+import apiService from "@/services/api";
 import { useAppDispatch } from "@/store";
 import { setToken, setUser } from "@/store/reducer/authReducer";
 import { showSuccessAlert } from "@/utils/commonFunction";
@@ -24,12 +25,16 @@ const SignInScreen = () => {
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
+    try {
+      const response = await apiService.customerLogin({ email, password });
+      console.log("response", JSON.stringify(response, null, 2));
+    } catch (error: any) {}
     // Handle sign in logic here
-    console.log("Sign in pressed");
-    dispatch(setToken("TestToken"));
-    dispatch(setUser({ name: "Nitton Ponno User", email }));
-    showSuccessAlert({ message: "Signin successfully!" });
+    // console.log("Sign in pressed");
+    // dispatch(setToken("TestToken"));
+    // dispatch(setUser({ name: "Nitton Ponno User", email }));
+    // showSuccessAlert({ message: "Signin successfully!" });
   };
 
   const handleGoogleSignIn = () => {
