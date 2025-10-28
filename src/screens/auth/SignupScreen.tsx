@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, ScrollView } from "react-native";
-import GContainer from "@/components/global/GContainer";
 import { goBack, navigate } from "@/utils/NavigationUtils";
 import { Colors } from "@/context/ThemeProvider";
-import { ArrowLeftCircle, Inbox, LockIcon, Mail, Phone, User, User2Icon } from "lucide-react-native";
+import { ArrowLeftCircle, LockIcon, Mail, Phone, User2Icon } from "lucide-react-native";
 import NText from "@/components/global/NText";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch } from "@/store";
-import { setUser } from "@/store/reducer/authReducer";
-import apiService from "@/services/api";
+import { AuthApi } from "@/services/api/authApi";
+import { handleErrorResponse } from "@/utils/handlers";
 
 const SignUpScreen = () => {
   const [fullName, setFullName] = useState("");
@@ -16,12 +15,11 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const dispatch = useAppDispatch();
 
   const handleRegister = async () => {
     try {
-      const response = await apiService.customerRegister({
-        email: "shuvajit+1@gmail.com",
+      const response = await AuthApi.customerRegister({
+        email: "shuvajitmaitra@gmail.com",
         password: "Shuvajit#1",
         phoneNumber: "+8801934897896",
         name: {
@@ -31,7 +29,10 @@ const SignUpScreen = () => {
         },
       });
       console.log("response", JSON.stringify(response, null, 2));
-    } catch (error: any) {}
+    } catch (error: any) {
+      // handleErrorResponse(error, "Register User");
+      console.log("error.response.data.error", JSON.stringify(error.response.data.error, null, 2));
+    }
     // dispatch(setUser({ name: fullName, email, phone }));
     // navigate("OTPVerification", {
     //   verificationMethod: "email",

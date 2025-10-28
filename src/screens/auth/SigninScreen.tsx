@@ -1,9 +1,8 @@
-import NText from "@/components/global/NText";
 import { Colors } from "@/context/ThemeProvider";
-import apiService from "@/services/api";
-import { useAppDispatch } from "@/store";
-import { setToken, setUser } from "@/store/reducer/authReducer";
-import { showSuccessAlert } from "@/utils/commonFunction";
+import { AuthApi } from "@/services/api/authApi";
+import store from "@/store";
+import { setAuthScreen } from "@/store/reducer/authReducer";
+import { handleErrorResponse } from "@/utils/handlers";
 import { goBack, navigate } from "@/utils/NavigationUtils";
 import { ArrowLeftCircle, LockIcon, Mail } from "lucide-react-native";
 import React, { useState } from "react";
@@ -19,17 +18,20 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const handleSignIn = async () => {
     try {
-      const response = await apiService.customerLogin({ email, password });
+      const response = await AuthApi.customerLogin({ email, password });
       console.log("response", JSON.stringify(response, null, 2));
-    } catch (error: any) {}
+    } catch (error: any) {
+      handleErrorResponse(error, "Sign in");
+    }
     // Handle sign in logic here
     // console.log("Sign in pressed");
     // dispatch(setToken("TestToken"));
@@ -47,7 +49,8 @@ const SignInScreen = () => {
   };
 
   const handleSignUp = () => {
-    navigate("Signup");
+    // dispatch(setAuthScreen("signup"));
+    dispatch(setAuthScreen("signup"));
   };
 
   return (

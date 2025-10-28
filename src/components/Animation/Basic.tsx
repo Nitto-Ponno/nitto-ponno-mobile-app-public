@@ -1,10 +1,9 @@
-import { View, Text, Animated } from "react-native";
+import { Text, Animated } from "react-native";
 import React, { useEffect, useRef } from "react";
 
 const Basic = () => {
   const size = 10;
   const position = useRef(new Animated.Value(size)).current;
-  console.log("position", JSON.stringify(position, null, 2));
   const startAnimation = () => {
     Animated.timing(position, {
       duration: 1000,

@@ -1,29 +1,33 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useEffect } from "react";
 import BottomTabNavigator from "./BottomTabNavigator";
-import SignUpScreen from "@/screens/auth/SignupScreen";
-import SignInScreen from "@/screens/auth/SigninScreen";
-import OTPVerificationScreen from "@/screens/auth/OTPVerificationScreen";
-import SetNewPasswordScreen from "@/screens/auth/SetNewPasswordScreen";
-import ChangePasswordScreen from "@/screens/auth/ChangePasswordScreen";
-import ForgotPasswordScreen from "@/screens/auth/ForgotPasswordScreen";
-import { useAppSelector } from "@/store";
+import { dispatch, useAppSelector } from "@/store";
+import AuthenticationFlow from "@/screens/auth/AuthenticationFlow";
+import { setAuthScreen } from "@/store/reducer/authReducer";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppStack = () => {
   const { token } = useAppSelector((state) => state.auth);
+  useEffect(() => {
+    dispatch(setAuthScreen("signin"));
+    console.log("token", JSON.stringify(token, null, 2));
+
+    return () => {};
+  }, []);
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
       {!token && (
         <>
-          <Stack.Screen name="Signup" component={SignUpScreen} />
+          <Stack.Screen name="Auth" component={AuthenticationFlow} />
+          {/* <Stack.Screen name="Signup" component={SignUpScreen} />
           <Stack.Screen name="Signin" component={SignInScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
           <Stack.Screen name="OTPVerification" component={OTPVerificationScreen} />
           <Stack.Screen name="SetNewPassword" component={SetNewPasswordScreen} />
-          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} /> */}
         </>
       )}
     </Stack.Navigator>
@@ -48,4 +52,5 @@ export type RootStackParamList = {
   };
   SetNewPassword: undefined;
   ChangePassword: undefined;
+  Auth: undefined;
 };
