@@ -1,7 +1,5 @@
 import { Colors } from "@/context/ThemeProvider";
 import { AuthApi } from "@/services/api/authApi";
-import store from "@/store";
-import { setAuthScreen } from "@/store/reducer/authReducer";
 import { handleErrorResponse } from "@/utils/handlers";
 import { goBack, navigate } from "@/utils/NavigationUtils";
 import { ArrowLeftCircle, LockIcon, Mail } from "lucide-react-native";
@@ -49,8 +47,7 @@ const SignInScreen = () => {
   };
 
   const handleSignUp = () => {
-    // dispatch(setAuthScreen("signup"));
-    dispatch(setAuthScreen("signup"));
+    navigate("Signup");
   };
 
   return (

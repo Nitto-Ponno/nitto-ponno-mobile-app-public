@@ -1,6 +1,8 @@
 import GContainer from "@/components/global/GContainer";
 import NText from "@/components/global/NText";
 import { Colors } from "@/context/ThemeProvider";
+import { AuthApi } from "@/services/api/authApi";
+import { handleErrorResponse } from "@/utils/handlers";
 import { goBack, navigate } from "@/utils/NavigationUtils";
 import { ArrowLeftCircle, Mail, Phone } from "lucide-react-native";
 import React, { useState } from "react";
@@ -10,9 +12,18 @@ const ForgotPasswordScreen = () => {
   const [emailOrPhone, setEmailOrPhone] = useState("");
   const [selectedMethod, setSelectedMethod] = useState("email"); // 'email' or 'phone'
 
-  const handleSendOTP = () => {
-    // Handle send OTP logic here
-    navigate("OTPVerification");
+  const handleSendOTP = async () => {
+    // // Handle send OTP logic here
+    // const payload = selectedMethod ==='email'? {email: emailOrPhone}: {phone: emailOrPhone}
+    const payload = { email: emailOrPhone };
+    try {
+      const res = await AuthApi.forgotPassword(payload);
+      if (res.success) {
+        navigate("OTPVerification");
+      }
+    } catch (error: any) {
+      handleErrorResponse(error, "Forgot Password");
+    }
 
     console.log("Send OTP pressed", { emailOrPhone, selectedMethod });
   };

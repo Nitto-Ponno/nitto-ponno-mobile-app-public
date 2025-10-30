@@ -1,12 +1,9 @@
-import GContainer from "@/components/global/GContainer";
 import NText from "@/components/global/NText";
 import { Colors } from "@/context/ThemeProvider";
-import { RootStackParamList } from "@/navigation/AppStack";
 import { goBack, navigate } from "@/utils/NavigationUtils";
-import { RouteProp } from "@react-navigation/native";
 import { ArrowLeftCircle } from "lucide-react-native";
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, NativeSyntheticEvent, TextInputKeyPressEventData } from "react-native";
+import { View, TextInput, TouchableOpacity, ScrollView, Alert, NativeSyntheticEvent, TextInputKeyPressEventData } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type VerificationMethod = "email" | "phone";
@@ -20,9 +17,7 @@ type VerificationMethod = "email" | "phone";
 //   onContactSupport?: () => void;
 // }
 
-type OTPVerificationScreenRouteProp = RouteProp<RootStackParamList, "OTPVerification">;
-
-const OTPVerificationScreen = ({ route }: { route: OTPVerificationScreenRouteProp }) => {
+const OTPVerificationScreen = () => {
   const verificationMethod = "email";
   const contactInfo = "user@example.com";
   const onResendOTP = () => {};
@@ -32,7 +27,6 @@ const OTPVerificationScreen = ({ route }: { route: OTPVerificationScreenRoutePro
     console.log("otp", JSON.stringify(otp, null, 2));
     navigate("Signin");
   };
-  console.log("route", JSON.stringify(route, null, 2));
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState<number>(60);
   const [canResend, setCanResend] = useState<boolean>(false);

@@ -141,7 +141,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
               Sign in to track orders, save favorites, and enjoy a personalized shopping experience
             </Text>
             <View className="flex-row gap-3">
-              <TouchableOpacity onPress={() => navigate("Auth")} className="flex-1 bg-primary py-3.5 rounded-xl active:opacity-80">
+              <TouchableOpacity onPress={() => navigate("Signin")} className="flex-1 bg-primary py-3.5 rounded-xl active:opacity-80">
                 <Text className="text-heading text-center font-bold text-base">Sign In</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={onSignUp} className="flex-1 bg-secondary py-3.5 rounded-xl border border-border active:opacity-80">
