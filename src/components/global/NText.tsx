@@ -3,7 +3,7 @@ import React from "react";
 
 const NText = ({ children, className, style, onPress, ...props }: any) => {
   return (
-    <RNText onPress={onPress} className={`font-roboto ${className}`} style={{ ...style }} {...props}>
+    <RNText onPress={onPress} className={`${className}`} style={{ ...style }} {...props}>
       {children}{" "}
     </RNText>
   );
