@@ -3,12 +3,14 @@ import type { AnyAction } from "@reduxjs/toolkit";
 import authReducer from "./authReducer";
 import cartReducer from "./cartReducer";
 import wishlistReducer from "./wishlistReducer";
+import categoryReducer from "./categoryReducer";
 import { RESET_APP } from "..";
 
 const appReducer = combineReducers({
   auth: authReducer,
   cart: cartReducer,
   wishlist: wishlistReducer,
+  category: categoryReducer,
 });
 
 export type RootState = ReturnType<typeof appReducer>;

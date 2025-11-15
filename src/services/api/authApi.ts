@@ -1,5 +1,4 @@
 import {
-  ApiResponse,
   RegisterRequest,
   RegisterResponse,
   LoginRequest,
@@ -14,8 +13,9 @@ import {
   VerifyOtpResponse,
   UpdatePasswordRequest,
   UpdatePasswordResponse,
-} from "@/services/types";
+} from "@/services/types/authTypes";
 import { http } from "@/services/http";
+import { ApiResponse } from "../types/genericTypes";
 
 export const AuthApi = {
   async customerRegister(payload: RegisterRequest): Promise<ApiResponse<RegisterResponse>> {
