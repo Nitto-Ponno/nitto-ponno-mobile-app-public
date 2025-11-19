@@ -1,4 +1,5 @@
 import OTPVerificationModal from "@/components/auth/OTPVerificationModal";
+import AppInput from "@/components/global/AppInput";
 import { Colors } from "@/context/ThemeProvider";
 import { AuthApi } from "@/services/api/authApi";
 import { tokenStorage } from "@/services/storage";
@@ -24,6 +25,9 @@ import { useDispatch } from "react-redux";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -90,6 +94,25 @@ const SignInScreen = () => {
                 <Text className="text-body text-center text-base leading-6">Welcome back! Please sign in to your account</Text>
               </View>
 
+              <AppInput label="Email Address" value={email} setValue={setEmail} variant="email" placeholder="Enter your email" isRequired />
+
+              <AppInput label="Phone Number" value={phone} setValue={setPhone} variant="phone" placeholder="+1 (555) 000-0000" />
+
+              <AppInput
+                label="Password"
+                value={password}
+                setValue={setPassword}
+                variant="password"
+                placeholder="Enter password"
+                isRequired
+                error={password.length > 0 && password.length < 6 ? "Password must be at least 6 characters" : undefined}
+              />
+
+              <AppInput label="OTP Code" value={otp} setValue={setOtp} variant="otp" placeholder="000000" maxLength={6} />
+
+              <AppInput label="Full Name" value={name} setValue={setName} variant="text" placeholder="John Doe" isRequired />
+
+              <AppInput label="Disabled Input" value="Cannot edit this" setValue={() => {}} variant="text" disabled />
               {/* Form */}
               <View className="space-y-6">
                 {/* Email Field */}
