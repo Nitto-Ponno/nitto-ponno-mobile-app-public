@@ -20,9 +20,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/context/ThemeProvider";
 import { navigate } from "@/utils/NavigationUtils";
 import { showToast } from "@/utils/commonFunction";
-import { useAppDispatch, useAppSelector } from "@/store";
+import { useAppDispatch } from "@/store";
 import { setToken, setUser } from "@/store/reducer/authReducer";
 import Images from "@/constants/Images";
+import { tokenStorage } from "@/services/storage";
 
 interface ProfileScreenProps {
   user?: {
@@ -74,7 +75,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onHelp = () => showToast({ message: "Coming soon..." }),
   onSettings = () => showToast({ message: "Coming soon..." }),
 }) => {
-  const { token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const MenuItem = ({
     icon: Icon,
@@ -121,7 +121,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
     </View>
   );
 
-  if (!token) {
+  if (tokenStorage.getAccessToken) {
     return (
       <SafeAreaView className="flex-1 bg-background">
         <ScrollView className="flex-1 px-5 pt-6">
@@ -269,7 +269,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         {/* Logout Button */}
         <TouchableOpacity
           onPress={() => {
-            dispatch(setToken(null));
+            tokenStorage.clearAll();
+
             dispatch(setUser(null));
           }}
           className="bg-foreground border border-border p-4 rounded-xl mb-8 flex-row items-center justify-center active:opacity-80"

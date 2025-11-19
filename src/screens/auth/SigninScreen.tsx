@@ -1,8 +1,12 @@
+import OTPVerificationModal from "@/components/auth/OTPVerificationModal";
 import { Colors } from "@/context/ThemeProvider";
 import { AuthApi } from "@/services/api/authApi";
+import { tokenStorage } from "@/services/storage";
+import { setAccessToken, setRefreshToken, setUser } from "@/store/reducer/authReducer";
+import { showSuccessAlert } from "@/utils/commonFunction";
 import { handleErrorResponse } from "@/utils/handlers";
 import { goBack, navigate } from "@/utils/NavigationUtils";
-import { ArrowLeftCircle, LockIcon, Mail } from "lucide-react-native";
+import { ArrowLeftCircle, Eye, EyeClosed, LockIcon, Mail } from "lucide-react-native";
 import React, { useState } from "react";
 import {
   View,
@@ -22,19 +26,28 @@ const SignInScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+  const [verificationModalVisible, setVerificationModalVisible] = useState(false);
 
   const handleSignIn = async () => {
     try {
       const response = await AuthApi.customerLogin({ email, password });
       console.log("response", JSON.stringify(response, null, 2));
+      if (response.success && !response.data.isVerified) {
+        setVerificationModalVisible(!verificationModalVisible);
+        return;
+      }
+      if (response.success) {
+        tokenStorage.setAccessToken(response.data.accessToken);
+        tokenStorage.setRefreshToken(response.data.refreshToken);
+        dispatch(setAccessToken(response.data.accessToken));
+        dispatch(setRefreshToken(response.data.refreshToken));
+        dispatch(setUser(response.data.user));
+        showSuccessAlert({ message: "Logged in successfully" });
+      }
     } catch (error: any) {
       handleErrorResponse(error, "Sign in");
     }
-    // Handle sign in logic here
-    // console.log("Sign in pressed");
-    // dispatch(setToken("TestToken"));
-    // dispatch(setUser({ name: "Nitton Ponno User", email }));
-    // showSuccessAlert({ message: "Signin successfully!" });
   };
 
   const handleGoogleSignIn = () => {
@@ -62,6 +75,15 @@ const SignInScreen = () => {
         <ScrollView className="flex-1 px-6" keyboardShouldPersistTaps="handled">
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View className="flex-1">
+              <OTPVerificationModal
+                visible={verificationModalVisible}
+                contact={email}
+                method={"email"}
+                onClose={() => setVerificationModalVisible(false)}
+                onVerifySuccess={() => {
+                  navigate("Signin");
+                }}
+              />
               {/* Header */}
               <View className="mt-12 mb-12">
                 <Text className="text-4xl font-bold text-heading text-center mb-4">Sign In</Text>
@@ -98,13 +120,21 @@ const SignInScreen = () => {
                       placeholder="Password"
                       value={password}
                       onChangeText={setPassword}
-                      secureTextEntry
+                      secureTextEntry={!showPassword}
                       placeholderTextColor={Colors.body}
                       autoFocus={false}
                     />
                     <View className="absolute left-4 top-4">
                       <LockIcon color={Colors.body} />
                     </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setShowPassword(!showPassword);
+                      }}
+                      className="absolute right-4 top-4"
+                    >
+                      {showPassword ? <EyeClosed color={Colors.body} /> : <Eye color={Colors.body} />}
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>

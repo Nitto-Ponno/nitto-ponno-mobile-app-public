@@ -31,7 +31,7 @@ const handleLogout = async () => {
 };
 
 const refreshAccessToken = async (api: AxiosInstance): Promise<string | null> => {
-  const refreshToken = await tokenStorage.getRefreshToken();
+  const refreshToken = tokenStorage.getRefreshToken;
   if (!refreshToken) throw new Error("No refresh token available");
 
   const resp = await api.post("/auth/refresh-token", {}, { headers: { Authorization: `Bearer ${refreshToken}` } });
@@ -52,7 +52,7 @@ export const api: AxiosInstance = axios.create({
 // ----- Request Interceptor -----
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
-    const token = await tokenStorage.getAccessToken();
+    const token = tokenStorage.getAccessToken;
     if (token) {
       config.headers = config.headers ?? {};
       config.headers.Authorization = `Bearer ${token}`;

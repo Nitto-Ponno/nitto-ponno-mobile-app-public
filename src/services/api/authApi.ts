@@ -27,7 +27,7 @@ export const AuthApi = {
   },
 
   async customerLogin(payload: LoginRequest): Promise<ApiResponse<LoginResponse>> {
-    return await http.post<ApiResponse<LoginResponse>>("/auth/customer-login", payload);
+    return await http.post<ApiResponse<LoginResponse>>("/auth/login", payload);
   },
 
   async refreshToken(): Promise<ApiResponse<RefreshTokenResponse>> {
@@ -42,11 +42,11 @@ export const AuthApi = {
     return await http.post<ApiResponse<User>>("/auth/reset-password", payload);
   },
 
-  async sendVerification(payload: SendVerificationRequest): Promise<ApiResponse<OtpResponse>> {
+  async sendVerification(payload: { email?: string; phoneNumber?: string }): Promise<ApiResponse<OtpResponse>> {
     return await http.post<ApiResponse<OtpResponse>>("/auth/send-verification", payload);
   },
 
-  async verifyOtp(payload: VerifyOtpRequest): Promise<ApiResponse<VerifyOtpResponse>> {
+  async verifyOtp(payload: { email?: string; phoneNumber?: string }): Promise<ApiResponse<VerifyOtpResponse>> {
     return await http.post<ApiResponse<VerifyOtpResponse>>("/auth/verify-otp", payload);
   },
 

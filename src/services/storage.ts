@@ -1,11 +1,15 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { STORAGE_KEYS } from "./constants";
+import store, { dispatch } from "@/store";
+import { setAccessToken, setRefreshToken } from "@/store/reducer/authReducer";
 
 export const tokenStorage = {
-  getAccessToken: () => AsyncStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN),
-  getRefreshToken: () => AsyncStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN),
-  setAccessToken: (token: string) => AsyncStorage.setItem(STORAGE_KEYS.ACCESS_TOKEN, token),
-  setRefreshToken: (token: string) => AsyncStorage.setItem(STORAGE_KEYS.REFRESH_TOKEN, token),
-  clearAll: () => AsyncStorage.multiRemove([STORAGE_KEYS.ACCESS_TOKEN, STORAGE_KEYS.REFRESH_TOKEN]),
-  isLoggedIn: async () => !!(await AsyncStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN)),
+  getAccessToken: store.getState().auth.accessToken,
+  getRefreshToken: store.getState().auth.refreshToken,
+
+  setAccessToken: (token: string) => dispatch(setAccessToken(token)),
+  setRefreshToken: (token: string) => dispatch(setRefreshToken(token)),
+  clearAll: () => {
+    dispatch(setRefreshToken(null));
+    dispatch(setAccessToken(null));
+  },
+  isLoggedIn: !!store.getState().auth.accessToken,
 };

@@ -1,31 +1,28 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useEffect } from "react";
+import React from "react";
 import BottomTabNavigator from "./BottomTabNavigator";
-import { useAppSelector } from "@/store";
 import SignUpScreen from "@/screens/auth/SignupScreen";
 import SignInScreen from "@/screens/auth/SigninScreen";
 import ForgotPasswordScreen from "@/screens/auth/ForgotPasswordScreen";
 import OTPVerificationScreen from "@/screens/auth/OTPVerificationScreen";
 import SetNewPasswordScreen from "@/screens/auth/SetNewPasswordScreen";
 import ChangePasswordScreen from "@/screens/auth/ChangePasswordScreen";
+import { useAppSelector } from "@/store";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppStack = () => {
-  const { token } = useAppSelector((state) => state.auth);
-  useEffect(() => {
-    console.log("token", JSON.stringify(token, null, 2));
-
-    return () => {};
-  }, []);
+  const { accessToken } = useAppSelector((state) => state.auth);
+  console.log("tokenStorage", JSON.stringify(accessToken, null, 2));
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
-      {!token && (
+      {accessToken ? (
+        <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
+      ) : (
         <>
-          <Stack.Screen name="Signup" component={SignUpScreen} />
           <Stack.Screen name="Signin" component={SignInScreen} />
+          <Stack.Screen name="Signup" component={SignUpScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
           <Stack.Screen name="OTPVerification" component={OTPVerificationScreen} />
           <Stack.Screen name="SetNewPassword" component={SetNewPasswordScreen} />

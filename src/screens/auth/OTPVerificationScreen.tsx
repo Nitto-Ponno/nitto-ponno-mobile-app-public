@@ -1,12 +1,15 @@
 import NText from "@/components/global/NText";
 import { Colors } from "@/context/ThemeProvider";
+import { AuthApi } from "@/services/api/authApi";
+import { dispatch, useAppSelector } from "@/store";
+import { setAuthInfo } from "@/store/reducer/authReducer";
+import { showErrorToast, showSuccessAlert, showToast } from "@/utils/commonFunction";
+import { handleErrorResponse } from "@/utils/handlers";
 import { goBack, navigate } from "@/utils/NavigationUtils";
 import { ArrowLeftCircle } from "lucide-react-native";
 import React, { useState, useRef, useEffect } from "react";
 import { View, TextInput, TouchableOpacity, ScrollView, Alert, NativeSyntheticEvent, TextInputKeyPressEventData } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-type VerificationMethod = "email" | "phone";
 
 // interface OTPVerificationScreenProps {
 //   verificationMethod?: VerificationMethod;
@@ -18,17 +21,11 @@ type VerificationMethod = "email" | "phone";
 // }
 
 const OTPVerificationScreen = () => {
-  const verificationMethod = "email";
-  const contactInfo = "user@example.com";
-  const onResendOTP = () => {};
-  const onChangeMethod = () => {};
-  const onContactSupport = () => {};
-  const onVerifySuccess = (otp: string) => {
-    console.log("otp", JSON.stringify(otp, null, 2));
-    navigate("Signin");
-  };
+  const { authInfo } = useAppSelector((state) => state.auth);
+  const verificationMethod = authInfo?.selectedMethod;
+  const contactInfo = authInfo?.email || "";
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
-  const [timer, setTimer] = useState<number>(60);
+  const [timer, setTimer] = useState<number>(30);
   const [canResend, setCanResend] = useState<boolean>(false);
 
   const inputRefs = useRef<(TextInput | null)[]>([]);
@@ -69,53 +66,57 @@ const OTPVerificationScreen = () => {
     }
   };
 
-  const handleVerifyOTP = (): void => {
+  const handleVerifyOTP = async () => {
     const otpCode = otp.join("");
     if (otpCode.length !== 6) {
       Alert.alert("Error", "Please enter the complete 6-digit code");
       return;
     }
+    console.log("authInfo", JSON.stringify(authInfo, null, 2));
+    try {
+      const payload =
+        authInfo?.selectedMethod === "email" || !authInfo?.selectedMethod
+          ? { email: authInfo?.email, otp: otpCode }
+          : { phoneNumber: authInfo?.phoneNumber, otp: otpCode };
 
-    if (onVerifySuccess) {
-      onVerifySuccess(otpCode);
-    } else {
-      // Default behavior
-      console.log("Verify OTP:", otpCode);
+      const response = await AuthApi.verifyOtp(payload);
+      if (response.success) {
+        showSuccessAlert({ message: "Verification Successfully Done!" });
+        navigate("Signin");
+        dispatch(setAuthInfo(null));
+      }
+    } catch (error: any) {
+      handleErrorResponse(error, "Verify OTP");
     }
   };
 
-  const handleResendOTP = (): void => {
+  const handleResendOTP = async () => {
     if (!canResend) return;
 
     // Reset timer and resend OTP
-    setTimer(60);
+    setTimer(30);
     setCanResend(false);
     setOtp(["", "", "", "", "", ""]);
 
-    if (onResendOTP) {
-      onResendOTP();
-    } else {
-      console.log("Resend OTP");
+    try {
+      console.log("authInfo", JSON.stringify(authInfo, null, 2));
+      const payload =
+        authInfo?.selectedMethod === "email" || authInfo?.email ? { email: authInfo.email } : { phoneNumber: authInfo?.phoneNumber };
+      console.log("payload", JSON.stringify(payload, null, 2));
+      const response = await AuthApi.sendVerification(payload);
+      if (response.success) {
+        return showToast({ message: "OTP code sent successfully!" });
+      }
+    } catch (error: any) {
+      showErrorToast({ message: "Resend Failed" });
+      handleErrorResponse(error, "Resend otp");
     }
-
     // Focus first input
     inputRefs.current[0]?.focus();
   };
 
   const handleChangeMethod = (): void => {
-    if (onChangeMethod) {
-      onChangeMethod();
-    } else {
-      console.log("Change verification method");
-    }
-  };
-
-  const handleContactSupport = (): void => {
-    if (onContactSupport) {
-      onContactSupport();
-    } else {
-      console.log("Contact support");
-    }
+    showToast({ message: "Coming soon..." });
   };
 
   const formatTime = (seconds: number): string => {

@@ -46,12 +46,14 @@ export interface ResetPasswordRequest {
 }
 
 export interface VerifyOtpRequest {
-  email: string;
+  email?: string;
+  phoneNumber?: string;
   otp: string;
 }
 
 export interface SendVerificationRequest {
   email: string;
+  phoneNumber?: string;
 }
 
 export interface UpdatePasswordRequest {
@@ -68,6 +70,7 @@ export interface RegisterResponse {
 export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
+  isVerified?: boolean;
   user: User;
 }
 

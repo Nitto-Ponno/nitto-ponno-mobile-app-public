@@ -1,3 +1,4 @@
+import ForgotPasswordVerifyModal from "@/components/auth/ForgotPasswordVerifyModal";
 import GContainer from "@/components/global/GContainer";
 import NText from "@/components/global/NText";
 import { Colors } from "@/context/ThemeProvider";
@@ -7,19 +8,22 @@ import { goBack, navigate } from "@/utils/NavigationUtils";
 import { ArrowLeftCircle, Mail, Phone } from "lucide-react-native";
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ForgotPasswordScreen = () => {
   const [emailOrPhone, setEmailOrPhone] = useState("");
-  const [selectedMethod, setSelectedMethod] = useState("email"); // 'email' or 'phone'
-
+  const [selectedMethod, setSelectedMethod] = useState<"email" | "phoneNumber">("email"); // 'email' or 'phone'
+  const [modalVisible, setModalVisible] = useState(false);
   const handleSendOTP = async () => {
     // // Handle send OTP logic here
     // const payload = selectedMethod ==='email'? {email: emailOrPhone}: {phone: emailOrPhone}
     const payload = { email: emailOrPhone };
     try {
       const res = await AuthApi.forgotPassword(payload);
+      console.log("res", JSON.stringify(res, null, 2));
       if (res.success) {
-        navigate("OTPVerification");
+        // navigate("OTPVerification");
+        setModalVisible(!modalVisible);
       }
     } catch (error: any) {
       handleErrorResponse(error, "Forgot Password");
@@ -32,15 +36,23 @@ const ForgotPasswordScreen = () => {
     navigate("Signin");
   };
 
-  const handleMethodChange = (method: React.SetStateAction<string>) => {
+  const handleMethodChange = (method: "email" | "phoneNumber") => {
     setSelectedMethod(method);
     setEmailOrPhone(""); // Clear input when switching methods
   };
 
   return (
-    <GContainer>
+    <SafeAreaView className="flex-1 bg-background">
       <ArrowLeftCircle onPress={goBack} size={40} color={Colors.heading} style={{ marginLeft: 16 }} className="bg-slate-800" />
       <ScrollView className="flex-1 px-6">
+        <ForgotPasswordVerifyModal
+          visible={modalVisible}
+          onClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+          method={selectedMethod as "email" | "phoneNumber"}
+          contact={emailOrPhone}
+        />
         {/* Header */}
         <View className="mt-16 mb-12">
           <NText className="text-4xl font-bold text-heading text-center mb-4">Forgot Password</NText>
@@ -67,13 +79,15 @@ const ForgotPasswordScreen = () => {
 
             <TouchableOpacity
               className={`flex-1 py-3 px-4 rounded-lg border ${
-                selectedMethod === "phone" ? "bg-foreground border-green-500" : " border-border"
+                selectedMethod === "phoneNumber" ? "bg-foreground border-green-500" : " border-border"
               }`}
-              onPress={() => handleMethodChange("phone")}
+              onPress={() => handleMethodChange("phoneNumber")}
             >
               <View className="flex-row items-center justify-center">
                 <NText className="text-lg mr-2">📱</NText>
-                <NText className={`text-base font-medium ${selectedMethod === "phone" ? "text-green-600" : "text-heading"}`}>Phone</NText>
+                <NText className={`text-base font-medium ${selectedMethod === "phoneNumber" ? "text-green-600" : "text-heading"}`}>
+                  Phone
+                </NText>
               </View>
             </TouchableOpacity>
           </View>
@@ -136,7 +150,7 @@ const ForgotPasswordScreen = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </GContainer>
+    </SafeAreaView>
   );
 };
 

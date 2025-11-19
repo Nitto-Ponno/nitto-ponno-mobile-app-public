@@ -19,6 +19,7 @@ export const handleErrorResponse = (response: any, source: string) => {
     message: response.response.data.message || response.response.data.error,
     background: Colors.error,
   });
+  console.log("error.response.data", JSON.stringify(response.response.data, null, 2));
   console.log({
     success: false,
     from: source,

@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Search, ShoppingCart, Bell, Heart, Star, ChevronRight, MapPin, Mic, Plus, TrendingUp, Zap, CloudSun } from "lucide-react-native";
 import { Colors, useTheme } from "@/context/ThemeProvider";
 import Images from "@/constants/Images";
-import Basic from "@/components/Animation/Basic";
 
 // Mock Data
 const categories = [
@@ -195,19 +194,11 @@ const SearchBar = ({ onSearch }: { onSearch?: () => void }) => {
   );
 };
 
-const CategoryChips = ({
-  categories,
-  activeId,
-  onSelect,
-}: {
-  categories: typeof categories;
-  activeId: string;
-  onSelect: (id: string) => void;
-}) => {
+const CategoryChips = ({ categories, activeId, onSelect }: { categories: any; activeId: string; onSelect: (id: string) => void }) => {
   return (
     <View className="py-2">
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerClassName="px-4 gap-2">
-        {categories.map((category) => {
+        {categories.map((category: any) => {
           const isActive = category.id === activeId;
           return (
             <Pressable
@@ -429,7 +420,6 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
       <TopBar />
       <SearchBar onSearch={handleSearch} />
-      <Basic />
 
       <ScrollView showsVerticalScrollIndicator={false} bounces={true} className="flex-1">
         <CategoryChips categories={categories} activeId={activeCategory} onSelect={handleSelectCategory} />
