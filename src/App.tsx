@@ -10,6 +10,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import Splash from "@/components/global/Splash";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "./utils/ToastConfig";
+import { KeyboardAvoiderProvider } from "@good-react-native/keyboard-avoider";
 // Keep splash screen until we hide it manually
 SplashScreen.preventAutoHideAsync();
 
@@ -33,13 +34,15 @@ export default function App() {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={<Splash />} persistor={persistor}>
-        <ThemeProvider>
-          <Navigation />
-          <Toast config={toastConfig} />
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
+    <KeyboardAvoiderProvider>
+      <Provider store={store}>
+        <PersistGate loading={<Splash />} persistor={persistor}>
+          <ThemeProvider>
+            <Navigation />
+            <Toast config={toastConfig} />
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
+    </KeyboardAvoiderProvider>
   );
 }

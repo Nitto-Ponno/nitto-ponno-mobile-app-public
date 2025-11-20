@@ -20,7 +20,8 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.shuvajitmaitra.nittoponno",
-      "appName": "Nitto Ponno"
+      "appName": "Nitto Ponno",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "favicon": "./src/assets/icon.jpg",

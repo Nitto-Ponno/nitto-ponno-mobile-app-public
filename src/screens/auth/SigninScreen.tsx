@@ -94,76 +94,32 @@ const SignInScreen = () => {
                 <Text className="text-body text-center text-base leading-6">Welcome back! Please sign in to your account</Text>
               </View>
 
-              <AppInput label="Email Address" value={email} setValue={setEmail} variant="email" placeholder="Enter your email" isRequired />
-
-              <AppInput label="Phone Number" value={phone} setValue={setPhone} variant="phone" placeholder="+1 (555) 000-0000" />
-
-              <AppInput
-                label="Password"
-                value={password}
-                setValue={setPassword}
-                variant="password"
-                placeholder="Enter password"
-                isRequired
-                error={password.length > 0 && password.length < 6 ? "Password must be at least 6 characters" : undefined}
-              />
-
-              <AppInput label="OTP Code" value={otp} setValue={setOtp} variant="otp" placeholder="000000" maxLength={6} />
-
-              <AppInput label="Full Name" value={name} setValue={setName} variant="text" placeholder="John Doe" isRequired />
-
-              <AppInput label="Disabled Input" value="Cannot edit this" setValue={() => {}} variant="text" disabled />
               {/* Form */}
-              <View className="space-y-6">
+              <View className="gap-4">
                 {/* Email Field */}
-                <View>
-                  <Text className="text-heading text-base mb-1 mt-3 font-medium">Email</Text>
-                  <View className="relative border border-border rounded-lg px-4 justify-center h-14 pl-12">
-                    <TextInput
-                      className="text-base text-body flex-1 "
-                      placeholder="Email"
-                      value={email}
-                      onChangeText={setEmail}
-                      keyboardType="email-address"
-                      autoCapitalize="none"
-                      placeholderTextColor={Colors.body}
-                    />
-                    <View className="absolute justify-center left-4 top-4">
-                      <Mail size={20} color={Colors.body} />
-                    </View>
-                  </View>
-                </View>
+                <AppInput
+                  label="Email Address"
+                  value={email}
+                  setValue={setEmail}
+                  variant="email"
+                  placeholder="Enter your email"
+                  isRequired
+                />
 
                 {/* Password Field */}
-                <View>
-                  <Text className="text-heading text-base mb-1 mt-3 font-medium">Password</Text>
-                  <View className="relative border border-border rounded-lg px-4 justify-center h-14 pl-12">
-                    <TextInput
-                      className="text-base text-body flex-1 "
-                      placeholder="Password"
-                      value={password}
-                      onChangeText={setPassword}
-                      secureTextEntry={!showPassword}
-                      placeholderTextColor={Colors.body}
-                      autoFocus={false}
-                    />
-                    <View className="absolute left-4 top-4">
-                      <LockIcon color={Colors.body} />
-                    </View>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setShowPassword(!showPassword);
-                      }}
-                      className="absolute right-4 top-4"
-                    >
-                      {showPassword ? <EyeClosed color={Colors.body} /> : <Eye color={Colors.body} />}
-                    </TouchableOpacity>
-                  </View>
-                </View>
+                <AppInput
+                  label="Password"
+                  value={password}
+                  setValue={setPassword}
+                  variant="password"
+                  placeholder="Enter password"
+                  isRequired
+                  error={password.length > 0 && password.length < 6 ? "Password must be at least 6 characters" : undefined}
+                />
               </View>
 
               {/* Forgot Password Link */}
-              <View className="mt-8 mb-6">
+              <View className="my-4">
                 <TouchableOpacity onPress={handleForgotPassword}>
                   <Text className="text-heading text-right text-base underline">Forgot Password?</Text>
                 </TouchableOpacity>

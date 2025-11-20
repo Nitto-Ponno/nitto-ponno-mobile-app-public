@@ -1,6 +1,6 @@
 // OTPVerificationModal.tsx
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, Modal, TouchableOpacity, Animated, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Modal, TouchableOpacity, KeyboardAvoidingView, Platform, TextInput, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import NText from "../global/NText"; // your custom text component
 import { showErrorToast, showSuccessAlert } from "@/utils/commonFunction";
@@ -16,37 +16,11 @@ interface OTPVerificationModalProps {
 }
 
 const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ visible, contact, method, onClose, onVerifySuccess }) => {
-  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
+  const [otp, setOtp] = useState("");
   const [resendTimer, setResendTimer] = useState(60);
   const [isResending, setIsResending] = useState(false);
   const [loading, setLoading] = useState(false);
-  const inputs = useRef<any>(null);
   const [step, setStep] = useState(1);
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(100)).current;
-
-  useEffect(() => {
-    if (visible) {
-      setOtp(["", "", "", "", "", ""]);
-      setResendTimer(60);
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.spring(slideAnim, {
-          toValue: 0,
-          friction: 8,
-          useNativeDriver: true,
-        }),
-      ]).start();
-    } else {
-      fadeAnim.setValue(0);
-      slideAnim.setValue(100);
-    }
-  }, [visible]);
 
   // Resend countdown
   useEffect(() => {
@@ -76,34 +50,14 @@ const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ visible, co
     }
   };
 
-  const handleOtpChange = (value: string, index: number) => {
-    if (!/^\d*$/.test(value)) return;
-
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    // Auto-focus next
-    if (value && index < 5) {
-      inputs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyPress = (e: any, index: number) => {
-    if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
-      inputs.current[index - 1]?.focus();
-    }
-  };
-
   const handleVerify = async () => {
-    const code = otp.join("");
-    if (code.length !== 6) {
+    if (otp.length !== 6) {
       return showErrorToast({ message: "Please enter complete 6-digit code" });
     }
 
     try {
       const payload = {
-        otp: code,
+        otp: otp,
         email: method === "email" ? contact : undefined,
         phoneNumber: method === "phone" ? contact : undefined,
       };
@@ -148,13 +102,7 @@ const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ visible, co
         <View className="flex-1 bg-black/60 justify-center items-center px-6">
           <TouchableOpacity className="absolute inset-0" activeOpacity={1} onPress={onClose} />
 
-          <Animated.View
-            style={{
-              opacity: fadeAnim,
-              transform: [{ translateY: slideAnim }],
-            }}
-            className="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden"
-          >
+          <View className="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden">
             {/* Header */}
             <View className="bg-primary px-6 py-10">
               <View className="items-center">
@@ -166,36 +114,26 @@ const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ visible, co
             </View>
 
             {/* Body */}
-            {step === 1 ? (
-              <View className="bg-foreground h-14 border justify-center items-center border-border rounded-lg m-4">
+            {step === 1 && (
+              <View className="bg-foreground h-14 border justify-center items-center border-border rounded-lg m-4 mb-0">
                 <NText className="font-semibold text-lg">{contact}</NText>
               </View>
-            ) : (
-              <View className="p-6">
-                <NText className="text-gray-600 text-center text-base leading-6">We've sent a 6-digit verification code to</NText>
+            )}
+            {step === 2 && (
+              <View className="px-4">
+                <NText className="text-gray-600 text-center text-base">We've sent a 6-digit verification code to</NText>
                 <NText className="text-primary font-bold text-center text-lg mt-2">{maskedContact}</NText>
-
-                {/* OTP Inputs */}
-                <View className="flex-row justify-center gap-3 my-8">
-                  {otp.map((digit, index) => (
-                    <TextInput
-                      key={index}
-                      ref={(ref) => {
-                        inputs.current[index] = ref;
-                      }}
-                      className="w-14 h-14 bg-gray-50 border-2 border-gray-200 rounded-2xl text-center text-2xl font-bold text-primary"
-                      keyboardType="number-pad"
-                      maxLength={1}
-                      value={digit}
-                      onChangeText={(value) => handleOtpChange(value, index)}
-                      onKeyPress={(e) => handleKeyPress(e, index)}
-                      autoFocus={index === 0}
-                    />
-                  ))}
+                <View className="h-14 bg-foreground border rounded-lg border-border">
+                  <TextInput
+                    keyboardType={"number-pad"}
+                    maxLength={6}
+                    autoComplete={"sms-otp"}
+                    className="flex-1 text-center text-3xl text-heading font-bold tracking-[20px]"
+                    value={otp}
+                    onChangeText={setOtp}
+                  />
                 </View>
-
-                {/* Resend Section */}
-                <View className="flex-row justify-center items-center mt-6">
+                <View className="flex-row justify-center items-center my-4">
                   <NText className="text-gray-500">Didn't receive code? </NText>
                   <TouchableOpacity onPress={handleResend} disabled={resendTimer > 0 || isResending}>
                     <NText className={`font-semibold ${resendTimer > 0 ? "text-gray-400" : "text-primary"}`}>
@@ -207,12 +145,12 @@ const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ visible, co
             )}
 
             {/* Action Buttons */}
-            <View className="px-6 pb-8 gap-4">
+            <View className="px-4 pb-8 gap-4">
               {step === 1 ? (
                 <TouchableOpacity
                   onPress={handleSendCode}
                   disabled={!method || loading}
-                  className={`mt-6 py-4 rounded-2xl flex-row items-center justify-center ${
+                  className={`mt-3 py-4 rounded-lg flex-row items-center justify-center ${
                     method && !loading ? "bg-primary" : "bg-gray-300"
                   }`}
                 >
@@ -225,12 +163,10 @@ const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ visible, co
               ) : (
                 <TouchableOpacity
                   onPress={handleVerify}
-                  disabled={otp.join("").length !== 6}
-                  className={`py-4 rounded-2xl items-center justify-center ${otp.join("").length === 6 ? "bg-primary" : "bg-gray-300"}`}
+                  disabled={otp.length !== 6}
+                  className={`py-4 rounded-2xl items-center justify-center ${otp.length === 6 ? "bg-primary" : "bg-gray-300"}`}
                 >
-                  <NText className={`text-lg font-bold ${otp.join("").length === 6 ? "text-white" : "text-gray-500"}`}>
-                    Verify & Continue
-                  </NText>
+                  <NText className={`text-lg font-bold ${otp.length === 6 ? "text-white" : "text-gray-500"}`}>Verify & Continue</NText>
                 </TouchableOpacity>
               )}
 
@@ -238,7 +174,7 @@ const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ visible, co
                 <NText className="text-gray-500 text-base">Cancel</NText>
               </TouchableOpacity>
             </View>
-          </Animated.View>
+          </View>
         </View>
       </KeyboardAvoidingView>
     </Modal>

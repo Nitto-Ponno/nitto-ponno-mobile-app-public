@@ -1,13 +1,13 @@
 import ForgotPasswordVerifyModal from "@/components/auth/ForgotPasswordVerifyModal";
-import GContainer from "@/components/global/GContainer";
+import AppInput from "@/components/global/AppInput";
 import NText from "@/components/global/NText";
 import { Colors } from "@/context/ThemeProvider";
 import { AuthApi } from "@/services/api/authApi";
 import { handleErrorResponse } from "@/utils/handlers";
 import { goBack, navigate } from "@/utils/NavigationUtils";
-import { ArrowLeftCircle, Mail, Phone } from "lucide-react-native";
+import { ArrowLeftCircle } from "lucide-react-native";
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { View, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ForgotPasswordScreen = () => {
@@ -18,6 +18,7 @@ const ForgotPasswordScreen = () => {
     // // Handle send OTP logic here
     // const payload = selectedMethod ==='email'? {email: emailOrPhone}: {phone: emailOrPhone}
     const payload = { email: emailOrPhone };
+    console.log("payload", JSON.stringify(payload, null, 2));
     try {
       const res = await AuthApi.forgotPassword(payload);
       console.log("res", JSON.stringify(res, null, 2));
@@ -26,6 +27,7 @@ const ForgotPasswordScreen = () => {
         setModalVisible(!modalVisible);
       }
     } catch (error: any) {
+      console.log("error.response.data", JSON.stringify(error.response.data, null, 2));
       handleErrorResponse(error, "Forgot Password");
     }
 
@@ -94,26 +96,17 @@ const ForgotPasswordScreen = () => {
         </View>
 
         {/* Input Field */}
-        <View className="mb-8">
-          <NText className="text-heading text-base mb-3 font-medium">{selectedMethod === "email" ? "Email Address" : "Phone Number"}</NText>
-          <View className="relative border border-border rounded-lg px-4 justify-center h-14 pl-12">
-            <TextInput
-              className="text-base flex-1 "
-              placeholder={selectedMethod === "email" ? "Enter your email address" : "Enter your phone number"}
-              value={emailOrPhone}
-              onChangeText={setEmailOrPhone}
-              keyboardType={selectedMethod === "email" ? "email-address" : "phone-pad"}
-              autoCapitalize="none"
-              placeholderTextColor={Colors.body}
-            />
-            <View className="absolute left-4 top-4">
-              {selectedMethod === "email" ? <Mail size={20} color={Colors.body} /> : <Phone size={20} color={Colors.body} />}
-            </View>
-          </View>
-        </View>
+        <AppInput
+          label={selectedMethod === "email" ? "Email Address" : "Phone Number"}
+          placeholder={selectedMethod === "email" ? "Enter your email address" : "Enter your phone number"}
+          value={emailOrPhone}
+          setValue={setEmailOrPhone}
+          variant={selectedMethod === "email" ? "email" : "phone"}
+          isRequired
+        />
 
         {/* Info Message */}
-        <View className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+        <View className="bg-blue-50 border border-blue-200 rounded-lg p-4 my-8">
           <View className="flex-row">
             <NText className="text-blue-500 text-lg mr-3">ℹ️</NText>
             <NText className="text-blue-700 text-sm leading-5 flex-1">

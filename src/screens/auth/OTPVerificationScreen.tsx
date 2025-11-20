@@ -24,7 +24,7 @@ const OTPVerificationScreen = () => {
   const { authInfo } = useAppSelector((state) => state.auth);
   const verificationMethod = authInfo?.selectedMethod;
   const contactInfo = authInfo?.email || "";
-  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
+  const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState<number>(30);
   const [canResend, setCanResend] = useState<boolean>(false);
 
@@ -45,30 +45,8 @@ const OTPVerificationScreen = () => {
     };
   }, [timer]);
 
-  const handleOtpChange = (value: string, index: number): void => {
-    // Only allow numeric input
-    if (!/^\d*$/.test(value)) return;
-
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    // Auto-focus next input
-    if (value && index < 5) {
-      inputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>, index: number): void => {
-    // Handle backspace to focus previous input
-    if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus();
-    }
-  };
-
   const handleVerifyOTP = async () => {
-    const otpCode = otp.join("");
-    if (otpCode.length !== 6) {
+    if (otp.length !== 6) {
       Alert.alert("Error", "Please enter the complete 6-digit code");
       return;
     }
@@ -76,8 +54,8 @@ const OTPVerificationScreen = () => {
     try {
       const payload =
         authInfo?.selectedMethod === "email" || !authInfo?.selectedMethod
-          ? { email: authInfo?.email, otp: otpCode }
-          : { phoneNumber: authInfo?.phoneNumber, otp: otpCode };
+          ? { email: authInfo?.email, otp: otp }
+          : { phoneNumber: authInfo?.phoneNumber, otp: otp };
 
       const response = await AuthApi.verifyOtp(payload);
       if (response.success) {
@@ -96,7 +74,7 @@ const OTPVerificationScreen = () => {
     // Reset timer and resend OTP
     setTimer(30);
     setCanResend(false);
-    setOtp(["", "", "", "", "", ""]);
+    setOtp("");
 
     try {
       console.log("authInfo", JSON.stringify(authInfo, null, 2));
@@ -135,10 +113,6 @@ const OTPVerificationScreen = () => {
     }
   };
 
-  const setInputRef = (ref: TextInput | null, index: number): void => {
-    inputRefs.current[index] = ref;
-  };
-
   return (
     <SafeAreaView className="flex-1 bg-background">
       <ArrowLeftCircle onPress={goBack} size={40} color={Colors.heading} style={{ marginLeft: 16 }} className="bg-slate-800" />
@@ -156,26 +130,15 @@ const OTPVerificationScreen = () => {
         {/* OTP Input Fields */}
         <View className="mb-8">
           <NText className="text-heading text-base mb-4 font-medium text-center">Verification Code</NText>
-          <View className="flex-row justify-between px-4">
-            {otp.map((digit, index) => (
-              <TextInput
-                key={index}
-                ref={(ref) => setInputRef(ref, index)}
-                className={`w-16  h-20 border-2 rounded-lg text-center text-heading text-2xl font-bold bg-foreground ${
-                  digit ? "border-green-500 " : "border-border"
-                }`}
-                value={digit}
-                onChangeText={(value) => handleOtpChange(value, index)}
-                onKeyPress={(e) => handleKeyPress(e, index)}
-                keyboardType="numeric"
-                maxLength={1}
-                selectTextOnFocus
-                accessible={true}
-                accessibilityLabel={`OTP digit ${index + 1}`}
-                accessibilityHint="Enter a single digit"
-                keyboardAppearance="dark"
-              />
-            ))}
+          <View className="bg-foreground border border-border rounded-lg h-14 ">
+            <TextInput
+              keyboardType={"number-pad"}
+              maxLength={6}
+              autoComplete={"sms-otp"}
+              className="flex-1 text-center text-3xl text-heading font-bold tracking-[20px]"
+              value={otp}
+              onChangeText={setOtp}
+            />
           </View>
         </View>
 
