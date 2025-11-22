@@ -4,6 +4,142 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Search, ShoppingCart, Bell, Heart, Star, ChevronRight, MapPin, Mic, Plus, TrendingUp, Zap, CloudSun } from "lucide-react-native";
 import { Colors, useTheme } from "@/context/ThemeProvider";
 import Images from "@/constants/Images";
+import FeaturedSection from "@/components/home/FeaturedSection";
+
+// Main Screen
+export default function HomeScreen() {
+  const [activeCategory, setActiveCategory] = useState("1");
+  const [favorites, setFavorites] = useState<string[]>(products.filter((p) => p.isFavorite).map((p) => p.id));
+  const [showBanner, setShowBanner] = useState(true);
+  const { toggleTheme, theme } = useTheme();
+
+  const handleToggleFavorite = (id: string) => {
+    setFavorites((prev) => (prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]));
+  };
+
+  const handleAddToCart = (id: string) => {
+    console.log("[v0] Add to cart:", id);
+  };
+
+  const handleSearch = () => {
+    console.log("[v0] Open search");
+    toggleTheme();
+  };
+
+  const handleSelectCategory = (id: string) => {
+    setActiveCategory(id);
+    console.log("[v0] Selected category:", id);
+  };
+
+  const handleSeeAll = (section: string) => {
+    console.log("[v0] See all:", section);
+  };
+
+  const productsWithFavorites = products.map((p) => ({
+    ...p,
+    isFavorite: favorites.includes(p.id),
+  }));
+
+  const featuredProducts = productsWithFavorites.filter((p) => p.tags.includes("featured"));
+
+  return (
+    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
+      <TopBar />
+      <SearchBar onSearch={handleSearch} />
+
+      <ScrollView showsVerticalScrollIndicator={false} bounces={true} className="flex-1">
+        <CategoryChips categories={categories} activeId={activeCategory} onSelect={handleSelectCategory} />
+
+        <PromoCarousel promos={promos} />
+        <FeaturedSection />
+
+        <SectionHeader title="Featured" onSeeAll={() => handleSeeAll("featured")} icon={<TrendingUp size={24} color="#00a303" />} />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerClassName="px-4 gap-3">
+          {featuredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onToggleFavorite={handleToggleFavorite}
+              onAddToCart={handleAddToCart}
+              horizontal
+            />
+          ))}
+        </ScrollView>
+
+        <SectionHeader title="All Products" onSeeAll={() => handleSeeAll("all")} />
+
+        <View className="px-4 pb-4">
+          <View className="flex-row flex-wrap gap-3">
+            {productsWithFavorites.map((product) => (
+              <View key={product.id} className="w-[48%]">
+                <ProductCard product={product} onToggleFavorite={handleToggleFavorite} onAddToCart={handleAddToCart} />
+              </View>
+            ))}
+          </View>
+        </View>
+
+        {showBanner && <BottomBanner onDismiss={() => setShowBanner(false)} />}
+
+        <View className="h-4" />
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+/*
+ * HOW TO WIRE UP REAL DATA:
+ *
+ * 1. Replace mock data with API calls:
+ *    - Use fetch or axios to get products from your backend
+ *    - Consider using SWR or React Query for caching and state management
+ *
+ * 2. Image CDN:
+ *    - Replace placeholder.svg URLs with your CDN URLs
+ *    - Use optimized image formats (WebP, AVIF)
+ *    - Implement lazy loading for better performance
+ *
+ * 3. State Management:
+ *    - Move favorites and cart to global state (Context, Redux, Zustand)
+ *    - Persist cart and favorites to AsyncStorage
+ *
+ * 4. Navigation:
+ *    - Integrate React Navigation for screen transitions
+ *    - Add product detail screen, search screen, etc.
+ *
+ * 5. Dark Mode:
+ *    - Wrap your app with a theme provider
+ *    - Use NativeWind's dark mode: <View className="dark">
+ *    - Or use system color scheme with useColorScheme()
+ */
+
+// import { View, Text, TouchableOpacity } from "react-native";
+// import React from "react";
+// import GContainer from "@/components/global/GContainer";
+// import NText from "@/components/global/NText";
+// import { Colors, useTheme } from "@/context/ThemeProvider";
+// import { Camera, Moon, ThermometerSun } from "lucide-react-native";
+
+// const HomeScreen = () => {
+//   const { toggleTheme, theme } = useTheme();
+//   return (
+//     <GContainer safe={true} centered={true}>
+//       <NText style={{ color: Colors.primary }} className="text-xl font-FFRegular ">
+//         Welcome to Nitto Ponno!
+//       </NText>
+//       <TouchableOpacity
+//         className="bg-foreground h-14 flex-row   justify-center items-center px-4 rounded-full"
+//         onPress={() => {
+//           toggleTheme();
+//         }}
+//       >
+//         <NText className="capitalize text-heading">{theme}</NText>
+//         <Moon color={Colors.heading} size={20} />
+//       </TouchableOpacity>
+//     </GContainer>
+//   );
+// };
+
+// export default HomeScreen;
 
 // Mock Data
 const categories = [
@@ -379,138 +515,3 @@ const BottomBanner = ({ onDismiss }: { onDismiss?: () => void }) => {
     </View>
   );
 };
-
-// Main Screen
-export default function HomeScreen() {
-  const [activeCategory, setActiveCategory] = useState("1");
-  const [favorites, setFavorites] = useState<string[]>(products.filter((p) => p.isFavorite).map((p) => p.id));
-  const [showBanner, setShowBanner] = useState(true);
-  const { toggleTheme, theme } = useTheme();
-
-  const handleToggleFavorite = (id: string) => {
-    setFavorites((prev) => (prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]));
-  };
-
-  const handleAddToCart = (id: string) => {
-    console.log("[v0] Add to cart:", id);
-  };
-
-  const handleSearch = () => {
-    console.log("[v0] Open search");
-    toggleTheme();
-  };
-
-  const handleSelectCategory = (id: string) => {
-    setActiveCategory(id);
-    console.log("[v0] Selected category:", id);
-  };
-
-  const handleSeeAll = (section: string) => {
-    console.log("[v0] See all:", section);
-  };
-
-  const productsWithFavorites = products.map((p) => ({
-    ...p,
-    isFavorite: favorites.includes(p.id),
-  }));
-
-  const featuredProducts = productsWithFavorites.filter((p) => p.tags.includes("featured"));
-
-  return (
-    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
-      <TopBar />
-      <SearchBar onSearch={handleSearch} />
-
-      <ScrollView showsVerticalScrollIndicator={false} bounces={true} className="flex-1">
-        <CategoryChips categories={categories} activeId={activeCategory} onSelect={handleSelectCategory} />
-
-        <PromoCarousel promos={promos} />
-
-        <SectionHeader title="Featured" onSeeAll={() => handleSeeAll("featured")} icon={<TrendingUp size={24} color="#00a303" />} />
-
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerClassName="px-4 gap-3">
-          {featuredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onToggleFavorite={handleToggleFavorite}
-              onAddToCart={handleAddToCart}
-              horizontal
-            />
-          ))}
-        </ScrollView>
-
-        <SectionHeader title="All Products" onSeeAll={() => handleSeeAll("all")} />
-
-        <View className="px-4 pb-4">
-          <View className="flex-row flex-wrap gap-3">
-            {productsWithFavorites.map((product) => (
-              <View key={product.id} className="w-[48%]">
-                <ProductCard product={product} onToggleFavorite={handleToggleFavorite} onAddToCart={handleAddToCart} />
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {showBanner && <BottomBanner onDismiss={() => setShowBanner(false)} />}
-
-        <View className="h-4" />
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-/*
- * HOW TO WIRE UP REAL DATA:
- *
- * 1. Replace mock data with API calls:
- *    - Use fetch or axios to get products from your backend
- *    - Consider using SWR or React Query for caching and state management
- *
- * 2. Image CDN:
- *    - Replace placeholder.svg URLs with your CDN URLs
- *    - Use optimized image formats (WebP, AVIF)
- *    - Implement lazy loading for better performance
- *
- * 3. State Management:
- *    - Move favorites and cart to global state (Context, Redux, Zustand)
- *    - Persist cart and favorites to AsyncStorage
- *
- * 4. Navigation:
- *    - Integrate React Navigation for screen transitions
- *    - Add product detail screen, search screen, etc.
- *
- * 5. Dark Mode:
- *    - Wrap your app with a theme provider
- *    - Use NativeWind's dark mode: <View className="dark">
- *    - Or use system color scheme with useColorScheme()
- */
-
-// import { View, Text, TouchableOpacity } from "react-native";
-// import React from "react";
-// import GContainer from "@/components/global/GContainer";
-// import NText from "@/components/global/NText";
-// import { Colors, useTheme } from "@/context/ThemeProvider";
-// import { Camera, Moon, ThermometerSun } from "lucide-react-native";
-
-// const HomeScreen = () => {
-//   const { toggleTheme, theme } = useTheme();
-//   return (
-//     <GContainer safe={true} centered={true}>
-//       <NText style={{ color: Colors.primary }} className="text-xl font-FFRegular ">
-//         Welcome to Nitto Ponno!
-//       </NText>
-//       <TouchableOpacity
-//         className="bg-foreground h-14 flex-row   justify-center items-center px-4 rounded-full"
-//         onPress={() => {
-//           toggleTheme();
-//         }}
-//       >
-//         <NText className="capitalize text-heading">{theme}</NText>
-//         <Moon color={Colors.heading} size={20} />
-//       </TouchableOpacity>
-//     </GContainer>
-//   );
-// };
-
-// export default HomeScreen;

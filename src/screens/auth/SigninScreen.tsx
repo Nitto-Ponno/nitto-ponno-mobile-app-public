@@ -24,19 +24,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
 
 const SignInScreen = () => {
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("shuvajitmaitra+3@gmail.com");
+  const [password, setPassword] = useState("Shuvajit#1");
   const dispatch = useDispatch();
-  const [showPassword, setShowPassword] = useState(false);
   const [verificationModalVisible, setVerificationModalVisible] = useState(false);
 
   const handleSignIn = async () => {
     try {
       const response = await AuthApi.customerLogin({ email, password });
-      console.log("response", JSON.stringify(response, null, 2));
       if (response.success && !response.data.isVerified) {
         setVerificationModalVisible(!verificationModalVisible);
         return;

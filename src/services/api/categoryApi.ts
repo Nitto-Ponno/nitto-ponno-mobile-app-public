@@ -31,7 +31,6 @@ export const GetAllCategories = async () => {
   console.log("Called---------");
   try {
     const response = await CategoryApi.getAll();
-    console.log("response", JSON.stringify(response, null, 2));
     if (response.success) {
       dispatch(setCategories(response.data));
     }

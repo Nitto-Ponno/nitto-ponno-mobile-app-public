@@ -123,3 +123,27 @@ export function getCategoryStats(categories: any[]): {
     maxLevel,
   };
 }
+export const buildQueryParams = (params: Record<string, any>): string => {
+  const parts: string[] = [];
+
+  for (const key in params) {
+    const value = params[key];
+
+    // Skip undefined, null, or empty string
+    if (value === undefined || value === null || value === "") continue;
+
+    if (Array.isArray(value)) {
+      // Repeat key for each array item: status=APPROVED&status=PENDING
+      value.forEach((item) => {
+        if (item !== undefined && item !== null && item !== "") {
+          parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(item)}`);
+        }
+      });
+    } else {
+      // Single value
+      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+    }
+  }
+
+  return parts.length > 0 ? `?${parts.join("&")}` : "";
+};

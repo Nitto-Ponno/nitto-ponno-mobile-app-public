@@ -13,7 +13,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppStack = () => {
   const { accessToken } = useAppSelector((state) => state.auth);
-  console.log("tokenStorage", JSON.stringify(accessToken, null, 2));
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
