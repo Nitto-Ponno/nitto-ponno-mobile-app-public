@@ -1,9 +1,11 @@
 import { View, Text } from "react-native";
 import React, { useEffect } from "react";
-import { useAppSelector } from "@/store";
+import { dispatch, useAppSelector } from "@/store";
 import ProductCardV1 from "../card/ProductCardV1";
 import { showToast } from "@/utils/commonFunction";
-import { getFeaturedProducts, getSingleProduct } from "@/services/api/productApi";
+import { getFeaturedProducts } from "@/services/api/productApi";
+import { setSelectedProduct } from "@/store/reducer/productReducer";
+import { navigate } from "@/utils/NavigationUtils";
 
 const FeaturedSection = () => {
   const { products } = useAppSelector((state) => state.product);
@@ -29,7 +31,8 @@ const FeaturedSection = () => {
                 showToast({ message: "Coming soon..." });
               }}
               onPress={(p) => {
-                getSingleProduct({ productId: p._id });
+                dispatch(setSelectedProduct(p));
+                navigate("ProductDetails");
               }}
             />
           ))}

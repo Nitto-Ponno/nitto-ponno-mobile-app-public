@@ -8,6 +8,7 @@ import OTPVerificationScreen from "@/screens/auth/OTPVerificationScreen";
 import SetNewPasswordScreen from "@/screens/auth/SetNewPasswordScreen";
 import ChangePasswordScreen from "@/screens/auth/ChangePasswordScreen";
 import { useAppSelector } from "@/store";
+import ProductDetailsScreen from "@/screens/product/ProductDetailsScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -17,7 +18,10 @@ const AppStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {accessToken ? (
-        <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
+        <>
+          <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
+          <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+        </>
       ) : (
         <>
           <Stack.Screen name="Signin" component={SignInScreen} />
@@ -35,6 +39,7 @@ const AppStack = () => {
 export default AppStack;
 export type RootStackParamList = {
   BottomTabNavigator: undefined;
+  ProductDetails: undefined;
   HomeStack: undefined;
   ProfileStack: undefined;
   Signup: undefined;
