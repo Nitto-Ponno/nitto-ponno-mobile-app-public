@@ -5,11 +5,9 @@ export interface Discount {
 }
 
 export interface AttributeValue {
-  attributeId: {
-    name: string;
-    id: string | null;
-  };
-  value: string;
+  attributeId: string;
+  attributeName: string;
+  optionId: string;
 }
 
 export interface Variation {
@@ -18,7 +16,6 @@ export interface Variation {
     name: string;
     id: string;
   };
-  attributeValues: AttributeValue[];
   price: number;
   discount?: Discount;
   sku: string;
@@ -35,6 +32,7 @@ export interface Product {
   price: number;
   discount?: Discount;
   services: { _id: string; name: string }[];
+  attributeValues: AttributeValue[];
   attributes: { _id: string; name: string }[];
   variations: Variation[];
   createdAt: string;

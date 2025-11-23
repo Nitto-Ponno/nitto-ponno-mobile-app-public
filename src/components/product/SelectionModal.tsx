@@ -6,6 +6,8 @@ import { setSelectionModal } from "@/store/reducer/productReducer";
 import { X, XCircle } from "lucide-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { calculateDiscountedPrice } from "@/utils/commonFunction";
+import { AttributeValue } from "@/services/types/productTypes";
+import { cn } from "@/utils/cn";
 
 interface Service {
   _id: string;
@@ -19,7 +21,6 @@ interface Discount {
 
 interface Variation {
   serviceId: { _id: string; name: string };
-  attributeValues: { attributeId: { name: string }; value: string }[];
   price: number;
   discount?: Discount;
   isAvailable: boolean;
@@ -44,7 +45,6 @@ const selectedProduct = {
       discount: { type: "percent" as const, value: 15 },
       isAvailable: true,
       _id: "v1",
-      attributeValues: [],
     },
     {
       serviceId: { _id: "srv001", name: "Dry Cleaning" },
@@ -52,7 +52,6 @@ const selectedProduct = {
       discount: { type: "flat" as const, value: 10 },
       isAvailable: true,
       _id: "v2",
-      attributeValues: [],
     },
     {
       serviceId: { _id: "srv002", name: "Premium Ironing" },
@@ -60,7 +59,6 @@ const selectedProduct = {
       discount: { type: "percent" as const, value: 5 },
       isAvailable: true,
       _id: "v3",
-      attributeValues: [],
     },
     {
       serviceId: { _id: "srv003", name: "Fabric Softener" },
@@ -68,9 +66,26 @@ const selectedProduct = {
       discount: { type: "flat" as const, value: 2 },
       isAvailable: false,
       _id: "v4",
-      attributeValues: [],
     },
   ],
+  attributeValues: [
+    {
+      attributeId: "a1",
+      attributeName: "baby",
+      optionId: "o1",
+    },
+    {
+      attributeId: "a2",
+      attributeName: "men",
+      optionId: "o2",
+    },
+    {
+      attributeId: "a3",
+      attributeName: "women",
+      optionId: "o3",
+    },
+  ],
+
   id: "69135cf83162fa4052120bc2",
 };
 
@@ -78,16 +93,28 @@ const SelectionModal = () => {
   const { selectionModal } = useAppSelector((state) => state.product);
 
   const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>([]);
+  const [selectedAttributes, setSelectedAttributes] = useState<AttributeValue[] | null>(null);
   const [quantity, setQuantity] = useState(1);
 
   const toggleService = (serviceId: string) => {
     setSelectedServiceIds((prev) => (prev.includes(serviceId) ? prev.filter((id) => id !== serviceId) : [...prev, serviceId]));
+  };
+  const toggleAttributes = (param: AttributeValue) => {
+    const isAvailable = selectedAttributes?.find((i) => i.attributeId === param.attributeId);
+    const data = isAvailable
+      ? selectedAttributes?.filter((i) => i.attributeId !== param.attributeId)
+      : [...(selectedAttributes || []), param];
+    console.log("data", JSON.stringify(data, null, 2));
+    data && setSelectedAttributes(data);
+    // setSelectedServiceIds((prev) => (prev.includes(serviceId) ? prev.filter((id) => id !== serviceId) : [...prev, serviceId]));
   };
 
   const selectedVariations = useMemo(() => {
     if (!selectedProduct?.variations) return [];
     return selectedProduct.variations.filter((v: Variation) => selectedServiceIds.includes(v.serviceId._id));
   }, [selectedServiceIds]);
+
+  console.log("selectedVariations", JSON.stringify(selectedVariations, null, 2));
 
   const orderSummary = useMemo(() => {
     let subtotal = 0;
@@ -108,6 +135,17 @@ const SelectionModal = () => {
 
   const handleAddToCart = () => {
     if (selectedServiceIds.length === 0) return;
+
+    const items = {
+      productId: selectedProduct._id,
+      productName: selectedProduct.name,
+      variations: selectedVariations,
+      // serviceName: String,
+      quantity: quantity,
+      // unitPrice: { type: Number, required: true },
+      attributeValues: selectedAttributes,
+      subtotal: orderSummary.finalTotal,
+    };
     const cartItem = {
       productId: selectedProduct?.id,
       productName: selectedProduct?.name,
@@ -120,7 +158,6 @@ const SelectionModal = () => {
       quantity,
       totalPrice: orderSummary.finalTotal,
     };
-    console.log("Adding to cart:", cartItem);
     console.log("cartItem", JSON.stringify(cartItem, null, 2));
   };
   return (
@@ -240,6 +277,33 @@ const SelectionModal = () => {
                         </Pressable>
                       );
                     })}
+                  </View>
+
+                  {selectedProduct.attributeValues && (
+                    <View className="flex-row items-center justify-between my-4">
+                      <NText className="text-lg font-semibold text-heading">Select Category</NText>
+                      {selectedAttributes && selectedAttributes?.length > 0 && (
+                        <NText className="text-sm text-primary">{selectedAttributes.length} selected</NText>
+                      )}
+                    </View>
+                  )}
+
+                  <View className="flex-row gap-3">
+                    {selectedProduct.attributeValues.map((i) => (
+                      <Pressable
+                        onPress={() => {
+                          toggleAttributes(i);
+                        }}
+                        className={cn(
+                          "px-4 h-12 justify-center items-center bg-foreground border border-border rounded-lg",
+                          selectedAttributes?.find((a) => a.attributeId === i.attributeId)?.attributeId &&
+                            "bg-green-200/20 border border-green200/50"
+                        )}
+                        key={i.attributeId}
+                      >
+                        <NText>{i.attributeName}</NText>
+                      </Pressable>
+                    ))}
                   </View>
                 </View>
 

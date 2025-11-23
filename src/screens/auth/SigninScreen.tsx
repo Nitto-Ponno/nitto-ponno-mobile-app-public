@@ -43,6 +43,9 @@ const SignInScreen = () => {
         dispatch(setRefreshToken(response.data.refreshToken));
         dispatch(setUser(response.data.user));
         showSuccessAlert({ message: "Logged in successfully" });
+        const myData = await AuthApi.getMyData();
+        console.log("myData", JSON.stringify(myData, null, 2));
+        console.log("response.data", JSON.stringify(response.data, null, 2));
       }
     } catch (error: any) {
       handleErrorResponse(error, "Sign in");
