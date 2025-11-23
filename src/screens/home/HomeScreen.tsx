@@ -5,6 +5,7 @@ import { Search, ShoppingCart, Bell, Heart, Star, ChevronRight, MapPin, Mic, Plu
 import { Colors, useTheme } from "@/context/ThemeProvider";
 import Images from "@/constants/Images";
 import FeaturedSection from "@/components/home/FeaturedSection";
+import SelectionModal from "@/components/product/SelectionModal";
 
 // Main Screen
 export default function HomeScreen() {
@@ -49,7 +50,7 @@ export default function HomeScreen() {
 
       <ScrollView showsVerticalScrollIndicator={false} bounces={true} className="flex-1">
         <CategoryChips categories={categories} activeId={activeCategory} onSelect={handleSelectCategory} />
-
+        <SelectionModal />
         <PromoCarousel promos={promos} />
         <FeaturedSection />
 

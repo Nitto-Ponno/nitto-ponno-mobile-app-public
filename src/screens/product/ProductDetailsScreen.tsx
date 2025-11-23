@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/context/ThemeProvider";
+import { calculateDiscountedPrice } from "@/utils/commonFunction";
 
 interface Service {
   _id: string;
@@ -70,14 +71,6 @@ const selectedProduct = {
     },
   ],
   id: "69135cf83162fa4052120bc2",
-};
-
-const calculateDiscountedPrice = (price: number, discount?: Discount) => {
-  if (!discount) return { original: price, final: price, discountAmt: 0, discountLabel: "" };
-  const discountAmt = discount.type === "percent" ? (price * discount.value) / 100 : discount.value;
-  const final = price - discountAmt;
-  const discountLabel = discount.type === "percent" ? `${discount.value}% OFF` : `$${discount.value} OFF`;
-  return { original: price, final, discountAmt, discountLabel };
 };
 
 const ProductDetailsScreen = () => {

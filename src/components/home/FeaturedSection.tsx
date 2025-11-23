@@ -2,9 +2,8 @@ import { View, Text } from "react-native";
 import React, { useEffect } from "react";
 import { dispatch, useAppSelector } from "@/store";
 import ProductCardV1 from "../card/ProductCardV1";
-import { showToast } from "@/utils/commonFunction";
 import { getFeaturedProducts } from "@/services/api/productApi";
-import { setSelectedProduct } from "@/store/reducer/productReducer";
+import { setSelectedProduct, setSelectionModal } from "@/store/reducer/productReducer";
 import { navigate } from "@/utils/NavigationUtils";
 
 const FeaturedSection = () => {
@@ -28,7 +27,8 @@ const FeaturedSection = () => {
               product={product}
               key={product.id}
               onAddToCart={() => {
-                showToast({ message: "Coming soon..." });
+                dispatch(setSelectedProduct(product));
+                dispatch(setSelectionModal(true));
               }}
               onPress={(p) => {
                 dispatch(setSelectedProduct(p));

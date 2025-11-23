@@ -1,13 +1,16 @@
+import { Product } from "@/services/types/productTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CartState {
   carts: any[];
   selectedCart: any;
+  cartItems: Product[] | null;
 }
 
 const initialState: CartState = {
   carts: [],
   selectedCart: null,
+  cartItems: null,
 };
 
 const trackCartSlice = createSlice({
@@ -28,8 +31,6 @@ const trackCartSlice = createSlice({
       if (!state.carts) {
         state.carts = [];
       }
-
-      // Check if item already exists in carts
       const isAvailable = state.carts.some((item) => item._id === action?.payload?._id);
       if (!isAvailable) {
         state.carts.push(action.payload);

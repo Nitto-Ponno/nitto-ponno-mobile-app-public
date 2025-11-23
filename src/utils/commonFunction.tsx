@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-escape */
 import Toast from "react-native-toast-message";
 import { Linking, Share } from "react-native";
+import { Discount } from "@/services/types/productTypes";
 
 interface ToastOptions {
   message?: string;
@@ -146,4 +147,11 @@ export const buildQueryParams = (params: Record<string, any>): string => {
   }
 
   return parts.length > 0 ? `?${parts.join("&")}` : "";
+};
+export const calculateDiscountedPrice = (price: number, discount?: Discount) => {
+  if (!discount) return { original: price, final: price, discountAmt: 0, discountLabel: "" };
+  const discountAmt = discount.type === "percent" ? (price * discount.value) / 100 : discount.value;
+  const final = price - discountAmt;
+  const discountLabel = discount.type === "percent" ? `${discount.value}% OFF` : `$${discount.value} OFF`;
+  return { original: price, final, discountAmt, discountLabel };
 };
