@@ -22,7 +22,7 @@ const CONFIG = {
     PUBLISHABLE_KEY: "pk_live_51Rno6sR1chO4uT8zyeunmRgbY2Ne3ps7j8bRhvovyQCVtwE2BSmu4lRVhTDsOkSkJSmQvouSkqk8adO2oSlql9vi00T8SmOFZU",
     WEB_CLIENT_ID: "596070014453-t0ihbklarpuvtaqam39qj8n53l2nkhn6.apps.googleusercontent.com",
     IOS_CLIENT_ID: "596070014453-s5th5ek66v2hl4i19491kb9odmvnit1d.apps.googleusercontent.com",
-    ENDPOINT: "https://api-dev.nitto-ponno.com/api/v1",
+    ENDPOINT: "https://api-dev.nityo-ponno.com/api/v1",
     RECAPTCHA_SITE_KEY: "6LdPUK0rAAAAAKgpWjOGvb0UitIvZ0VEMk09qx05",
     FRONTEND_BASEURL: "https://www.quickskill.ai",
   },

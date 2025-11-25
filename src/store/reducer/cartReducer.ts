@@ -1,64 +1,68 @@
-import { Product } from "@/services/types/productTypes";
+import { CartItem } from "@/services/types/cartTypes";
+import { calculateItemSubtotal } from "@/utils/commonFunction";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CartState {
-  carts: any[];
-  selectedCart: any;
-  cartItems: Product[] | null;
+  cartItems: CartItem[];
+  selectedCart: string[]; // productId list
 }
 
 const initialState: CartState = {
-  carts: [],
-  selectedCart: null,
-  cartItems: null,
+  cartItems: [],
+  selectedCart: [],
 };
 
-const trackCartSlice = createSlice({
+const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    // Add item to cart
-    setCarts: (state, action: PayloadAction<any[]>) => {
-      state.carts = action.payload;
-    },
-    addToCart: (state, action: PayloadAction<any | null>) => {
-      if (!action.payload || !action?.payload?._id) {
-        console.warn("Invalid payload for addToCart:", action.payload);
-        return;
-      }
-
-      // Ensure state.carts is initialized
-      if (!state.carts) {
-        state.carts = [];
-      }
-      const isAvailable = state.carts.some((item) => item._id === action?.payload?._id);
-      if (!isAvailable) {
-        state.carts.push(action.payload);
+    addToCart: (state, action: PayloadAction<CartItem>) => {
+      const exists = state.cartItems.some((item) => item.productId === action.payload.productId);
+      if (!exists) {
+        state.cartItems.push({
+          ...action.payload,
+          subtotal: calculateItemSubtotal(action.payload),
+        });
       }
     },
 
-    // Update cart items (replace entire array)
-    updateCarts: (state, action: PayloadAction<any[]>) => {
-      state.carts = action.payload || []; // Fallback to empty array
+    updateQuantity: (state, action: PayloadAction<{ productId: string; type: "inc" | "dec" }>) => {
+      state.cartItems = state.cartItems.map((item) => {
+        if (item.productId === action.payload.productId) {
+          const qty = action.payload.type === "inc" ? item.quantity + 1 : Math.max(1, item.quantity - 1);
+
+          const updatedItem = { ...item, quantity: qty };
+          updatedItem.subtotal = calculateItemSubtotal(updatedItem);
+          return updatedItem;
+        }
+        return item;
+      });
     },
 
-    // Delete item from carts
-    deleteCartItem: (state, action: PayloadAction<{ itemId: string }>) => {
-      const { itemId } = action.payload;
-      // Ensure state.carts is initialized
-      if (!state.carts) {
-        state.carts = [];
-      }
-      state.carts = state.carts.filter((item) => item._id !== itemId);
+    removeCartItem: (state, action: PayloadAction<string>) => {
+      state.cartItems = state.cartItems.filter((i) => i.productId !== action.payload);
+      state.selectedCart = state.selectedCart.filter((id) => id !== action.payload);
     },
-    // Empty the cart
+
+    toggleSelectCartItem: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+      if (state?.selectedCart?.includes(id)) {
+        state.selectedCart = state?.selectedCart?.filter((x) => x !== id);
+      } else {
+        if (!state?.selectedCart) {
+          state.selectedCart = [];
+        }
+        state.selectedCart.push(id);
+      }
+    },
+
     emptyCart: (state) => {
-      state.carts = [];
+      state.cartItems = [];
+      state.selectedCart = [];
     },
   },
 });
 
-export const { setCarts, emptyCart, addToCart, updateCarts, deleteCartItem } = trackCartSlice.actions;
+export const { addToCart, updateQuantity, removeCartItem, toggleSelectCartItem, emptyCart } = cartSlice.actions;
 
-// Export the reducer
-export default trackCartSlice.reducer;
+export default cartSlice.reducer;

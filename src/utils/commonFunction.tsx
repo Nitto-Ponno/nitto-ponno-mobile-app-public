@@ -1,7 +1,8 @@
 /* eslint-disable no-useless-escape */
 import Toast from "react-native-toast-message";
 import { Linking, Share } from "react-native";
-import { Discount } from "@/services/types/productTypes";
+import { Discount, Variation } from "@/services/types/productTypes";
+import { CartItem } from "@/services/types/cartTypes";
 
 interface ToastOptions {
   message?: string;
@@ -154,4 +155,29 @@ export const calculateDiscountedPrice = (price: number, discount?: Discount) => 
   const final = price - discountAmt;
   const discountLabel = discount.type === "percent" ? `${discount.value}% OFF` : `$${discount.value} OFF`;
   return { original: price, final, discountAmt, discountLabel };
+};
+
+export const calculateVariationPrice = (variation: Variation) => {
+  const base = variation.price;
+
+  if (!variation.discount) return base;
+
+  if (variation.discount.type === "percent") {
+    return base - base * (variation.discount.value / 100);
+  }
+
+  if (variation.discount.type === "flat") {
+    return base - variation.discount.value;
+  }
+
+  return base;
+};
+
+export const calculateItemSubtotal = (item: CartItem) => {
+  // if product has multiple variations → sum all
+  const priceSum = item.variations.reduce((sum, v) => {
+    return sum + calculateVariationPrice(v);
+  }, 0);
+
+  return priceSum * item.quantity;
 };

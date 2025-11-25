@@ -17,8 +17,6 @@ export const ProductCardV1: React.FC<ProductCardV1Props> = ({ product, onPress, 
       : `৳${product?.discount?.value} OFF`
     : null;
 
-  const formatPrice = (price: number) => `৳${price.toLocaleString()}`;
-
   const availableVariations = product.variations.filter((v) => v.isAvailable);
   const hasVariations = availableVariations.length > 0;
 
@@ -107,7 +105,7 @@ export const ProductCardV1: React.FC<ProductCardV1Props> = ({ product, onPress, 
           className={`mt-3 h-12  justify-center rounded-xl items-center ${hasVariations ? "bg-primary" : "bg-gray-400"}`}
           disabled={!hasVariations}
           onPress={() => onAddToCart?.(product)}
-          activeOpacity={0.8}
+          // activeOpacity={0.8}
         >
           <Text className={`font-bold text-lg ${hasVariations ? "text-white" : "text-gray-500"}`}>
             {hasVariations ? "Add to Cart" : "Unavailable"}

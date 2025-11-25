@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Nitto Ponno",
-    "slug": "nittoponno",
+    "name": "Nityo Ponno",
+    "slug": "nityoponno",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/splash.png",
@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.shuvajitmaitra.nittoponno"
+      "bundleIdentifier": "com.shuvajitmaitra.nityoponno"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,8 +19,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.shuvajitmaitra.nittoponno",
-      "appName": "Nitto Ponno",
+      "package": "com.shuvajitmaitra.nityoponno",
+      "appName": "Nityo Ponno",
       "softwareKeyboardLayoutMode": "pan"
     },
     "web": {

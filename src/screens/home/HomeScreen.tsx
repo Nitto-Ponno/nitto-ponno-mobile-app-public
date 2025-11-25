@@ -125,7 +125,7 @@ export default function HomeScreen() {
 //   return (
 //     <GContainer safe={true} centered={true}>
 //       <NText style={{ color: Colors.primary }} className="text-xl font-FFRegular ">
-//         Welcome to Nitto Ponno!
+//         Welcome to Nityo Ponno!
 //       </NText>
 //       <TouchableOpacity
 //         className="bg-foreground h-14 flex-row   justify-center items-center px-4 rounded-full"

@@ -136,7 +136,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
             <View className="w-16 h-16 bg-primary rounded-full items-center justify-center mb-4">
               <ShoppingBag size={32} color={Colors.heading} strokeWidth={2} />
             </View>
-            <Text className="text-heading text-2xl font-bold mb-2">Welcome to Nitto Ponno</Text>
+            <Text className="text-heading text-2xl font-bold mb-2">Welcome to Nityo Ponno</Text>
             <Text className="text-body text-base leading-relaxed mb-6">
               Sign in to track orders, save favorites, and enjoy a personalized shopping experience
             </Text>

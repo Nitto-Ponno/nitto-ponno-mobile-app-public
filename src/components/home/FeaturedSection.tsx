@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import { dispatch, useAppSelector } from "@/store";
 import ProductCardV1 from "../card/ProductCardV1";
 import { getFeaturedProducts } from "@/services/api/productApi";
-import { setSelectedProduct, setSelectionModal } from "@/store/reducer/productReducer";
 import { navigate } from "@/utils/NavigationUtils";
+import { setSelectedProduct, setSelectionModal } from "@/store/reducer/productReducer";
 
 const FeaturedSection = () => {
   const { products } = useAppSelector((state) => state.product);

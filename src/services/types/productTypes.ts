@@ -10,19 +10,31 @@ export interface AttributeValue {
   optionId: string;
 }
 
+// export interface Variation {
+//   serviceId: {
+//     _id: string;
+//     name: string;
+//     id: string;
+//   };
+//   price: number;
+//   discount?: Discount;
+//   sku: string;
+//   isAvailable: boolean;
+//   _id: string;
+//   createdAt: string;
+//   updatedAt: string;
+// }
+export interface Service {
+  _id: string;
+  name: string;
+}
+
 export interface Variation {
-  serviceId: {
-    _id: string;
-    name: string;
-    id: string;
-  };
+  serviceId: { _id: string; name: string };
   price: number;
   discount?: Discount;
-  sku: string;
   isAvailable: boolean;
   _id: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface Product {
