@@ -109,6 +109,19 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
     setQuantity((prev) => Math.max(1, prev + delta));
   };
 
+  // let cartItem = {
+  //   productId: selectedProduct?.id,
+  //   productName: selectedProduct?.name,
+  //   services: selectedVariations.map((v: Variation) => ({
+  //     serviceId: v.serviceId._id,
+  //     serviceName: v.serviceId.name,
+  //     variationId: v._id,
+  //     unitPrice: calculateDiscountedPrice(v.price, v.discount).final,
+  //   })),
+  //   attributeValues: selectedAttributes,
+  //   quantity,
+  //   totalPrice: orderSummary.finalTotal,
+  // };
   const handleAddToCart = () => {
     if (selectedServiceIds.length === 0) return;
 
@@ -122,20 +135,6 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
       attributeValues: selectedAttributes,
       subtotal: orderSummary.finalTotal,
     };
-
-    // let cartItem = {
-    //   productId: selectedProduct?.id,
-    //   productName: selectedProduct?.name,
-    //   services: selectedVariations.map((v: Variation) => ({
-    //     serviceId: v.serviceId._id,
-    //     serviceName: v.serviceId.name,
-    //     variationId: v._id,
-    //     unitPrice: calculateDiscountedPrice(v.price, v.discount).final,
-    //   })),
-    //   attributeValues: selectedAttributes,
-    //   quantity,
-    //   totalPrice: orderSummary.finalTotal,
-    // };
 
     items && dispatch(addToCart(items as CartItem));
     closeModal && closeModal();

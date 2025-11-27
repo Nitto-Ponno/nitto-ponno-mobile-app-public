@@ -11,10 +11,12 @@ const CartScreen = () => {
   const { cartItems, selectedCart } = useAppSelector((state) => state.cart);
 
   const calculateTotal = () => {
-    return cartItems
-      .filter((item) => selectedCart?.includes(item?.productId))
-      .reduce((sum, item) => sum + item.subtotal, 0)
-      .toFixed(2);
+    return (
+      cartItems
+        // .filter((item) => selectedCart?.includes(item?.productId))
+        .reduce((sum, item) => sum + item.subtotal, 0)
+        .toFixed(2)
+    );
   };
 
   const renderItem = ({ item }: { item: CartItem }) => {
@@ -30,11 +32,12 @@ const CartScreen = () => {
 
         {/* Attributes */}
         <View className="ml-7 mb-2">
-          {item.attributeValues.map((a) => (
-            <Text key={a.attributeId} className="text-gray-500 text-sm">
-              {a.attributeName}: {a.optionId}
-            </Text>
-          ))}
+          {item.attributeValues &&
+            item.attributeValues.map((a) => (
+              <Text key={a.attributeId} className="text-gray-500 text-sm">
+                {a.attributeName}: {a.optionId}
+              </Text>
+            ))}
         </View>
 
         {/* Variation List */}
@@ -98,7 +101,7 @@ const CartScreen = () => {
 
       <FlatList
         data={cartItems}
-        keyExtractor={(item) => item.productId}
+        keyExtractor={() => Math.random().toString()}
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: 120 }}
       />

@@ -17,12 +17,25 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
-      const exists = state.cartItems.some((item) => item.productId === action.payload.productId);
-      if (!exists) {
+      console.log("action.payload", JSON.stringify(action.payload, null, 2));
+      const exists = state.cartItems.find((item) => item.productId === action.payload.productId);
+      const p1 = exists?.productId ? exists : null;
+      const check = checkExistence(p1, action.payload);
+      console.log("check", JSON.stringify(check, null, 2));
+      if (check === "ADD_NEW") {
         state.cartItems.push({
           ...action.payload,
           subtotal: calculateItemSubtotal(action.payload),
         });
+      }
+      if (check === "UPDATE") {
+        const idx = state.cartItems.findIndex((i) => i.productId === action.payload.productId);
+        const item = state.cartItems[idx];
+        state.cartItems[idx] = {
+          ...item,
+          quantity: item.quantity + action.payload.quantity,
+          subtotal: item.subtotal + action.payload.subtotal,
+        };
       }
     },
 
@@ -66,3 +79,17 @@ const cartSlice = createSlice({
 export const { addToCart, updateQuantity, removeCartItem, toggleSelectCartItem, emptyCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
+
+export const checkExistence = (p1: CartItem | null, p2: CartItem) => {
+  if (Boolean(!p1)) {
+    return "ADD_NEW";
+  }
+  if (
+    JSON.stringify(p1?.variations) === JSON.stringify(p2.variations) &&
+    p1?.productId === p2.productId &&
+    JSON.stringify(p1.attributeValues) === JSON.stringify(p2.attributeValues)
+  ) {
+    return "UPDATE";
+  }
+  return "ADD_NEW";
+};
