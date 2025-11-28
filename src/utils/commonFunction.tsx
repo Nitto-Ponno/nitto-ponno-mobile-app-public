@@ -181,3 +181,9 @@ export const calculateItemSubtotal = (item: CartItem) => {
 
   return priceSum * item.quantity;
 };
+
+export const generateSimpleUniqueId = () => {
+  const timestamp = Date.now().toString(36); // Convert timestamp to base 36
+  const randomness = Math.random().toString(36).substring(2); // Get random part
+  return `${timestamp}${randomness}`;
+};

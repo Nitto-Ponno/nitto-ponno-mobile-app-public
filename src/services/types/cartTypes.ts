@@ -30,4 +30,5 @@ export interface CartItem {
   quantity: number;
   attributeValues: AttributeValue[];
   subtotal: number;
+  cartId: string;
 }

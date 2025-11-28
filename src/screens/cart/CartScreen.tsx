@@ -11,26 +11,22 @@ const CartScreen = () => {
   const { cartItems, selectedCart } = useAppSelector((state) => state.cart);
 
   const calculateTotal = () => {
-    return (
-      cartItems
-        // .filter((item) => selectedCart?.includes(item?.productId))
-        .reduce((sum, item) => sum + item.subtotal, 0)
-        .toFixed(2)
-    );
+    return cartItems
+      .filter((item) => selectedCart?.includes(item?.cartId))
+      .reduce((sum, item) => sum + item.subtotal, 0)
+      .toFixed(2);
   };
 
   const renderItem = ({ item }: { item: CartItem }) => {
-    const isSelected = selectedCart?.includes(item.productId);
+    const isSelected = selectedCart?.includes(item.cartId);
 
     return (
       <View className="bg-white p-4 mb-3 rounded-xl shadow-sm border border-gray-200">
-        {/* Select Checkbox */}
-        <TouchableOpacity onPress={() => dispatch(toggleSelectCartItem(item.productId))} className="flex-row items-center mb-2">
+        <TouchableOpacity onPress={() => dispatch(toggleSelectCartItem(item.cartId))} className="flex-row items-center mb-2">
           <View className={`w-5 h-5 rounded-full border mr-2 ${isSelected ? "bg-primary border-primary" : "border-gray-400"}`} />
           <Text className="font-semibold">{item.productName}</Text>
         </TouchableOpacity>
 
-        {/* Attributes */}
         <View className="ml-7 mb-2">
           {item.attributeValues &&
             item.attributeValues.map((a) => (
@@ -67,7 +63,7 @@ const CartScreen = () => {
         <View className="flex-row items-center justify-between mt-4">
           <View className="flex-row items-center">
             <TouchableOpacity
-              onPress={() => dispatch(updateQuantity({ productId: item.productId, type: "dec" }))}
+              onPress={() => dispatch(updateQuantity({ cartId: item.cartId, type: "dec" }))}
               className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center"
             >
               <Text className="text-lg">-</Text>
@@ -76,7 +72,7 @@ const CartScreen = () => {
             <Text className="mx-4 text-lg font-semibold">{item.quantity}</Text>
 
             <TouchableOpacity
-              onPress={() => dispatch(updateQuantity({ productId: item.productId, type: "inc" }))}
+              onPress={() => dispatch(updateQuantity({ cartId: item.cartId, type: "inc" }))}
               className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center"
             >
               <Text className="text-lg">+</Text>
@@ -84,7 +80,7 @@ const CartScreen = () => {
           </View>
 
           {/* Remove */}
-          <TouchableOpacity onPress={() => dispatch(removeCartItem(item.productId))} className="px-3 py-1 bg-red-100 rounded-lg">
+          <TouchableOpacity onPress={() => dispatch(removeCartItem(item.cartId))} className="px-3 py-1 bg-red-100 rounded-lg">
             <Text className="text-red-600 font-semibold">Remove</Text>
           </TouchableOpacity>
         </View>

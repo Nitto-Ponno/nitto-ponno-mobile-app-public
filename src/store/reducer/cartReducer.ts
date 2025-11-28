@@ -1,10 +1,10 @@
 import { CartItem } from "@/services/types/cartTypes";
-import { calculateItemSubtotal } from "@/utils/commonFunction";
+import { calculateItemSubtotal, generateSimpleUniqueId } from "@/utils/commonFunction";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CartState {
   cartItems: CartItem[];
-  selectedCart: string[]; // productId list
+  selectedCart: string[];
 }
 
 const initialState: CartState = {
@@ -17,15 +17,14 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
-      console.log("action.payload", JSON.stringify(action.payload, null, 2));
       const exists = state.cartItems.find((item) => item.productId === action.payload.productId);
       const p1 = exists?.productId ? exists : null;
       const check = checkExistence(p1, action.payload);
-      console.log("check", JSON.stringify(check, null, 2));
       if (check === "ADD_NEW") {
         state.cartItems.push({
           ...action.payload,
           subtotal: calculateItemSubtotal(action.payload),
+          cartId: generateSimpleUniqueId(),
         });
       }
       if (check === "UPDATE") {
@@ -39,11 +38,10 @@ const cartSlice = createSlice({
       }
     },
 
-    updateQuantity: (state, action: PayloadAction<{ productId: string; type: "inc" | "dec" }>) => {
+    updateQuantity: (state, action: PayloadAction<{ cartId: string; type: "inc" | "dec" }>) => {
       state.cartItems = state.cartItems.map((item) => {
-        if (item.productId === action.payload.productId) {
+        if (item.cartId === action.payload.cartId) {
           const qty = action.payload.type === "inc" ? item.quantity + 1 : Math.max(1, item.quantity - 1);
-
           const updatedItem = { ...item, quantity: qty };
           updatedItem.subtotal = calculateItemSubtotal(updatedItem);
           return updatedItem;
@@ -53,7 +51,7 @@ const cartSlice = createSlice({
     },
 
     removeCartItem: (state, action: PayloadAction<string>) => {
-      state.cartItems = state.cartItems.filter((i) => i.productId !== action.payload);
+      state.cartItems = state.cartItems.filter((i) => i.cartId !== action.payload);
       state.selectedCart = state.selectedCart.filter((id) => id !== action.payload);
     },
 
