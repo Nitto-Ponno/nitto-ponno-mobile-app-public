@@ -9,6 +9,7 @@ import SetNewPasswordScreen from "@/screens/auth/SetNewPasswordScreen";
 import ChangePasswordScreen from "@/screens/auth/ChangePasswordScreen";
 import { useAppSelector } from "@/store";
 import ProductDetailsScreen from "@/screens/product/ProductDetailsScreen";
+import CheckoutScreen from "@/screens/cart/CheckoutScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -21,6 +22,7 @@ const AppStack = () => {
         <>
           <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
           <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+          <Stack.Screen name="Checkout" component={CheckoutScreen} />
         </>
       ) : (
         <>
@@ -56,4 +58,5 @@ export type RootStackParamList = {
   SetNewPassword: undefined;
   ChangePassword: undefined;
   Auth: undefined;
+  Checkout: undefined;
 };

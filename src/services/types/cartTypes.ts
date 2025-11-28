@@ -32,3 +32,15 @@ export interface CartItem {
   subtotal: number;
   cartId: string;
 }
+
+export interface AddressPayload {
+  pickupAddress: {
+    fullAddress: string;
+    apartment?: string;
+  };
+  deliveryAddress: {
+    fullAddress: string;
+    apartment?: string;
+    sameAsPickup: boolean;
+  };
+}

@@ -6,6 +6,7 @@ import { removeCartItem, toggleSelectCartItem, updateQuantity } from "@/store/re
 import EmptyCart from "@/components/cart/EmptyCart";
 import CartItemCard from "@/components/cart/CartItemCard";
 import OrderSummary from "@/components/cart/OrderSummary";
+import { navigate } from "@/utils/NavigationUtils";
 
 const CartScreen = () => {
   const dispatch = useAppDispatch();
@@ -19,8 +20,7 @@ const CartScreen = () => {
   };
 
   const handleCheckout = () => {
-    // Add checkout logic here
-    console.log("Proceeding to checkout");
+    navigate("Checkout");
   };
 
   return (

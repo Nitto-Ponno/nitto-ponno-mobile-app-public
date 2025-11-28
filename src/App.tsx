@@ -11,11 +11,11 @@ import Splash from "@/components/global/Splash";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "./utils/ToastConfig";
 import { KeyboardAvoiderProvider } from "@good-react-native/keyboard-avoider";
-// Keep splash screen until we hide it manually
+import NStatusBar from "./components/global/NStatusBar";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  const [] = useFonts({
     Thin: require("./assets/fonts/Roboto-Thin.ttf"),
     Light: require("./assets/fonts/Roboto-Light.ttf"),
     Regular: require("./assets/fonts/Roboto-Regular.ttf"),
@@ -38,6 +38,7 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={<Splash />} persistor={persistor}>
           <ThemeProvider>
+            <NStatusBar />
             <Navigation />
             <Toast config={toastConfig} />
           </ThemeProvider>

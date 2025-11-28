@@ -1,15 +1,17 @@
-import { CartItem } from "@/services/types/cartTypes";
+import { AddressPayload, CartItem } from "@/services/types/cartTypes";
 import { calculateItemSubtotal, generateSimpleUniqueId } from "@/utils/commonFunction";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CartState {
   cartItems: CartItem[];
   selectedCart: string[];
+  addresses: AddressPayload | null;
 }
 
 const initialState: CartState = {
   cartItems: [],
   selectedCart: [],
+  addresses: null,
 };
 
 const cartSlice = createSlice({
@@ -66,6 +68,9 @@ const cartSlice = createSlice({
         state.selectedCart.push(id);
       }
     },
+    setAddress: (state, action: PayloadAction<AddressPayload>) => {
+      state.addresses = action.payload;
+    },
 
     emptyCart: (state) => {
       state.cartItems = [];
@@ -74,7 +79,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, updateQuantity, removeCartItem, toggleSelectCartItem, emptyCart } = cartSlice.actions;
+export const { setAddress, addToCart, updateQuantity, removeCartItem, toggleSelectCartItem, emptyCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
 
