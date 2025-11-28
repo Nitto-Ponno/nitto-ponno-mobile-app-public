@@ -13,25 +13,25 @@ type ToastProps = {
 };
 
 export const toastConfig = {
-  alertToast: ({
-    text1 = "No toast message available",
-    props = {
-      background: "#666666",
-      color: "white",
-      type: "default",
-    } as ToastProps,
-  }: {
-    text1?: string;
-    props?: ToastProps;
-  }) => {
-    return (
-      <View style={{ height: screenHeight, backgroundColor: "transparent", width: "100%", justifyContent: "center", alignItems: "center" }}>
-        <View>
-          <NText>This will be an alert</NText>
-        </View>
-      </View>
-    );
-  },
+  // alertToast: ({
+  //   text1 = "No toast message available",
+  //   props = {
+  //     background: "#666666",
+  //     color: "white",
+  //     type: "default",
+  //   } as ToastProps,
+  // }: {
+  //   text1?: string;
+  //   props?: ToastProps;
+  // }) => {
+  //   return (
+  //     <View style={{ height: screenHeight, backgroundColor: "transparent", width: "100%", justifyContent: "center", alignItems: "center" }}>
+  //       <View>
+  //         <NText>This will be an alert</NText>
+  //       </View>
+  //     </View>
+  //   );
+  // },
   tomatoToast: ({
     text1 = "No toast message available",
     props = {
@@ -50,12 +50,12 @@ export const toastConfig = {
             props.type === "success"
               ? "#3bb068"
               : props.type === "warning"
-              ? "#E7931C"
-              : props.type === "error"
-              ? "#DA4B43"
-              : props.type === "default"
-              ? "#666666"
-              : props.background,
+                ? "#E7931C"
+                : props.type === "error"
+                  ? "#DA4B43"
+                  : props.type === "default"
+                    ? "#666666"
+                    : props.background,
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 100,

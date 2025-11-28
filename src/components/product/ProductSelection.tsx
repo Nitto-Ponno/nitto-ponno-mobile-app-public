@@ -1,7 +1,7 @@
 import { View, Pressable, ScrollView } from "react-native";
 import React, { useMemo, useState } from "react";
 import { AttributeValue, Service, Variation } from "@/services/types/productTypes";
-import { calculateDiscountedPrice } from "@/utils/commonFunction";
+import { calculateDiscountedPrice, showToast } from "@/utils/commonFunction";
 import NText from "../global/NText";
 import { Ionicons } from "@expo/vector-icons";
 import { cn } from "@/utils/cn";
@@ -138,6 +138,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
 
     items && dispatch(addToCart(items as CartItem));
     closeModal && closeModal();
+    showToast({ message: "Add to cart successfully", type: "success" });
   };
   return (
     <View className="flex-1">
