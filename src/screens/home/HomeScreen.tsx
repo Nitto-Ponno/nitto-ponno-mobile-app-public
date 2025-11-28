@@ -128,7 +128,7 @@ export default function HomeScreen() {
 //         Welcome to Nityo Ponno!
 //       </NText>
 //       <TouchableOpacity
-//         className="bg-foreground h-14 flex-row   justify-center items-center px-4 rounded-full"
+//         className="bg-surface h-14 flex-row   justify-center items-center px-4 rounded-full"
 //         onPress={() => {
 //           toggleTheme();
 //         }}
@@ -314,7 +314,7 @@ const SearchBar = ({ onSearch }: { onSearch?: () => void }) => {
     <View className="px-4 py-3 ">
       <Pressable
         onPress={onSearch}
-        className="flex-row border border-border items-center bg-foreground rounded-xl px-4 py-3 gap-3"
+        className="flex-row border border-outline items-center bg-surface rounded-xl px-4 py-3 gap-3"
         accessibilityRole="search"
         accessibilityLabel="Search products"
       >
@@ -342,7 +342,7 @@ const CategoryChips = ({ categories, activeId, onSelect }: { categories: any; ac
               key={category.id}
               onPress={() => onSelect(category.id)}
               className={`flex-row items-center gap-2 px-4 py-2 rounded-full ${
-                isActive ? "bg-primary" : "bg-foreground border border-border"
+                isActive ? "bg-primary" : "bg-surface border border-outline"
               }`}
               accessibilityRole="button"
               accessibilityLabel={`Category ${category.label}`}
@@ -375,12 +375,12 @@ const PromoCarousel = ({ promos }: { promos: any }) => {
         {promos.map((promo: any) => (
           <Pressable
             key={promo.id}
-            className="w-[340px] bg-red-500 border border-border min-h-36 rounded-2xl overflow-hidden"
+            className="w-[340px] bg-red-500 border border-outline min-h-36 rounded-2xl overflow-hidden"
             accessibilityRole="button"
             accessibilityLabel={`Promo: ${promo.title}`}
           >
             <Image source={require("../../assets/images/icon.jpg")} className="w-10 h-10" resizeMode="cover" />
-            <View className="absolute bg-foreground inset-0 p-6 justify-end">
+            <View className="absolute bg-surface inset-0 p-6 justify-end">
               <View className="bg-secondary px-3 py-1 rounded-full self-start mb-2">
                 <Text className="text-xs font-bold text-gray-700">{promo.description}</Text>
               </View>
@@ -437,7 +437,7 @@ const ProductCard = ({
 
   return (
     <Pressable
-      className={`${containerClass} bg-foreground rounded-2xl overflow-hidden border border-border`}
+      className={`${containerClass} bg-surface rounded-2xl overflow-hidden border border-outline`}
       accessibilityRole="button"
       accessibilityLabel={`Product: ${product.name}`}
     >

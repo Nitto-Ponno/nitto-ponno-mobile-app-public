@@ -57,7 +57,7 @@ const selectedProduct = {
 const ProductDetailsScreen = () => {
   if (!selectedProduct) {
     return (
-      <View className="flex-1 items-center justify-center bg-foreground">
+      <View className="flex-1 items-center justify-center bg-surface">
         <Ionicons name="alert-circle-outline" size={48} color="#9CA3AF" />
         <Text className="mt-4 text-gray-500">Product not found</Text>
       </View>
@@ -67,7 +67,7 @@ const ProductDetailsScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-background px-4 gap-4">
       {/* Header */}
-      <View className=" pb-4 flex-row items-center border-b border-border">
+      <View className=" pb-4 flex-row items-center border-b border-outline">
         <Pressable onPress={() => goBack()} className="w-10 h-10 items-center justify-center rounded-full bg-gray-100">
           <Ionicons name="arrow-back" size={24} color="#374151" />
         </Pressable>

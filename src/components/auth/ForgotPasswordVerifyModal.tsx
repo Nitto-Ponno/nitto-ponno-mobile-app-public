@@ -106,7 +106,7 @@ const ForgotPasswordVerifyModal: React.FC<ForgotPasswordVerifyModalProps> = ({ v
 
           <View className="bg-white rounded-t-3xl shadow-2xl overflow-hidden max-h-[85%]">
             {/* Header */}
-            <View className="px-6 pt-6 pb-4 border-b border-gray-200">
+            <View className="px-6 pt-6 pb-4 border-b border-outline">
               <View className="flex-row items-center justify-between">
                 <View className="flex-1">
                   <Text className="text-2xl font-bold text-gray-900">{step === 1 ? "Verify Code" : "Reset Password"}</Text>

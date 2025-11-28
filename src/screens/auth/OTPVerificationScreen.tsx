@@ -130,7 +130,7 @@ const OTPVerificationScreen = () => {
         {/* OTP Input Fields */}
         <View className="mb-8">
           <NText className="text-heading text-base mb-4 font-medium text-center">Verification Code</NText>
-          <View className="bg-foreground border border-border rounded-lg h-14 ">
+          <View className="bg-surface border border-outline rounded-lg h-14 ">
             <TextInput
               keyboardType={"number-pad"}
               maxLength={6}

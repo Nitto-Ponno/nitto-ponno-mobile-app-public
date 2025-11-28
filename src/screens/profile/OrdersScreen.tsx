@@ -131,7 +131,7 @@ const OrdersScreen: React.FC<OrdersScreenProps> = ({
               key={filter.id}
               onPress={() => setSelectedFilter(filter.id)}
               className={`px-5 py-2.5 rounded-full border ${
-                selectedFilter === filter.id ? "bg-primary border-border" : "bg-transparent border-neutral-800"
+                selectedFilter === filter.id ? "bg-primary border-outline" : "bg-transparent border-neutral-800"
               }`}
             >
               <Text className={`text-sm font-medium ${selectedFilter === filter.id ? "text-white" : "text-gray-400"}`}>{filter.label}</Text>
@@ -174,10 +174,10 @@ const OrdersScreen: React.FC<OrdersScreenProps> = ({
                             order.status === "delivered"
                               ? "#10b981"
                               : order.status === "processing"
-                              ? "#6366f1"
-                              : order.status === "shipped"
-                              ? "#3b82f6"
-                              : "#ef4444"
+                                ? "#6366f1"
+                                : order.status === "shipped"
+                                  ? "#3b82f6"
+                                  : "#ef4444"
                           }
                         />
                         <Text className={`text-xs font-semibold capitalize ${getStatusColor(order.status)}`}>{order.status}</Text>

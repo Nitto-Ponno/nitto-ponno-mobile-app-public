@@ -3,9 +3,9 @@ import React, { useEffect } from "react";
 import { View, TouchableOpacity, Text, Platform, Dimensions, Vibration } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming, runOnJS } from "react-native-reanimated";
-import { useTheme } from "../context/ThemeProvider";
 import { gGap } from "@/utils/Sizes";
 import { Home, LayoutGrid, ShoppingCart, User } from "lucide-react-native";
+import { Colors } from "@/context/ThemeProvider";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -15,14 +15,7 @@ interface TabIconProps {
 }
 
 const TabIcon: React.FC<TabIconProps> = ({ routeName, isFocused }) => {
-  const { theme, Colors } = useTheme();
-  const iconColor = isFocused
-    ? theme === "dark"
-      ? Colors.dark.primary
-      : Colors.light.primary
-    : theme === "dark"
-    ? Colors.dark.heading
-    : Colors.light.heading; // orange-500 : gray-400
+  const iconColor = isFocused ? Colors.primary : Colors.heading;
   const contentColor = isFocused ? "#FFFFFF" : "#4B5563"; // white : gray-600
   const getIconContent = () => {
     switch (routeName) {
@@ -87,13 +80,7 @@ const TabIcon: React.FC<TabIconProps> = ({ routeName, isFocused }) => {
         className="font-okra font-semibold"
         style={{
           fontSize: 10,
-          color: isFocused
-            ? theme === "dark"
-              ? Colors.dark.primary
-              : Colors.light.primary
-            : theme === "dark"
-            ? Colors.dark.heading
-            : Colors.light.heading, // orange-500 : gray-500
+          color: iconColor,
         }}
       >
         {getTabLabel()}
@@ -106,8 +93,6 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
   const tabWidth = screenWidth / state.routes.length;
   const indicatorPosition = useSharedValue(0);
   const indicatorOpacity = useSharedValue(0);
-
-  const { theme, Colors } = useTheme();
 
   useEffect(() => {
     // Animate indicator position
@@ -139,7 +124,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
         flexDirection: "row",
         paddingBottom: Platform.OS === "ios" ? gGap(20) : gGap(10),
         paddingTop: gGap(5),
-        shadowColor: theme === "dark" ? Colors.dark.foreground : Colors.light.foreground,
+        shadowColor: Colors.surface,
         shadowOffset: {
           width: 0,
           height: 2,
@@ -149,7 +134,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
 
         elevation: 5,
         borderTopWidth: 1,
-        borderTopColor: theme === "dark" ? Colors.dark.border : Colors.light.border,
+        borderTopColor: Colors.outline,
       }}
     >
       {/* Animated Indicator */}
@@ -162,7 +147,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
             width: tabWidth * 0.6,
             marginLeft: tabWidth * 0.2,
             height: 3,
-            backgroundColor: theme === "dark" ? Colors.dark.primary : Colors.light.primary, // orange-500
+            backgroundColor: Colors.primary,
             borderRadius: 1.5,
           },
         ]}

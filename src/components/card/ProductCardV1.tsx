@@ -22,7 +22,7 @@ export const ProductCardV1: React.FC<ProductCardV1Props> = ({ product, onPress, 
 
   return (
     <TouchableOpacity
-      className="bg-card rounded-3xl border border-border  overflow-hidden"
+      className="bg-card rounded-3xl border border-outline  overflow-hidden"
       activeOpacity={0.7}
       onPress={() => onPress?.(product)}
     >

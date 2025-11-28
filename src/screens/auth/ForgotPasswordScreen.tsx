@@ -69,7 +69,7 @@ const ForgotPasswordScreen = () => {
           <View className="flex-row gap-4">
             <TouchableOpacity
               className={`flex-1 py-3 px-4 rounded-lg border ${
-                selectedMethod === "email" ? "bg-foreground border-green-500" : "border-border"
+                selectedMethod === "email" ? "bg-surface border-green-500" : "border-outline"
               }`}
               onPress={() => handleMethodChange("email")}
             >
@@ -81,7 +81,7 @@ const ForgotPasswordScreen = () => {
 
             <TouchableOpacity
               className={`flex-1 py-3 px-4 rounded-lg border ${
-                selectedMethod === "phoneNumber" ? "bg-foreground border-green-500" : " border-border"
+                selectedMethod === "phoneNumber" ? "bg-surface border-green-500" : " border-outline"
               }`}
               onPress={() => handleMethodChange("phoneNumber")}
             >

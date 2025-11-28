@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     width: "60%",
     minHeight: 200,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Colors.outline,
     gap: 10,
   },
   text: {

@@ -200,7 +200,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ flowType = 
               <View className="relative">
                 <TextInput
                   className={`border rounded-lg px-4 py-4 pl-12 text-base bg-gray-50 ${
-                    errors.currentPassword ? "border-red-500" : "border-gray-200"
+                    errors.currentPassword ? "border-red-500" : "border-outline"
                   }`}
                   placeholder="Enter current password"
                   value={currentPassword}
@@ -230,7 +230,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ flowType = 
             <View className="relative">
               <TextInput
                 className={`border rounded-lg px-4 py-4 pl-12 text-base bg-gray-50 ${
-                  errors.newPassword ? "border-red-500" : "border-gray-200"
+                  errors.newPassword ? "border-red-500" : "border-outline"
                 }`}
                 placeholder="Enter new password"
                 value={newPassword}
@@ -278,7 +278,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ flowType = 
             <View className="relative">
               <TextInput
                 className={`border rounded-lg px-4 py-4 pl-12 text-base bg-gray-50 ${
-                  errors.confirmPassword ? "border-red-500" : "border-gray-200"
+                  errors.confirmPassword ? "border-red-500" : "border-outline"
                 }`}
                 placeholder="Confirm new password"
                 value={confirmPassword}

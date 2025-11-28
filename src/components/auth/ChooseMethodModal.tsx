@@ -126,7 +126,7 @@ const ChooseMethodModal = () => {
                 onPress={() => handleOnSelect("email")}
                 activeOpacity={0.7}
                 className={`flex-row items-center justify-between p-5 rounded-2xl border-2 ${
-                  isEmailSelected ? "border-primary bg-primary/5" : "border-gray-200 bg-gray-50"
+                  isEmailSelected ? "border-primary bg-primary/5" : "border-outline bg-gray-50"
                 }`}
               >
                 <View className="flex-row items-center gap-4">
@@ -151,7 +151,7 @@ const ChooseMethodModal = () => {
                 activeOpacity={0.7}
                 disabled={!authInfo?.phoneNumber}
                 className={`flex-row items-center justify-between p-5 rounded-2xl border-2 ${
-                  isPhoneSelected ? "border-primary bg-primary/5" : "border-gray-200 bg-gray-50"
+                  isPhoneSelected ? "border-primary bg-primary/5" : "border-outline bg-gray-50"
                 }`}
               >
                 <View className="flex-row items-center gap-4">

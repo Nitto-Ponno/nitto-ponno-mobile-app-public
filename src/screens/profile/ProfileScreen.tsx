@@ -93,7 +93,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   }) => (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center bg-foreground border border-border p-4 rounded-xl mb-3 active:opacity-80"
+      className="flex-row items-center bg-surface border border-outline p-4 rounded-xl mb-3 active:opacity-80"
     >
       <View className="w-10 h-10 rounded-full bg-background items-center justify-center mr-4">
         <Icon size={20} color={iconColor} strokeWidth={2} />
@@ -112,7 +112,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   );
 
   const StatCard = ({ icon: Icon, value, label, iconColor }: { icon: any; value: string | number; label: string; iconColor: string }) => (
-    <View className="flex-1 bg-foreground border border-border p-4 rounded-xl items-center">
+    <View className="flex-1 bg-surface border border-outline p-4 rounded-xl items-center">
       <View className="w-12 h-12 rounded-full items-center justify-center mb-2" style={{ backgroundColor: `${iconColor}20` }}>
         <Icon size={24} color={iconColor} strokeWidth={2} />
       </View>
@@ -132,7 +132,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
           </View>
 
           {/* Welcome Card */}
-          <View className="bg-foreground border border-border p-6 rounded-2xl mb-6">
+          <View className="bg-surface border border-outline p-6 rounded-2xl mb-6">
             <View className="w-16 h-16 bg-primary rounded-full items-center justify-center mb-4">
               <ShoppingBag size={32} color={Colors.heading} strokeWidth={2} />
             </View>
@@ -144,7 +144,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
               <TouchableOpacity onPress={() => navigate("Signin")} className="flex-1 bg-primary py-3.5 rounded-xl active:opacity-80">
                 <Text className="text-heading text-center font-bold text-base">Sign In</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={onSignUp} className="flex-1 bg-secondary py-3.5 rounded-xl border border-border active:opacity-80">
+              <TouchableOpacity
+                onPress={onSignUp}
+                className="flex-1 bg-secondary py-3.5 rounded-xl border border-outline active:opacity-80"
+              >
                 <Text className="text-gray-800 text-center font-bold text-base">Sign Up</Text>
               </TouchableOpacity>
             </View>
@@ -177,7 +180,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         </View>
 
         {/* Profile Card */}
-        <View className="bg-foreground p-5 rounded-2xl mb-6">
+        <View className="bg-surface p-5 rounded-2xl mb-6">
           <View className="flex-row items-center mb-4">
             <Image source={Images.LOGO} className="w-20 h-20 rounded-full mr-4" />
             <View className="flex-1">
@@ -273,7 +276,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
             dispatch(setUser(null));
           }}
-          className="bg-foreground border border-border p-4 rounded-xl mb-8 flex-row items-center justify-center active:opacity-80"
+          className="bg-surface border border-outline p-4 rounded-xl mb-8 flex-row items-center justify-center active:opacity-80"
         >
           <LogOut size={20} color="#ef4444" strokeWidth={2} />
           <Text className="text-[#ef4444] font-semibold text-base ml-2">Log Out</Text>

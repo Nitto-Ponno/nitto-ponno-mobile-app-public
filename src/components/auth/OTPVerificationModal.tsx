@@ -115,7 +115,7 @@ const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ visible, co
 
             {/* Body */}
             {step === 1 && (
-              <View className="bg-foreground h-14 border justify-center items-center border-border rounded-lg m-4 mb-0">
+              <View className="bg-surface h-14 border justify-center items-center border-outline rounded-lg m-4 mb-0">
                 <NText className="font-semibold text-lg">{contact}</NText>
               </View>
             )}
@@ -123,7 +123,7 @@ const OTPVerificationModal: React.FC<OTPVerificationModalProps> = ({ visible, co
               <View className="px-4">
                 <NText className="text-gray-600 text-center text-base">We've sent a 6-digit verification code to</NText>
                 <NText className="text-primary font-bold text-center text-lg mt-2">{maskedContact}</NText>
-                <View className="h-14 bg-foreground border rounded-lg border-border">
+                <View className="h-14 bg-surface border rounded-lg border-outline">
                   <TextInput
                     keyboardType={"number-pad"}
                     maxLength={6}

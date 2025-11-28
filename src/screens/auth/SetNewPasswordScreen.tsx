@@ -222,7 +222,7 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
             <View className="relative">
               <TextInput
                 className={`border text-heading rounded-lg px-4 py-4 pl-12 pr-12 text-base bg-gray-50 ${
-                  errors.newPassword ? "border-red-500" : "border-gray-200"
+                  errors.newPassword ? "border-red-500" : "border-outline"
                 }`}
                 placeholder="Enter your new password"
                 value={newPassword}
@@ -276,7 +276,7 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
             <View className="relative">
               <TextInput
                 className={`border text-heading rounded-lg px-4 py-4 pl-12 pr-12 text-base bg-gray-50 ${
-                  errors.confirmPassword ? "border-red-500" : "border-gray-200"
+                  errors.confirmPassword ? "border-red-500" : "border-outline"
                 }`}
                 placeholder="Confirm your new password"
                 value={confirmPassword}
