@@ -5,6 +5,7 @@ import cartReducer from "./cartReducer";
 import wishlistReducer from "./wishlistReducer";
 import categoryReducer from "./categoryReducer";
 import productReducer from "./productReducer";
+import orderReducer from "./orderReducer";
 import { RESET_APP } from "..";
 
 const appReducer = combineReducers({
@@ -13,6 +14,7 @@ const appReducer = combineReducers({
   wishlist: wishlistReducer,
   category: categoryReducer,
   product: productReducer,
+  order: orderReducer,
 });
 
 export type RootState = ReturnType<typeof appReducer>;

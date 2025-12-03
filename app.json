@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/splash.png",
-    "backgroundColor": "#facc14",
+    "backgroundColor": "transparent",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {

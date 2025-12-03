@@ -11,6 +11,7 @@ import { navigate } from "@/utils/NavigationUtils";
 const CartScreen = () => {
   const dispatch = useAppDispatch();
   const { cartItems, selectedCart } = useAppSelector((state) => state.cart);
+  console.log("cartItems", JSON.stringify(cartItems, null, 2));
 
   const calculateTotal = () => {
     return cartItems
@@ -29,12 +30,12 @@ const CartScreen = () => {
       <View className="px-4 py-3 border-b border-outline">
         <Text className="text-2xl font-bold text-heading">Shopping Cart</Text>
         <Text className="text-sm text-body mt-1">
-          {cartItems.length} {cartItems.length === 1 ? "item" : "items"} in cart
+          {cartItems?.length} {cartItems?.length === 1 ? "item" : "items"} in cart
         </Text>
       </View>
 
       {/* Cart Items List */}
-      {cartItems.length === 0 ? (
+      {cartItems?.length === 0 ? (
         <EmptyCart />
       ) : (
         <FlatList
@@ -55,7 +56,7 @@ const CartScreen = () => {
       )}
 
       {/* Order Summary (Fixed at bottom) */}
-      {cartItems.length > 0 && (
+      {cartItems?.length > 0 && (
         <View className="absolute bottom-0 left-0 right-0">
           <OrderSummary selectedCount={selectedCart?.length || 0} total={calculateTotal()} onCheckout={handleCheckout} />
         </View>

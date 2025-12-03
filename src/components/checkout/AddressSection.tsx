@@ -1,7 +1,7 @@
 // AddressSection.tsx
 import { AddressPayload } from "@/services/types/cartTypes";
 import { dispatch, useAppSelector } from "@/store";
-import { setAddress } from "@/store/reducer/cartReducer";
+import { setAddress } from "@/store/reducer/orderReducer";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import AddressModal from "./AddressModal";
@@ -10,7 +10,7 @@ import { EditIcon, MapPinIcon, PackageIcon, Truck } from "lucide-react-native";
 // Main Address Display Section Component
 const AddressSection: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const { addresses } = useAppSelector((state) => state.cart);
+  const { addresses } = useAppSelector((state) => state.order);
   const handleAddressSubmit = (payload: AddressPayload) => {
     dispatch(setAddress(payload));
   };

@@ -7,7 +7,7 @@ import { MousePointerClick } from "lucide-react-native";
 
 const SelectedItemsSection = () => {
   const { cartItems, selectedCart } = useAppSelector((state) => state.cart);
-  const selectedItems = cartItems.filter((item) => selectedCart?.includes(item?.cartId));
+  const selectedItems = cartItems?.filter((item) => selectedCart?.includes(item?.cartId));
 
   return (
     <View className="px-4 pb-2 pt-4 bg-surface rounded-xl border border-outline">
