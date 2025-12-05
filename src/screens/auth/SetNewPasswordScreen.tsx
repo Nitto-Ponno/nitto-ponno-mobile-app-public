@@ -1,4 +1,5 @@
 import NText from "@/components/global/NText";
+import { Colors } from "@/context/ThemeProvider";
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Alert } from "react-native";
 
@@ -222,13 +223,13 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
             <View className="relative">
               <TextInput
                 className={`border text-heading rounded-lg px-4 py-4 pl-12 pr-12 text-base bg-gray-50 ${
-                  errors.newPassword ? "border-red-500" : "border-outline"
+                  errors.newPassword ? "border-red-500" : "border-border"
                 }`}
                 placeholder="Enter your new password"
                 value={newPassword}
                 onChangeText={setNewPassword}
                 secureTextEntry={!showNewPassword}
-                placeholderTextColor="#9CA3AF"
+                placeholderTextColor={Colors.body}
                 autoCapitalize="none"
               />
               <View className="absolute left-4 top-4">
@@ -276,13 +277,13 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
             <View className="relative">
               <TextInput
                 className={`border text-heading rounded-lg px-4 py-4 pl-12 pr-12 text-base bg-gray-50 ${
-                  errors.confirmPassword ? "border-red-500" : "border-outline"
+                  errors.confirmPassword ? "border-red-500" : "border-border"
                 }`}
                 placeholder="Confirm your new password"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 secureTextEntry={!showConfirmPassword}
-                placeholderTextColor="#9CA3AF"
+                placeholderTextColor={Colors.body}
                 autoCapitalize="none"
               />
               <View className="absolute left-4 top-4">

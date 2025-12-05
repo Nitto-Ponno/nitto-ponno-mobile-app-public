@@ -8,34 +8,34 @@ import Splash from "@/components/global/Splash";
 /** 1) Define colors ONCE and export (so others can import if needed) */
 export const COLOR_TOKENS = {
   light: {
-    background: "#F5F5F5",
-    surface: "#FFFFFF",
-    canvas: "#EAEAEA",
-    heading: "#262626",
-    body: "#6B6B6B",
-    stroke: "#999999",
-    outline: "#E7E7E7",
-    primary: "#00a303",
-    secondary: "#f0e800",
-    danger: "#EF4444",
-    warning: "#F59E0B",
-    success: "#17b723",
-    info: "#706D8C",
+    background: "#FFFFFF", // Pure white for a clean base
+    foreground: "#F5F5F5", // Off-white for secondary elements
+    accent: "#EAEAEA", // Light gray for borders and accents
+    heading: "#121212", // Very dark gray, almost black, for high-contrast headings
+    body: "#444444", // Dark gray for readable body text
+    line: "#B0B0B0", // Medium gray for subtle lines/dividers
+    border: "#DDDDDD", // Lighter gray for less prominent borders
+    primary: "#00a303", // Original color
+    secondary: "#f0e800", // Original color
+    error: "#EF4444", // Original color
+    warning: "#F59E0B", // Original color
+    success: "#17b723", // Original color
+    info: "#706D8C", // Original color
   },
   dark: {
-    background: "#030303",
-    surface: "#0B0B0B",
-    canvas: "#151515",
-    heading: "#F1F1F1",
-    body: "#B0B0B0",
-    stroke: "#474747",
-    outline: "#2D2D2D",
-    primary: "#00a303",
-    secondary: "#f0e800",
-    danger: "#EF4444",
-    warning: "#F59E0B",
-    success: "#17b723",
-    info: "#706D8C",
+    background: "#121212", // Charcoal black for the main background to reduce glare
+    foreground: "#1A1A1A", // Slightly lighter dark gray for secondary background surfaces
+    accent: "#2C2C2C", // Medium dark gray for defining UI elements
+    heading: "#F0F0F0", // Off-white for high visibility headings
+    body: "#B0B0B0", // Muted light gray for body text to avoid eye strain
+    line: "#474747", // Medium dark gray for dividers (same as original)
+    border: "#444444", // Dark gray for borders
+    primary: "#00a303", // Original color
+    secondary: "#f0e800", // Original color
+    error: "#EF4444", // Original color
+    warning: "#F59E0B", // Original color
+    success: "#17b723", // Original color
+    info: "#706D8C", // Original color
   },
 } as const;
 
@@ -46,30 +46,30 @@ export type ColorsType = typeof COLOR_TOKENS;
 const themeVars: Record<ThemeName, ReturnType<typeof vars>> = {
   light: vars({
     "--color-background": COLOR_TOKENS.light.background,
-    "--color-surface": COLOR_TOKENS.light.surface,
-    "--color-canvas": COLOR_TOKENS.light.canvas,
+    "--color-foreground": COLOR_TOKENS.light.foreground,
+    "--color-accent": COLOR_TOKENS.light.accent,
     "--color-heading": COLOR_TOKENS.light.heading,
     "--color-body": COLOR_TOKENS.light.body,
-    "--color-stroke": COLOR_TOKENS.light.stroke,
-    "--color-outline": COLOR_TOKENS.light.outline,
+    "--color-line": COLOR_TOKENS.light.line,
+    "--color-border": COLOR_TOKENS.light.border,
     "--color-primary": COLOR_TOKENS.light.primary,
     "--color-secondary": COLOR_TOKENS.light.secondary,
-    "--color-danger": COLOR_TOKENS.light.danger,
+    "--color-error": COLOR_TOKENS.light.error,
     "--color-warning": COLOR_TOKENS.light.warning,
     "--color-success": COLOR_TOKENS.light.success,
     "--color-info": COLOR_TOKENS.light.info,
   }),
   dark: vars({
     "--color-background": COLOR_TOKENS.dark.background,
-    "--color-surface": COLOR_TOKENS.dark.surface,
-    "--color-canvas": COLOR_TOKENS.dark.canvas,
+    "--color-foreground": COLOR_TOKENS.dark.foreground,
+    "--color-accent": COLOR_TOKENS.dark.accent,
     "--color-heading": COLOR_TOKENS.dark.heading,
     "--color-body": COLOR_TOKENS.dark.body,
-    "--color-stroke": COLOR_TOKENS.dark.stroke,
-    "--color-outline": COLOR_TOKENS.dark.outline,
+    "--color-line": COLOR_TOKENS.dark.line,
+    "--color-border": COLOR_TOKENS.dark.border,
     "--color-primary": COLOR_TOKENS.dark.primary,
     "--color-secondary": COLOR_TOKENS.dark.secondary,
-    "--color-danger": COLOR_TOKENS.dark.danger,
+    "--color-error": COLOR_TOKENS.dark.error,
     "--color-warning": COLOR_TOKENS.dark.warning,
     "--color-success": COLOR_TOKENS.dark.success,
     "--color-info": COLOR_TOKENS.dark.info,

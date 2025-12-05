@@ -20,11 +20,11 @@ const CartItemCard = ({
   onUpdateQuantity: (type: "inc" | "dec") => void;
   onRemove: () => void;
 }) => (
-  <View className={cn("bg-surface border border-outline mx-4 mb-3 rounded-2xl shadow-sm overflow-hidden")}>
+  <View className={cn("bg-foreground border border-border mx-4 mb-3 rounded-2xl shadow-sm overflow-hidden")}>
     {/* Header with Checkbox and Product Name */}
-    <View className="flex-row items-center p-4 border-b border-outline">
+    <View className="flex-row items-center p-4 border-b border-border">
       <Checkbox isSelected={isSelected} onPress={onToggleSelect} />
-      <Text className="font-bold text-gray-900 text-base flex-1" numberOfLines={2}>
+      <Text className="font-bold text-heading text-base flex-1" numberOfLines={2}>
         {item.productName}
       </Text>
     </View>

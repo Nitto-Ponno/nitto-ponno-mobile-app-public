@@ -14,7 +14,7 @@ const VariationItem = ({ variation }: { variation: CartItem["variations"][0] }) 
       </Text>
 
       <View className="flex-row items-center gap-2">
-        <Text className="text-gray-900 font-semibold">₹{finalPrice.toFixed(2)}</Text>
+        <Text className="text-heading font-semibold">₹{finalPrice.toFixed(2)}</Text>
 
         {variation.discount && (
           <View className="bg-green-50 px-2 py-0.5 rounded">

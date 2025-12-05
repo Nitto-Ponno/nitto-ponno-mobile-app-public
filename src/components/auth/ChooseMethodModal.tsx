@@ -126,12 +126,12 @@ const ChooseMethodModal = () => {
                 onPress={() => handleOnSelect("email")}
                 activeOpacity={0.7}
                 className={`flex-row items-center justify-between p-5 rounded-2xl border-2 ${
-                  isEmailSelected ? "border-primary bg-primary/5" : "border-outline bg-gray-50"
+                  isEmailSelected ? "border-primary bg-primary/5" : "border-border bg-gray-50"
                 }`}
               >
                 <View className="flex-row items-center gap-4">
                   <View className={`w-12 h-12 rounded-full items-center justify-center ${isEmailSelected ? "bg-primary" : "bg-gray-300"}`}>
-                    <Ionicons name="mail-outline" size={24} color={isEmailSelected ? "white" : "#666"} />
+                    <Ionicons name="mail-border" size={24} color={isEmailSelected ? "white" : "#666"} />
                   </View>
                   <View>
                     <NText className="text-lg font-semibold">Send code via Email</NText>
@@ -151,12 +151,12 @@ const ChooseMethodModal = () => {
                 activeOpacity={0.7}
                 disabled={!authInfo?.phoneNumber}
                 className={`flex-row items-center justify-between p-5 rounded-2xl border-2 ${
-                  isPhoneSelected ? "border-primary bg-primary/5" : "border-outline bg-gray-50"
+                  isPhoneSelected ? "border-primary bg-primary/5" : "border-border bg-gray-50"
                 }`}
               >
                 <View className="flex-row items-center gap-4">
                   <View className={`w-12 h-12 rounded-full items-center justify-center ${isPhoneSelected ? "bg-primary" : "bg-gray-300"}`}>
-                    <Ionicons name="call-outline" size={24} color={isPhoneSelected ? "white" : "#666"} />
+                    <Ionicons name="call-border" size={24} color={isPhoneSelected ? "white" : "#666"} />
                   </View>
                   <View>
                     <NText className="text-lg font-semibold">Send code via SMS</NText>

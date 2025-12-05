@@ -58,9 +58,9 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
         <View className="flex-1 justify-end bg-black/50">
           <View className="bg-white rounded-t-3xl max-h-[90%]">
             {/* Header */}
-            <View className="px-6 py-4 border-b border-gray-200">
+            <View className="px-6 py-4 border-b border-border">
               <View className="flex-row justify-between items-center">
-                <Text className="text-xl font-bold text-gray-900">Address Details</Text>
+                <Text className="text-xl font-bold text-heading">Address Details</Text>
                 <TouchableOpacity onPress={onClose}>
                   <Text className="text-4xl text-gray-500">×</Text>
                 </TouchableOpacity>
@@ -70,11 +70,11 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
             <ScrollView className="px-6 py-4">
               {/* Pickup Address */}
               <View className="mb-6">
-                <Text className="text-lg font-semibold text-gray-900 mb-3">Pickup Address</Text>
+                <Text className="text-lg font-semibold text-heading mb-3">Pickup Address</Text>
                 <View className="mb-3">
                   <Text className="text-sm font-medium text-gray-700 mb-2">Full Address *</Text>
                   <TextInput
-                    className="border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900"
+                    className="border border-gray-300 rounded-lg px-4 py-3 text-base text-heading"
                     placeholder="Enter street address"
                     value={pickupAddress}
                     onChangeText={setPickupAddress}
@@ -84,7 +84,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
                 <View>
                   <Text className="text-sm font-medium text-gray-700 mb-2">Apartment/Suite (Optional)</Text>
                   <TextInput
-                    className="border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900"
+                    className="border border-gray-300 rounded-lg px-4 py-3 text-base text-heading"
                     placeholder="Apt, Suite, Floor"
                     value={pickupApartment}
                     onChangeText={setPickupApartment}
@@ -107,11 +107,11 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
               {/* Delivery Address */}
               {!sameAsPickup && (
                 <View className="mb-6">
-                  <Text className="text-lg font-semibold text-gray-900 mb-3">Delivery Address</Text>
+                  <Text className="text-lg font-semibold text-heading mb-3">Delivery Address</Text>
                   <View className="mb-3">
                     <Text className="text-sm font-medium text-gray-700 mb-2">Full Address *</Text>
                     <TextInput
-                      className="border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900"
+                      className="border border-gray-300 rounded-lg px-4 py-3 text-base text-heading"
                       placeholder="Enter street address"
                       value={deliveryAddress}
                       onChangeText={setDeliveryAddress}
@@ -121,7 +121,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
                   <View>
                     <Text className="text-sm font-medium text-gray-700 mb-2">Apartment/Suite (Optional)</Text>
                     <TextInput
-                      className="border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900"
+                      className="border border-gray-300 rounded-lg px-4 py-3 text-base text-heading"
                       placeholder="Apt, Suite, Floor"
                       value={deliveryApartment}
                       onChangeText={setDeliveryApartment}
@@ -132,7 +132,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
             </ScrollView>
 
             {/* Footer Button */}
-            <View className="px-6 py-4 border-t border-gray-200">
+            <View className="px-6 py-4 border-t border-border">
               <TouchableOpacity onPress={handleSubmit} className="bg-blue-600 rounded-lg py-4 items-center">
                 <Text className="text-white text-base font-semibold">Confirm Addresses</Text>
               </TouchableOpacity>

@@ -7,10 +7,10 @@ import AttributeDisplay from "../cart/AttributeDisplay";
 import VariationItem from "../cart/VariationItem";
 
 const SelectedItemCard = ({ item }: { item: CartItem }) => (
-  <View className={cn("bg-surface border border-outline mb-3 rounded-2xl shadow-sm overflow-hidden")}>
+  <View className={cn("bg-foreground border border-border mb-3 rounded-2xl shadow-sm overflow-hidden")}>
     {/* Header with Checkbox and Product Name */}
-    <View className="flex-row items-center p-4 border-b border-outline">
-      <Text className="font-bold text-gray-900 text-base flex-1" numberOfLines={2}>
+    <View className="flex-row items-center p-4 border-b border-border">
+      <Text className="font-bold text-heading text-base flex-1" numberOfLines={2}>
         {item.productName}
       </Text>
     </View>

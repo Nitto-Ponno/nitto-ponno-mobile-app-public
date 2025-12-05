@@ -97,8 +97,8 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
   useEffect(() => {
     // Animate indicator position
     indicatorPosition.value = withSpring(state.index * tabWidth, {
-      damping: 20,
-      stiffness: 150,
+      damping: 60,
+      stiffness: 400,
     });
 
     // Animate indicator opacity
@@ -119,12 +119,12 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
 
   return (
     <View
-      className="bg-background "
+      className="bg-background"
       style={{
         flexDirection: "row",
         paddingBottom: Platform.OS === "ios" ? gGap(20) : gGap(10),
         paddingTop: gGap(5),
-        shadowColor: Colors.surface,
+        shadowColor: Colors.foreground,
         shadowOffset: {
           width: 0,
           height: 2,
@@ -134,10 +134,9 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
 
         elevation: 5,
         borderTopWidth: 1,
-        borderTopColor: Colors.outline,
+        borderTopColor: Colors.border,
       }}
     >
-      {/* Animated Indicator */}
       <Animated.View
         style={[
           indicatorStyle,

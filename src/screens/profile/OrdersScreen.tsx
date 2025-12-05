@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity, TextInput, Image } from "react-native";
 import { Package, Search, Filter, ChevronRight, Truck, CheckCircle, XCircle, Clock, RotateCcw } from "lucide-react-native";
+import { Colors } from "@/context/ThemeProvider";
 
 interface OrderItem {
   id: string;
@@ -109,16 +110,16 @@ const OrdersScreen: React.FC<OrdersScreenProps> = ({
       {/* Search Bar */}
       <View className="px-6 mb-6">
         <View className="flex-row items-center bg-neutral-900 rounded-xl px-4 py-3 border border-neutral-800">
-          <Search size={20} color="#9ca3af" />
+          <Search size={20} color={Colors.body} />
           <TextInput
-            className="flex-1 ml-3 text-white text-base"
+            className="flex-1 ml-3 text-heading text-base"
             placeholder="Search orders..."
-            placeholderTextColor="#6b7280"
+            placeholderTextColor={Colors.body}
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
           <TouchableOpacity onPress={onFilterPress}>
-            <Filter size={20} color="#9ca3af" />
+            <Filter size={20} color={Colors.body} />
           </TouchableOpacity>
         </View>
       </View>
@@ -131,7 +132,7 @@ const OrdersScreen: React.FC<OrdersScreenProps> = ({
               key={filter.id}
               onPress={() => setSelectedFilter(filter.id)}
               className={`px-5 py-2.5 rounded-full border ${
-                selectedFilter === filter.id ? "bg-primary border-outline" : "bg-transparent border-neutral-800"
+                selectedFilter === filter.id ? "bg-primary border-border" : "bg-transparent border-neutral-800"
               }`}
             >
               <Text className={`text-sm font-medium ${selectedFilter === filter.id ? "text-white" : "text-gray-400"}`}>{filter.label}</Text>

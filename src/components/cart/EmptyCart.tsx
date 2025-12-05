@@ -5,7 +5,7 @@ import React from "react";
 const EmptyCart = () => (
   <View className="flex-1 items-center justify-center px-8">
     <Text className="text-6xl mb-4">🛒</Text>
-    <Text className="text-xl font-bold text-gray-900 mb-2">Your cart is empty</Text>
+    <Text className="text-xl font-bold text-heading mb-2">Your cart is empty</Text>
     <Text className="text-gray-500 text-center">Add items to get started with your order</Text>
   </View>
 );

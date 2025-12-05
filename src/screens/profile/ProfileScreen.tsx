@@ -93,10 +93,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   }) => (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center bg-surface border border-outline p-4 rounded-xl mb-3 active:opacity-80"
+      className="flex-row items-center bg-foreground border border-border p-4 rounded-xl mb-3 active:opacity-80"
     >
       <View className="w-10 h-10 rounded-full bg-background items-center justify-center mr-4">
-        <Icon size={20} color={iconColor} strokeWidth={2} />
+        <Icon size={20} color={iconColor} />
       </View>
       <View className="flex-1">
         <Text className="text-heading font-semibold text-base">{title}</Text>
@@ -107,14 +107,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
           <Text className="text-heading text-xs font-semibold">{badge}</Text>
         </View>
       )}
-      <ChevronRight size={20} color="#6b7280" strokeWidth={2} />
+      <ChevronRight size={20} color={Colors.body} />
     </TouchableOpacity>
   );
 
   const StatCard = ({ icon: Icon, value, label, iconColor }: { icon: any; value: string | number; label: string; iconColor: string }) => (
-    <View className="flex-1 bg-surface border border-outline p-4 rounded-xl items-center">
+    <View className="flex-1 bg-foreground border border-border p-4 rounded-xl items-center">
       <View className="w-12 h-12 rounded-full items-center justify-center mb-2" style={{ backgroundColor: `${iconColor}20` }}>
-        <Icon size={24} color={iconColor} strokeWidth={2} />
+        <Icon size={24} color={iconColor} />
       </View>
       <Text className="text-heading text-xl font-bold">{value}</Text>
       <Text className="text-body text-xs mt-1">{label}</Text>
@@ -132,9 +132,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
           </View>
 
           {/* Welcome Card */}
-          <View className="bg-surface border border-outline p-6 rounded-2xl mb-6">
+          <View className="bg-foreground border border-border p-6 rounded-2xl mb-6">
             <View className="w-16 h-16 bg-primary rounded-full items-center justify-center mb-4">
-              <ShoppingBag size={32} color={Colors.heading} strokeWidth={2} />
+              <ShoppingBag size={32} color={Colors.heading} />
             </View>
             <Text className="text-heading text-2xl font-bold mb-2">Welcome to Nityo Ponno</Text>
             <Text className="text-body text-base leading-relaxed mb-6">
@@ -144,10 +144,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
               <TouchableOpacity onPress={() => navigate("Signin")} className="flex-1 bg-primary py-3.5 rounded-xl active:opacity-80">
                 <Text className="text-heading text-center font-bold text-base">Sign In</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={onSignUp}
-                className="flex-1 bg-secondary py-3.5 rounded-xl border border-outline active:opacity-80"
-              >
+              <TouchableOpacity onPress={onSignUp} className="flex-1 bg-secondary py-3.5 rounded-xl border border-border active:opacity-80">
                 <Text className="text-gray-800 text-center font-bold text-base">Sign Up</Text>
               </TouchableOpacity>
             </View>
@@ -164,7 +161,13 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
               iconColor="#14b8a6"
             />
             <MenuItem icon={HelpCircle} title="Help Center" subtitle="Get support and answers" onPress={onHelp} iconColor="#8b5cf6" />
-            <MenuItem icon={Settings} title="App Settings" subtitle="Preferences and language" onPress={onSettings} iconColor="#6b7280" />
+            <MenuItem
+              icon={Settings}
+              title="App Settings"
+              subtitle="Preferences and language"
+              onPress={onSettings}
+              iconColor={Colors.body}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -180,14 +183,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         </View>
 
         {/* Profile Card */}
-        <View className="bg-surface p-5 rounded-2xl mb-6">
+        <View className="bg-foreground p-5 rounded-2xl mb-6">
           <View className="flex-row items-center mb-4">
             <Image source={Images.LOGO} className="w-20 h-20 rounded-full mr-4" />
             <View className="flex-1">
               <Text className="text-heading text-xl font-bold">{user.name}</Text>
               <Text className="text-body text-sm mt-1">{user.email}</Text>
               <View className="flex-row items-center mt-2">
-                <Clock size={14} color={Colors.body} strokeWidth={2} />
+                <Clock size={14} color={Colors.body} />
                 <Text className="text-body text-xs ml-1.5">Member since {user.memberSince}</Text>
               </View>
             </View>
@@ -197,7 +200,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
           <View className="bg-gradient-to-r from-[#14b8a6] to-[#0891b2] p-4 rounded-xl flex-row items-center justify-between">
             <View className="flex-row items-center">
               <View className="w-10 h-10 bg-secondary rounded-full items-center justify-center mr-3">
-                <Star size={20} color={Colors.heading} strokeWidth={2} fill={Colors.heading} />
+                <Star size={20} color={Colors.heading} fill={Colors.heading} />
               </View>
               <View>
                 <Text className="text-heading/80 text-xs font-medium">Loyalty Points</Text>
@@ -263,10 +266,10 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
             title="Security & Privacy"
             subtitle="Password and data settings"
             onPress={onSecurity}
-            iconColor="#6b7280"
+            iconColor={Colors.body}
           />
           <MenuItem icon={HelpCircle} title="Help & Support" subtitle="FAQs and customer service" onPress={onHelp} iconColor="#8b5cf6" />
-          <MenuItem icon={Settings} title="App Settings" subtitle="Preferences and language" onPress={onSettings} iconColor="#6b7280" />
+          <MenuItem icon={Settings} title="App Settings" subtitle="Preferences and language" onPress={onSettings} iconColor={Colors.body} />
         </View>
 
         {/* Logout Button */}
@@ -276,9 +279,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
             dispatch(setUser(null));
           }}
-          className="bg-surface border border-outline p-4 rounded-xl mb-8 flex-row items-center justify-center active:opacity-80"
+          className="bg-foreground border border-border p-4 rounded-xl mb-8 flex-row items-center justify-center active:opacity-80"
         >
-          <LogOut size={20} color="#ef4444" strokeWidth={2} />
+          <LogOut size={20} color="#ef4444" />
           <Text className="text-[#ef4444] font-semibold text-base ml-2">Log Out</Text>
         </TouchableOpacity>
       </ScrollView>

@@ -17,6 +17,7 @@ import { AuthApi } from "@/services/api/authApi";
 import { showSuccessAlert, showToast } from "@/utils/commonFunction";
 import { resetAndNavigate } from "@/utils/NavigationUtils";
 import AppInput from "../global/AppInput";
+import { Colors } from "@/context/ThemeProvider";
 
 interface ForgotPasswordVerifyModalProps {
   visible: boolean;
@@ -106,14 +107,14 @@ const ForgotPasswordVerifyModal: React.FC<ForgotPasswordVerifyModalProps> = ({ v
 
           <View className="bg-white rounded-t-3xl shadow-2xl overflow-hidden max-h-[85%]">
             {/* Header */}
-            <View className="px-6 pt-6 pb-4 border-b border-outline">
+            <View className="px-6 pt-6 pb-4 border-b border-border">
               <View className="flex-row items-center justify-between">
                 <View className="flex-1">
-                  <Text className="text-2xl font-bold text-gray-900">{step === 1 ? "Verify Code" : "Reset Password"}</Text>
+                  <Text className="text-2xl font-bold text-heading">{step === 1 ? "Verify Code" : "Reset Password"}</Text>
                   {step === 1 && <Text className="text-sm text-gray-600 mt-1">Enter the code sent to {maskedContact}</Text>}
                 </View>
                 <TouchableOpacity onPress={handleClose} className="p-2">
-                  <Ionicons name="close" size={24} color="#6B7280" />
+                  <Ionicons name="close" size={24} color={Colors.body} />
                 </TouchableOpacity>
               </View>
             </View>

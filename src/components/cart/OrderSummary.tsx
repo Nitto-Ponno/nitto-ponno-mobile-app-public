@@ -3,11 +3,11 @@ import React from "react";
 
 // Order Summary Component
 const OrderSummary = ({ selectedCount, total, onCheckout }: { selectedCount: number; total: string; onCheckout: () => void }) => (
-  <View className="bg-white border-t border-outline px-4 py-5 shadow-2xl">
+  <View className="bg-white border-t border-border px-4 py-5 shadow-2xl">
     <View className="flex-row justify-between items-center mb-3">
       <View>
         <Text className="text-xs text-gray-500 uppercase mb-1">Selected Items</Text>
-        <Text className="text-2xl font-bold text-gray-900">{selectedCount}</Text>
+        <Text className="text-2xl font-bold text-heading">{selectedCount}</Text>
       </View>
 
       <View className="items-end">

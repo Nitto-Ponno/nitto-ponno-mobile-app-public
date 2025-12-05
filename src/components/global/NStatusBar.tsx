@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { useTheme } from "@/context/ThemeProvider";
+import { Colors, useTheme } from "@/context/ThemeProvider";
 
 type StatusBarProps = {
   barStyle?: "light" | "dark" | "auto";
@@ -12,18 +12,10 @@ interface NStatusBarProps {
   statusBar?: StatusBarProps;
 }
 
-const NStatusBar: React.FC<NStatusBarProps> = ({ statusBar = {} }) => {
+const NStatusBar: React.FC<NStatusBarProps> = () => {
   const { theme } = useTheme();
 
-  const { barStyle, backgroundColor, translucent = false } = statusBar;
-
-  return (
-    <StatusBar
-      style={barStyle ?? (theme === "dark" ? "light" : "dark")}
-      backgroundColor={backgroundColor ?? "transparent"}
-      translucent={translucent}
-    />
-  );
+  return <StatusBar style={theme === "dark" ? "light" : "dark"} backgroundColor={Colors.background ?? "transparent"} translucent={true} />;
 };
 
 export default NStatusBar;

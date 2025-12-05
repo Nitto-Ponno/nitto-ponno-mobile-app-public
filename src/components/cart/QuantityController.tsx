@@ -9,7 +9,7 @@ const QuantityController = ({ quantity, onIncrease, onDecrease }: { quantity: nu
     </TouchableOpacity>
 
     <View className="w-12 h-10 items-center justify-center bg-white">
-      <Text className="text-base font-bold text-gray-900">{quantity}</Text>
+      <Text className="text-base font-bold text-heading">{quantity}</Text>
     </View>
 
     <TouchableOpacity onPress={onIncrease} className="w-10 h-10 items-center justify-center active:bg-gray-200">

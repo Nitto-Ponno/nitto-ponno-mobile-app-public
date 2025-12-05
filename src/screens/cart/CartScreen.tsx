@@ -27,7 +27,7 @@ const CartScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-background">
       {/* Header */}
-      <View className="px-4 py-3 border-b border-outline">
+      <View className="px-4 py-3 border-b border-border">
         <Text className="text-2xl font-bold text-heading">Shopping Cart</Text>
         <Text className="text-sm text-body mt-1">
           {cartItems?.length} {cartItems?.length === 1 ? "item" : "items"} in cart

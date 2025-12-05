@@ -149,7 +149,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
               <View className="flex-1 gap-4">
                 <View className="p-6 items-center">
                   <View className="w-40 h-40 bg-green-50 rounded-2xl items-center justify-center">
-                    <Ionicons name="shirt-outline" size={72} color={Colors.primary} />
+                    <Ionicons name="shirt-border" size={72} color={Colors.primary} />
                   </View>
                 </View>
 
@@ -196,8 +196,8 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                         isSelected
                           ? "border-primary bg-green-200/20"
                           : isAvailable
-                            ? "border-outline bg-surface"
-                            : "border-outline bg-background"
+                            ? "border-border bg-foreground"
+                            : "border-border bg-background"
                       }`}
                     >
                       <View className="flex-row items-start justify-between">
@@ -206,7 +206,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                             {/* Checkbox */}
                             <View
                               className={`w-6 h-6 rounded-md border-2 items-center justify-center mr-3 ${
-                                isSelected ? "bg-primary border-primary" : "border-gray-300 bg-surface"
+                                isSelected ? "bg-primary border-primary" : "border-gray-300 bg-foreground"
                               }`}
                             >
                               {isSelected && <Ionicons name="checkmark" size={16} color="white" />}
@@ -266,7 +266,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                       toggleAttributes(i);
                     }}
                     className={cn(
-                      "px-4 h-12 justify-center items-center bg-surface border border-outline rounded-lg",
+                      "px-4 h-12 justify-center items-center bg-foreground border border-border rounded-lg",
                       selectedAttributes?.find((a) => a.attributeId === i.attributeId)?.attributeId &&
                         "bg-green-200/20 border border-primary"
                     )}
@@ -286,11 +286,11 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                 <NText className="text-lg font-semibold text-heading mb-4">Order Summary</NText>
 
                 {/* Selected Services */}
-                <View className="bg-surface border border-outline rounded-xl p-4 mb-4">
+                <View className="bg-foreground border border-border rounded-xl p-4 mb-4">
                   {orderSummary.items.map((item, idx) => (
                     <View
                       key={idx}
-                      className={`flex-row justify-between py-2 ${idx !== orderSummary.items.length - 1 ? "border-b border-outline" : ""}`}
+                      className={`flex-row justify-between py-2 ${idx !== orderSummary.items.length - 1 ? "border-b border-border" : ""}`}
                     >
                       <NText className="text-gray-600 flex-1">{item.name}</NText>
                       <View className="flex-row items-center">
@@ -304,7 +304,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                 </View>
 
                 {/* Price Breakdown */}
-                <View className="border-t border-outline pt-4">
+                <View className="border-t border-border pt-4">
                   <View className="flex-row justify-between mb-2">
                     <NText className="text-gray-500">Subtotal</NText>
                     <NText className="text-gray-700">${orderSummary.subtotal.toFixed(2)}</NText>
@@ -332,8 +332,8 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
 
             {/* Empty Selection State */}
             {selectedServiceIds.length === 0 && (
-              <View className="bg-surface mt-2 py-8 mb-36 items-center">
-                <Ionicons name="cart-outline" size={48} color="#D1D5DB" />
+              <View className="bg-foreground mt-2 py-8 mb-36 items-center">
+                <Ionicons name="cart-border" size={48} color="#D1D5DB" />
                 <NText className="mt-3 text-gray-400 text-center">Select services above to see order summary</NText>
               </View>
             )}

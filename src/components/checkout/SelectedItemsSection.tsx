@@ -10,7 +10,7 @@ const SelectedItemsSection = () => {
   const selectedItems = cartItems?.filter((item) => selectedCart?.includes(item?.cartId));
 
   return (
-    <View className="px-4 pb-2 pt-4 bg-surface rounded-xl border border-outline">
+    <View className="px-4 pb-2 pt-4 bg-foreground rounded-xl border border-border">
       <View className="flex-row items-center gap-2">
         <MousePointerClick />
         <NText className="text-xl font-bold text-heading">Selected Items</NText>
