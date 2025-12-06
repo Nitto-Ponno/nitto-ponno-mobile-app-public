@@ -19,7 +19,7 @@ import {
 } from "lucide-react-native";
 import { Colors } from "@/context/ThemeProvider";
 import NText from "../global/NText";
-import { navigate, resetAndNavigate } from "@/utils/NavigationUtils";
+import { navigate } from "@/utils/NavigationUtils";
 
 type props = {
   visible: boolean;
