@@ -1,7 +1,7 @@
 // AddressSection.tsx
 import { AddressPayload } from "@/services/types/cartTypes";
 import { dispatch, useAppSelector } from "@/store";
-import { setAddress } from "@/store/reducer/orderReducer";
+import { updateOrderPayload } from "@/store/reducer/orderReducer";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import AddressModal from "./AddressModal";
@@ -10,13 +10,15 @@ import { EditIcon, MapPinIcon, PackageIcon, Truck } from "lucide-react-native";
 // Main Address Display Section Component
 const AddressSection: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const { addresses } = useAppSelector((state) => state.order);
+  const { pickupAddress, deliveryAddress } = useAppSelector((state) => state.order);
   const handleAddressSubmit = (payload: AddressPayload) => {
-    dispatch(setAddress(payload));
+    // dispatch(setAddress(payload));
+    dispatch(updateOrderPayload({ key: "pickupAddress", value: payload.pickupAddress }));
+    dispatch(updateOrderPayload({ key: "deliveryAddress", value: payload.deliveryAddress }));
   };
 
   // If no addresses set, show add button
-  if (!addresses) {
+  if (!pickupAddress?.fullAddress || !deliveryAddress?.fullAddress) {
     return (
       <View className="bg-foreground rounded-xl p-6 my-3 border-border border">
         <View className="flex-row items-center mb-4">
@@ -59,8 +61,8 @@ const AddressSection: React.FC = () => {
           <Text className="text-sm font-semibold text-heading ml-2">Pickup Address</Text>
         </View>
         <View className="bg-blue-50 rounded-lg p-3 ml-7">
-          <Text className="text-base text-heading font-medium">{addresses.pickupAddress.fullAddress}</Text>
-          {addresses.pickupAddress.apartment && <Text className="text-sm text-gray-600 mt-1">{addresses.pickupAddress.apartment}</Text>}
+          <Text className="text-base text-heading font-medium">{pickupAddress.fullAddress}</Text>
+          {pickupAddress.apartment && <Text className="text-sm text-gray-600 mt-1">{pickupAddress.apartment}</Text>}
         </View>
       </View>
       {/* Delivery Address */}
@@ -68,19 +70,26 @@ const AddressSection: React.FC = () => {
         <View className="flex-row items-center mb-2">
           <Truck />
           <Text className="text-sm font-semibold text-heading ml-2">Delivery Address</Text>
-          {addresses.deliveryAddress.sameAsPickup && (
+          {deliveryAddress?.sameAsPickup && (
             <View className="bg-green-100 px-2 py-1 rounded ml-2">
               <Text className="text-xs font-medium text-green-700">Same as pickup</Text>
             </View>
           )}
         </View>
         <View className="bg-green-50 rounded-lg p-3 ml-7">
-          <Text className="text-base text-heading font-medium">{addresses.deliveryAddress.fullAddress}</Text>
-          {addresses.deliveryAddress.apartment && <Text className="text-sm text-gray-600 mt-1">{addresses.deliveryAddress.apartment}</Text>}
+          <Text className="text-base text-heading font-medium">{deliveryAddress?.fullAddress}</Text>
+          {deliveryAddress?.apartment && <Text className="text-sm text-gray-600 mt-1">{deliveryAddress.apartment}</Text>}
         </View>
       </View>
 
-      <AddressModal visible={modalVisible} onClose={() => setModalVisible(false)} onSubmit={handleAddressSubmit} initialData={addresses} />
+      {modalVisible && (
+        <AddressModal
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          onSubmit={handleAddressSubmit}
+          initialData={{ pickupAddress, deliveryAddress }}
+        />
+      )}
     </View>
   );
 };

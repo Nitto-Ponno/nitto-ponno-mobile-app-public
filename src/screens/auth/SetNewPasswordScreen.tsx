@@ -1,7 +1,7 @@
 import NText from "@/components/global/NText";
 import { Colors } from "@/context/ThemeProvider";
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Alert } from "react-native";
+import { View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Alert } from "react-native";
 
 type PasswordStrength = "weak" | "medium" | "strong";
 

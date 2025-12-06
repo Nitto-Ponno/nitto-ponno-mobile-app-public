@@ -1,10 +1,17 @@
-import { AddressPayload } from "@/services/types/cartTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface OrderState {
-  addresses: AddressPayload | null;
+  pickupAddress: {
+    fullAddress: string;
+    apartment?: string;
+  };
+  deliveryAddress: {
+    fullAddress: string;
+    apartment?: string;
+    sameAsPickup: boolean;
+  };
   tax: number;
   deliveryCharge: number;
-  paymentMethod: "COD";
+  paymentMethod: "cod";
   preferredPickupSlot: {
     date: string;
     from: string;
@@ -23,10 +30,18 @@ interface OrderState {
 }
 
 const initialState: OrderState = {
-  addresses: null,
+  pickupAddress: {
+    fullAddress: "",
+    apartment: "",
+  },
+  deliveryAddress: {
+    fullAddress: "",
+    apartment: "",
+    sameAsPickup: false,
+  },
   tax: 0,
   deliveryCharge: 0,
-  paymentMethod: "COD",
+  paymentMethod: "cod",
   preferredPickupSlot: {
     date: "",
     from: "",
@@ -48,16 +63,13 @@ const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
-    setAddress: (state, action: PayloadAction<AddressPayload>) => {
-      state.addresses = action.payload;
-    },
     updateOrderPayload: (state, action: PayloadAction<{ key: keyof OrderState; value: any }>) => {
       setValue(state, action.payload.key, action.payload.value);
     },
   },
 });
 
-export const { setAddress, updateOrderPayload } = orderSlice.actions;
+export const { updateOrderPayload } = orderSlice.actions;
 
 export default orderSlice.reducer;
 function setValue<T extends object>(state: T, key: keyof T, value: T[keyof T]) {

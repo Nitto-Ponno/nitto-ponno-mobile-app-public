@@ -1,9 +1,3 @@
-// Types based on API response
-export interface Discount {
-  type: "percent" | "flat";
-  value: number;
-}
-
 export interface AttributeValue {
   attributeId: string;
   attributeName: string;
@@ -35,6 +29,12 @@ export interface Variation {
   discount?: Discount;
   isAvailable: boolean;
   _id: string;
+}
+
+// Types based on API response
+export interface Discount {
+  type: "percent" | "flat";
+  value: number;
 }
 
 export interface Product {

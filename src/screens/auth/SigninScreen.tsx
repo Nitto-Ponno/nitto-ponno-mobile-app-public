@@ -46,6 +46,7 @@ const SignInScreen = () => {
         const myData = await AuthApi.getMyData();
         console.log("myData", JSON.stringify(myData, null, 2));
         console.log("response.data", JSON.stringify(response.data, null, 2));
+        dispatch(setUser(myData.data));
       }
     } catch (error: any) {
       handleErrorResponse(error, "Sign in");

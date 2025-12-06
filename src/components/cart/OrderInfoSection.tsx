@@ -5,7 +5,7 @@ import { SlotPickerModal } from "./SlotPickerModal";
 import { Colors } from "@/context/ThemeProvider";
 
 export interface OrderInfo {
-  paymentMethod: "COD";
+  paymentMethod: "cod";
   preferredPickupSlot: {
     date: string;
     from: string;
@@ -50,7 +50,7 @@ const CustomSwitch = ({
 
   const translateX = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [2, 26],
+    outputRange: [4, 28],
   });
 
   const backgroundColor = animatedValue.interpolate({
@@ -64,14 +64,14 @@ const CustomSwitch = ({
       className="flex-row items-center justify-between bg-background p-4 rounded-2xl border border-border "
     >
       <View className="flex-row items-center gap-3">
-        <View className={`p-2 rounded-xl ${value ? "bg-blue-50" : "bg-foreground border-border border"}`}>
+        <View className={`p-2 rounded-xl border-border border ${value ? "bg-blue-50" : "bg-foreground "}`}>
           <Icon size={20} color={value ? activeColor : Colors.body} />
         </View>
         <Text className={`text-base font-semibold ${value ? "text-heading" : "text-gray-500"}`}>{label}</Text>
       </View>
 
-      <Animated.View style={{ backgroundColor }} className="w-14 h-8 rounded-full justify-center">
-        <Animated.View style={{ transform: [{ translateX }] }} className="w-6 h-6 bg-background rounded-full shadow-md" />
+      <Animated.View style={{ backgroundColor }} className="w-14 h-7 rounded-full justify-center">
+        <Animated.View style={{ transform: [{ translateX }] }} className="w-5 h-5 bg-background rounded-full shadow-md" />
       </Animated.View>
     </Pressable>
   );

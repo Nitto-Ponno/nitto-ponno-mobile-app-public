@@ -80,7 +80,7 @@ const TabIcon: React.FC<TabIconProps> = ({ routeName, isFocused }) => {
         className="font-okra font-semibold"
         style={{
           fontSize: 10,
-          color: iconColor,
+          color: iconColor || "white",
         }}
       >
         {getTabLabel()}

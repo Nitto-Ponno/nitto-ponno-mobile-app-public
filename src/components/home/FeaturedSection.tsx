@@ -5,6 +5,7 @@ import ProductCardV1 from "../card/ProductCardV1";
 import { getFeaturedProducts } from "@/services/api/productApi";
 import { navigate } from "@/utils/NavigationUtils";
 import { setSelectedProduct, setSelectionModal } from "@/store/reducer/productReducer";
+import { showToast } from "@/utils/commonFunction";
 
 const FeaturedSection = () => {
   const { products } = useAppSelector((state) => state.product);
@@ -27,6 +28,7 @@ const FeaturedSection = () => {
               product={product}
               key={product.id}
               onAddToCart={() => {
+                showToast({ message: "Add to cart Pressed" });
                 dispatch(setSelectedProduct(product));
                 dispatch(setSelectionModal(true));
               }}

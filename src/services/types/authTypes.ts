@@ -9,13 +9,32 @@ export interface UserName {
 export interface User {
   _id: string;
   email: string;
-  name: UserName;
-  phoneNumber: string;
-  role: "customer" | "admin";
+  password: string;
   isActive: boolean;
+  isDeleted: boolean;
+  role: "customer" | "admin" | string; // extend if needed
+  phoneNumber: string;
   isVerified: boolean;
-  userType: "customer" | "admin";
-  profilePicture?: string;
+  otp: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    _id: string;
+  };
+  userType: "customer" | string;
+  name: {
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    _id: string;
+  };
+  profilePicture: string;
+  __v: number;
+  fullName: string;
+  id: string;
 }
 
 // ===== Auth: Requests =====

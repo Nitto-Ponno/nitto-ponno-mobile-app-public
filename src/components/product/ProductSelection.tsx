@@ -6,75 +6,76 @@ import NText from "../global/NText";
 import { Ionicons } from "@expo/vector-icons";
 import { cn } from "@/utils/cn";
 import { XCircle } from "lucide-react-native";
-import { dispatch } from "@/store";
+import { dispatch, useAppSelector } from "@/store";
 import { addToCart } from "@/store/reducer/cartReducer";
 import { CartItem } from "@/services/types/cartTypes";
 import { Colors } from "@/context/ThemeProvider";
 
-const selectedProduct = {
-  _id: "69135cf83162fa4052120bc2",
-  name: "Premium Cotton T-Shirt",
-  description: "Soft and comfortable 100% cotton t-shirt",
-  services: [
-    { _id: "690ed4c311dcf7f5740abb7b", name: "Express Wash" },
-    { _id: "srv001", name: "Dry Cleaning" },
-    { _id: "srv002", name: "Premium Ironing" },
-    { _id: "srv003", name: "Fabric Softener" },
-  ],
-  variations: [
-    {
-      serviceId: { _id: "690ed4c311dcf7f5740abb7b", name: "Express Wash" },
-      price: 59,
-      discount: { type: "percent" as const, value: 15 },
-      isAvailable: true,
-      _id: "v1",
-    },
-    {
-      serviceId: { _id: "srv001", name: "Dry Cleaning" },
-      price: 99,
-      discount: { type: "flat" as const, value: 10 },
-      isAvailable: true,
-      _id: "v2",
-    },
-    {
-      serviceId: { _id: "srv002", name: "Premium Ironing" },
-      price: 29,
-      discount: { type: "percent" as const, value: 5 },
-      isAvailable: true,
-      _id: "v3",
-    },
-    {
-      serviceId: { _id: "srv003", name: "Fabric Softener" },
-      price: 19,
-      discount: { type: "flat" as const, value: 2 },
-      isAvailable: false,
-      _id: "v4",
-    },
-  ],
-  attributeValues: [
-    {
-      attributeId: "a1",
-      attributeName: "baby",
-      optionId: "o1",
-    },
-    {
-      attributeId: "a2",
-      attributeName: "men",
-      optionId: "o2",
-    },
-    {
-      attributeId: "a3",
-      attributeName: "women",
-      optionId: "o3",
-    },
-  ],
+// const selectedProduct = {
+//   _id: "69135cf83162fa4052120bc2",
+//   name: "Premium Cotton T-Shirt",
+//   description: "Soft and comfortable 100% cotton t-shirt",
+//   services: [
+//     { _id: "690ed4c311dcf7f5740abb7b", name: "Express Wash" },
+//     { _id: "srv001", name: "Dry Cleaning" },
+//     { _id: "srv002", name: "Premium Ironing" },
+//     { _id: "srv003", name: "Fabric Softener" },
+//   ],
+//   variations: [
+//     {
+//       serviceId: { _id: "690ed4c311dcf7f5740abb7b", name: "Express Wash" },
+//       price: 59,
+//       discount: { type: "percent" as const, value: 15 },
+//       isAvailable: true,
+//       _id: "v1",
+//     },
+//     {
+//       serviceId: { _id: "srv001", name: "Dry Cleaning" },
+//       price: 99,
+//       discount: { type: "flat" as const, value: 10 },
+//       isAvailable: true,
+//       _id: "v2",
+//     },
+//     {
+//       serviceId: { _id: "srv002", name: "Premium Ironing" },
+//       price: 29,
+//       discount: { type: "percent" as const, value: 5 },
+//       isAvailable: true,
+//       _id: "v3",
+//     },
+//     {
+//       serviceId: { _id: "srv003", name: "Fabric Softener" },
+//       price: 19,
+//       discount: { type: "flat" as const, value: 2 },
+//       isAvailable: false,
+//       _id: "v4",
+//     },
+//   ],
+//   attributeValues: [
+//     {
+//       attributeId: "a1",
+//       attributeName: "baby",
+//       optionId: "o1",
+//     },
+//     {
+//       attributeId: "a2",
+//       attributeName: "men",
+//       optionId: "o2",
+//     },
+//     {
+//       attributeId: "a3",
+//       attributeName: "women",
+//       optionId: "o3",
+//     },
+//   ],
 
-  id: "69135cf83162fa4052120bc2",
-};
+//   id: "69135cf83162fa4052120bc2",
+// };
 const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; closeModal?: () => void }) => {
   const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>([]);
   const [selectedAttributes, setSelectedAttributes] = useState<AttributeValue[] | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const { selectedProduct } = useAppSelector((state) => state.product);
 
   const toggleService = (serviceId: string) => {
     setSelectedServiceIds((prev) => (prev.includes(serviceId) ? prev.filter((id) => id !== serviceId) : [...prev, serviceId]));
@@ -126,8 +127,8 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
     if (selectedServiceIds.length === 0) return;
 
     const items = {
-      productId: selectedProduct._id,
-      productName: selectedProduct.name,
+      productId: selectedProduct?._id,
+      productName: selectedProduct?.name,
       variations: selectedVariations,
       // serviceName: String,
       quantity: quantity,
@@ -149,13 +150,12 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
               <View className="flex-1 gap-4">
                 <View className="p-6 items-center">
                   <View className="w-40 h-40 bg-green-50 rounded-2xl items-center justify-center">
-                    <Ionicons name="shirt-border" size={72} color={Colors.primary} />
+                    <Ionicons name="shirt" size={72} color={Colors.primary} />
                   </View>
                 </View>
 
                 <View className="mt-2">
-                  <NText className="text-2xl font-bold text-heading">{selectedProduct.name}</NText>
-                  <NText className=" text-body">{selectedProduct.description}</NText>
+                  <NText className="text-2xl font-bold text-heading">{selectedProduct?.description}</NText>
                 </View>
               </View>
             )}
@@ -181,7 +181,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
               </View>
 
               <View className="gap-3">
-                {selectedProduct.services?.map((service: Service) => {
+                {selectedProduct?.services?.map((service: Service) => {
                   const isSelected = selectedServiceIds.includes(service._id);
                   const variation = selectedProduct.variations?.find((v: Variation) => v.serviceId._id === service._id);
                   const isAvailable = variation?.isAvailable ?? false;
@@ -250,7 +250,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                 })}
               </View>
 
-              {selectedProduct.attributeValues && (
+              {selectedProduct?.attributeValues && (
                 <View className="flex-row items-center justify-between my-4">
                   <NText className="text-lg font-semibold text-heading">Select Category</NText>
                   {selectedAttributes && selectedAttributes?.length > 0 && (
@@ -260,7 +260,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
               )}
 
               <View className="flex-row gap-3">
-                {selectedProduct.attributeValues.map((i) => (
+                {selectedProduct?.attributeValues?.map((i) => (
                   <Pressable
                     onPress={() => {
                       toggleAttributes(i);
@@ -333,7 +333,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
             {/* Empty Selection State */}
             {selectedServiceIds.length === 0 && (
               <View className="bg-foreground mt-2 py-8 mb-36 items-center">
-                <Ionicons name="cart-border" size={48} color="#D1D5DB" />
+                <Ionicons name="cart" size={48} color="#D1D5DB" />
                 <NText className="mt-3 text-gray-400 text-center">Select services above to see order summary</NText>
               </View>
             )}

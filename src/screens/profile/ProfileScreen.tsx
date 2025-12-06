@@ -21,7 +21,7 @@ import { Colors } from "@/context/ThemeProvider";
 import { navigate } from "@/utils/NavigationUtils";
 import { showToast } from "@/utils/commonFunction";
 import { useAppDispatch } from "@/store";
-import { setToken, setUser } from "@/store/reducer/authReducer";
+import { setUser } from "@/store/reducer/authReducer";
 import Images from "@/constants/Images";
 import { tokenStorage } from "@/services/storage";
 

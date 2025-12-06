@@ -30,8 +30,7 @@ const ForgotPasswordVerifyModal: React.FC<ForgotPasswordVerifyModalProps> = ({ v
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [step, setStep] = useState<1 | 2>(1);
   const [loading, setLoading] = useState(false);
 
@@ -39,12 +38,6 @@ const ForgotPasswordVerifyModal: React.FC<ForgotPasswordVerifyModalProps> = ({ v
 
   const maskedContact =
     method === "email" ? contact.replace(/^(.{2}).*(@.*)$/, "$1••••$2") : contact.replace(/(\d{3})\d{4}(\d{3})/, "$1••••$2");
-
-  const handleOtpKeyPress = (e: any, index: number) => {
-    if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
-      inputs.current[index - 1]?.focus();
-    }
-  };
 
   const handleContinue = () => {
     if (otp.length !== 6) {

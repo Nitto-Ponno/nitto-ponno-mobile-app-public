@@ -11,7 +11,6 @@ import { navigate } from "@/utils/NavigationUtils";
 const CartScreen = () => {
   const dispatch = useAppDispatch();
   const { cartItems, selectedCart } = useAppSelector((state) => state.cart);
-  console.log("cartItems", JSON.stringify(cartItems, null, 2));
 
   const calculateTotal = () => {
     return cartItems

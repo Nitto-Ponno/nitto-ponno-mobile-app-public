@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Modal, View, Text, Pressable, ScrollView } from "react-native";
+import { Modal, View, Pressable, ScrollView } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NText from "../global/NText";
+import { useTheme } from "@/context/ThemeProvider";
 
 interface SlotPickerModalProps {
   visible: boolean;
@@ -14,6 +15,7 @@ export const SlotPickerModal: React.FC<SlotPickerModalProps> = ({ visible, onClo
   const [local, setLocal] = useState(initialValue);
   const [openPicker, setOpenPicker] = useState<null | "date" | "from" | "to">(null);
   const [error, setError] = useState("");
+  const { theme } = useTheme();
 
   useEffect(() => {
     setLocal(initialValue);
@@ -133,11 +135,12 @@ export const SlotPickerModal: React.FC<SlotPickerModalProps> = ({ visible, onClo
           {/* Real Pickers */}
           {openPicker === "date" && (
             <DateTimePicker
+              themeVariant={theme}
               value={new Date(local.date || Date.now())}
               mode="date"
               display="spinner"
               minimumDate={new Date()}
-              onChange={(event, selected) => {
+              onChange={(_, selected) => {
                 if (!selected) return setOpenPicker(null);
                 updateLocal("date", formatDate(selected));
                 setOpenPicker(null);
@@ -147,10 +150,11 @@ export const SlotPickerModal: React.FC<SlotPickerModalProps> = ({ visible, onClo
 
           {openPicker === "from" && (
             <DateTimePicker
+              themeVariant={theme}
               value={new Date(`1970-01-01T${local.from || "09:00"}:00`)}
               mode="time"
               display="spinner"
-              onChange={(event, selected) => {
+              onChange={(_, selected) => {
                 if (!selected) return setOpenPicker(null);
                 updateLocal("from", formatTime(selected));
                 setOpenPicker(null);
@@ -160,6 +164,7 @@ export const SlotPickerModal: React.FC<SlotPickerModalProps> = ({ visible, onClo
 
           {openPicker === "to" && (
             <DateTimePicker
+              themeVariant={theme}
               value={new Date(`1970-01-01T${local.to || "10:00"}:00`)}
               mode="time"
               display="spinner"

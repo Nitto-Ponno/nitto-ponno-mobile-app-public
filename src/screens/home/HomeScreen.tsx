@@ -49,12 +49,12 @@ export default function HomeScreen() {
       <SearchBar onSearch={handleSearch} />
 
       <ScrollView showsVerticalScrollIndicator={false} bounces={true} className="flex-1">
-        <CategoryChips categories={categories} activeId={activeCategory} onSelect={handleSelectCategory} />
-        <SelectionModal />
-        <PromoCarousel promos={promos} />
+        {/* <CategoryChips categories={categories} activeId={activeCategory} onSelect={handleSelectCategory} />
+        <PromoCarousel promos={promos} /> */}
         <FeaturedSection />
+        <SelectionModal />
 
-        <SectionHeader title="Featured" onSeeAll={() => handleSeeAll("featured")} icon={<TrendingUp size={24} color="#00a303" />} />
+        {/* <SectionHeader title="Featured" onSeeAll={() => handleSeeAll("featured")} icon={<TrendingUp size={24} color="#00a303" />} />
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerClassName="px-4 gap-3">
           {featuredProducts.map((product) => (
             <ProductCard
@@ -65,11 +65,11 @@ export default function HomeScreen() {
               horizontal
             />
           ))}
-        </ScrollView>
+        </ScrollView> */}
 
-        <SectionHeader title="All Products" onSeeAll={() => handleSeeAll("all")} />
+        {/* <SectionHeader title="All Products" onSeeAll={() => handleSeeAll("all")} /> */}
 
-        <View className="px-4 pb-4">
+        {/* <View className="px-4 pb-4">
           <View className="flex-row flex-wrap gap-3">
             {productsWithFavorites.map((product) => (
               <View key={product.id} className="w-[48%]">
@@ -77,11 +77,11 @@ export default function HomeScreen() {
               </View>
             ))}
           </View>
-        </View>
+        </View> */}
 
-        {showBanner && <BottomBanner onDismiss={() => setShowBanner(false)} />}
+        {/* {showBanner && <BottomBanner onDismiss={() => setShowBanner(false)} />} */}
 
-        <View className="h-4" />
+        {/* <View className="h-4" /> */}
       </ScrollView>
     </SafeAreaView>
   );

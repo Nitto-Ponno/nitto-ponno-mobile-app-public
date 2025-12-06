@@ -4,11 +4,13 @@ import CheckoutHeader from "@/components/checkout/CheckoutHeader";
 
 import AddressSection from "@/components/checkout/AddressSection";
 import SelectedItemsSection from "@/components/checkout/SelectedItemsSection";
-import { ScrollView } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { OrderInfo, OrderInfoSection } from "@/components/cart/OrderInfoSection";
 import { dispatch, useAppSelector } from "@/store";
 import { updateOrderPayload } from "@/store/reducer/orderReducer";
 import { KeyboardAvoiderScrollView } from "@good-react-native/keyboard-avoider";
+import NText from "@/components/global/NText";
+import { handleCreateOrder } from "@/services/api/orderApi";
 
 const CheckoutScreen = () => {
   const { paymentMethod, preferredPickupSlot, specialInstructions, preferredDeliverySlot, perfume, foldOnly, totalWeightKg, source } =
@@ -35,6 +37,9 @@ const CheckoutScreen = () => {
         <SelectedItemsSection />
         <OrderInfoSection value={value} onChange={handleChange} />
       </KeyboardAvoiderScrollView>
+      <TouchableOpacity onPress={handleCreateOrder} className="h-12 justify-center items-center bg-primary rounded-2xl mt-2">
+        <NText className="font-semibold text-white">Confirm Order</NText>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

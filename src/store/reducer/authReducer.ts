@@ -1,8 +1,9 @@
+import { User } from "@/services/types/authTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // Define the auth state
 interface AuthState {
-  user: any | null;
+  user: User | null;
   token: string | null;
   accessToken: string | null;
   refreshToken: string | null;
@@ -34,7 +35,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<any | null>) => {
+    setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
     },
     setAccessToken: (state, action: PayloadAction<string | null>) => {
