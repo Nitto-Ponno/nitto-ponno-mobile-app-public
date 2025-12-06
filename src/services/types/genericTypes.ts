@@ -5,6 +5,7 @@ export interface ApiResponse<T> {
   message: string;
   data: T;
   error?: string;
+  meta?: Pagination;
 }
 
 export interface ErrorResponse {
@@ -12,4 +13,14 @@ export interface ErrorResponse {
   statusCode: number;
   message: string;
   error: string;
+}
+
+export interface Pagination {
+  currentPage: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  page: number;
 }

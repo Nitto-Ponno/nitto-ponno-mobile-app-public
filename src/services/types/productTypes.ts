@@ -1,3 +1,5 @@
+import { Pagination } from "./genericTypes";
+
 export interface AttributeValue {
   attributeId: string;
   attributeName: string;
@@ -51,12 +53,6 @@ export interface Product {
   updatedAt: string;
   finalPrice: number;
   id: string;
-}
-
-export interface Pagination {
-  currentPage: string;
-  limit: string;
-  total: number;
 }
 
 export interface ProductListResponse {

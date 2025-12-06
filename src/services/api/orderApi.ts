@@ -1,24 +1,9 @@
 import { http } from "../http";
 import { ApiResponse } from "../types/genericTypes";
-import { OrderRequest } from "../types/orderTypes";
+import { OrderData, OrderRequest, OrderResponse } from "../types/orderTypes";
 import store from "@/store";
 import { showErrorToast } from "@/utils/commonFunction";
-import { Variation } from "../types/productTypes";
-type TProduct = {
-  productId: string;
-  productName: string;
-  variations: Variation;
-  quantity: number;
-  unitPrice: number;
-  subtotal: number;
-  attributeValues?: [
-    {
-      attributeId: string;
-      attributeName: string;
-      optionId: string;
-    },
-  ];
-};
+
 export function transformCart(data: any[]) {
   const items = data.map((item) => {
     const variation = item.variations[0];
@@ -42,16 +27,19 @@ export function transformCart(data: any[]) {
 }
 
 export const OrderApi = {
-  async placeOrder(payload: OrderRequest): Promise<ApiResponse<any>> {
-    return await http.post<ApiResponse<any>>("/orders", payload);
+  async placeOrder(payload: OrderRequest): Promise<ApiResponse<OrderData>> {
+    return await http.post<ApiResponse<OrderData>>("/orders", payload);
   },
 
+  async getAllOrders(): Promise<ApiResponse<any>> {
+    return await http.get<ApiResponse<any>>(`/orders/my`);
+  },
   //   async getSingle(id: string): Promise<ApiResponse<GetSingleCategoryResponse>> {
   //     return await http.get<ApiResponse<GetSingleCategoryResponse>>(`/category/single/${id}`);
   //   },
 };
 
-const validateOrderData = (order: any): order is OrderRequest => {
+export const validateOrderData = (order: any): order is OrderRequest => {
   if (!order.pickupAddress || !order.pickupAddress.fullAddress) {
     showErrorToast({ message: "Invalid pickup address" });
     return false;
@@ -83,31 +71,4 @@ const validateOrderData = (order: any): order is OrderRequest => {
   }
 
   return true;
-};
-
-export const handleCreateOrder = async () => {
-  const order = store.getState().order;
-  const { user } = store.getState().auth;
-
-  const { cartItems, selectedCart } = store.getState().cart;
-  const finalItems = cartItems.filter((i) => selectedCart?.includes(i?.cartId));
-
-  if (!validateOrderData(order)) {
-    return;
-  }
-  console.log("finalItems", JSON.stringify(finalItems, null, 2));
-  // TypeScript now knows `order` is of type OrderRequest
-  let payload: OrderRequest = order;
-  if (finalItems.length > 0 && finalItems && user) {
-    payload = { ...payload, paymentMethod: "cod", ...transformCart(finalItems), user: user?._id };
-  }
-
-  console.log("payload", JSON.stringify(payload, null, 2));
-  try {
-    const response = await OrderApi.placeOrder(payload);
-    console.log("response", JSON.stringify(response, null, 2));
-  } catch (err: any) {
-    // handleErrorResponse(err, "Order place");
-    console.log("err.response.data.message", JSON.stringify(err.response.data, null, 2));
-  }
 };
