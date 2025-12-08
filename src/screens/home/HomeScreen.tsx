@@ -6,6 +6,8 @@ import { Colors, useTheme } from "@/context/ThemeProvider";
 import Images from "@/constants/Images";
 import FeaturedSection from "@/components/home/FeaturedSection";
 import SelectionModal from "@/components/product/SelectionModal";
+import { showToast } from "@/utils/commonFunction";
+import { navigate } from "@/utils/NavigationUtils";
 
 // Main Screen
 export default function HomeScreen() {
@@ -287,7 +289,14 @@ const TopBar = ({ cartCount = 3, notificationCount = 5 }) => {
         >
           <CloudSun size={28} color={Colors.heading} />
         </Pressable>
-        <Pressable className="relative" accessibilityRole="button" accessibilityLabel="Notifications">
+        <Pressable
+          onPress={() => {
+            showToast({ message: "Coming soon..." });
+          }}
+          className="relative"
+          accessibilityRole="button"
+          accessibilityLabel="Notifications"
+        >
           <Bell size={24} color={Colors.heading} />
           {notificationCount > 0 && (
             <View className="absolute -top-1 -right-1 bg-error rounded-full w-4 h-4 items-center justify-center">
@@ -296,7 +305,14 @@ const TopBar = ({ cartCount = 3, notificationCount = 5 }) => {
           )}
         </Pressable>
 
-        <Pressable className="relative" accessibilityRole="button" accessibilityLabel="Shopping cart">
+        <Pressable
+          onPress={() => {
+            navigate("CartStack", { screen: "Cart" });
+          }}
+          className="relative"
+          accessibilityRole="button"
+          accessibilityLabel="Shopping cart"
+        >
           <ShoppingCart size={24} color={Colors.heading} />
           {cartCount > 0 && (
             <View className="absolute -top-1 -right-1 bg-primary rounded-full w-4 h-4 items-center justify-center">

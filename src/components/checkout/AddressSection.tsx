@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import AddressModal from "./AddressModal";
 import { EditIcon, MapPinIcon, PackageIcon, Truck } from "lucide-react-native";
+import { Colors } from "@/context/ThemeProvider";
 
 // Main Address Display Section Component
 const AddressSection: React.FC = () => {
@@ -22,7 +23,7 @@ const AddressSection: React.FC = () => {
     return (
       <View className="bg-foreground rounded-xl p-6 my-3 border-border border">
         <View className="flex-row items-center mb-4">
-          <MapPinIcon />
+          <MapPinIcon color={Colors.heading} />
           <Text className="text-lg font-bold text-heading ml-2">Addresses</Text>
         </View>
 
@@ -45,22 +46,22 @@ const AddressSection: React.FC = () => {
       {/* Header with Edit Button */}
       <View className="flex-row justify-between items-center mb-4">
         <View className="flex-row items-center">
-          <MapPinIcon />
+          <MapPinIcon color={Colors.heading} />
           <Text className="text-lg font-bold text-heading ml-2">Addresses</Text>
         </View>
         <TouchableOpacity onPress={() => setModalVisible(true)} className="flex-row items-center bg-secondary px-3 py-2 rounded-lg">
-          <EditIcon />
-          <Text className=" font-semibold text-heading ml-1">Change</Text>
+          <EditIcon color={"black"} />
+          <Text className=" font-semibold text-black ml-1">Change</Text>
         </TouchableOpacity>
       </View>
 
       {/* Pickup Address */}
       <View className="mb-4">
         <View className="flex-row items-center mb-2">
-          <PackageIcon />
+          <PackageIcon color={Colors.heading} />
           <Text className="text-sm font-semibold text-heading ml-2">Pickup Address</Text>
         </View>
-        <View className="bg-blue-50 rounded-lg p-3 ml-7">
+        <View className="bg-accent border border-border rounded-lg p-3 ml-7">
           <Text className="text-base text-heading font-medium">{pickupAddress.fullAddress}</Text>
           {pickupAddress.apartment && <Text className="text-sm text-gray-600 mt-1">{pickupAddress.apartment}</Text>}
         </View>
@@ -68,7 +69,7 @@ const AddressSection: React.FC = () => {
       {/* Delivery Address */}
       <View>
         <View className="flex-row items-center mb-2">
-          <Truck />
+          <Truck color={Colors.heading} />
           <Text className="text-sm font-semibold text-heading ml-2">Delivery Address</Text>
           {deliveryAddress?.sameAsPickup && (
             <View className="bg-green-100 px-2 py-1 rounded ml-2">
@@ -76,7 +77,7 @@ const AddressSection: React.FC = () => {
             </View>
           )}
         </View>
-        <View className="bg-green-50 rounded-lg p-3 ml-7">
+        <View className="bg-accent border border-border rounded-lg p-3 ml-7">
           <Text className="text-base text-heading font-medium">{deliveryAddress?.fullAddress}</Text>
           {deliveryAddress?.apartment && <Text className="text-sm text-gray-600 mt-1">{deliveryAddress.apartment}</Text>}
         </View>

@@ -9,7 +9,7 @@ const VariationItem = ({ variation }: { variation: CartItem["variations"][0] }) 
 
   return (
     <View className="flex-row justify-between items-center py-2 border-b border-gray-100">
-      <Text className="text-gray-700 flex-1" numberOfLines={1}>
+      <Text className="text-heading font-semibold flex-1" numberOfLines={1}>
         {variation.serviceId.name}
       </Text>
 

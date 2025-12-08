@@ -1,4 +1,5 @@
 // AddressModal.tsx
+import { Colors } from "@/context/ThemeProvider";
 import { AddressPayload } from "@/services/types/cartTypes";
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Modal, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
@@ -56,13 +57,13 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
     <Modal visible={visible} animationType="slide" transparent={true} onRequestClose={onClose}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} className="flex-1">
         <View className="flex-1 justify-end bg-black/50">
-          <View className="bg-white rounded-t-3xl max-h-[90%]">
+          <View className="bg-foreground rounded-t-3xl max-h-[90%]">
             {/* Header */}
             <View className="px-6 py-4 border-b border-border">
               <View className="flex-row justify-between items-center">
-                <Text className="text-xl font-bold text-heading">Address Details</Text>
+                <Text className="text-2xl font-bold text-heading">Address Details</Text>
                 <TouchableOpacity onPress={onClose}>
-                  <Text className="text-4xl text-gray-500">×</Text>
+                  <Text className="text-4xl text-error">×</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -72,36 +73,39 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
               <View className="mb-6">
                 <Text className="text-lg font-semibold text-heading mb-3">Pickup Address</Text>
                 <View className="mb-3">
-                  <Text className="text-sm font-medium text-gray-700 mb-2">Full Address *</Text>
+                  <Text className="text-sm font-medium text-heading mb-2">Full Address *</Text>
                   <TextInput
-                    className="border border-gray-300 rounded-lg px-4 py-3 text-base text-heading"
+                    className="border border-border rounded-lg px-4 py-3 text-base text-heading"
                     placeholder="Enter street address"
                     value={pickupAddress}
                     onChangeText={setPickupAddress}
                     multiline
+                    placeholderTextColor={Colors.body}
                   />
                 </View>
                 <View>
-                  <Text className="text-sm font-medium text-gray-700 mb-2">Apartment/Suite (Optional)</Text>
+                  <Text className="text-sm font-medium text-heading mb-2">Apartment/Suite (Optional)</Text>
                   <TextInput
-                    className="border border-gray-300 rounded-lg px-4 py-3 text-base text-heading"
+                    className="border border-border rounded-lg px-4 py-3 text-base text-heading"
                     placeholder="Apt, Suite, Floor"
                     value={pickupApartment}
                     onChangeText={setPickupApartment}
+                    placeholderClassName="text-body"
+                    placeholderTextColor={Colors.body}
                   />
                 </View>
               </View>
 
               {/* Same as Pickup Checkbox */}
-              <TouchableOpacity onPress={handleSameAsPickupToggle} className="flex-row items-center mb-6 py-3">
+              <TouchableOpacity onPress={handleSameAsPickupToggle} className="flex-row items-center mb-3">
                 <View
-                  className={`w-5 h-5 rounded border-2 mr-3 items-center justify-center ${
-                    sameAsPickup ? "bg-blue-600 border-blue-600" : "border-gray-400"
+                  className={`w-6 h-6 rounded border-2 mr-3 items-center justify-center ${
+                    sameAsPickup ? "bg-success border-success" : "border-body"
                   }`}
                 >
                   {sameAsPickup && <Text className="text-white text-xs font-bold">✓</Text>}
                 </View>
-                <Text className="text-base text-gray-700">Delivery address same as pickup</Text>
+                <Text className={`text-lg  ${sameAsPickup ? "text-success" : "text-body"}`}>Delivery address same as pickup</Text>
               </TouchableOpacity>
 
               {/* Delivery Address */}
@@ -109,22 +113,24 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
                 <View className="mb-6">
                   <Text className="text-lg font-semibold text-heading mb-3">Delivery Address</Text>
                   <View className="mb-3">
-                    <Text className="text-sm font-medium text-gray-700 mb-2">Full Address *</Text>
+                    <Text className="text-sm font-medium text-heading mb-2">Full Address *</Text>
                     <TextInput
-                      className="border border-gray-300 rounded-lg px-4 py-3 text-base text-heading"
+                      className="border border-border rounded-lg px-4 py-3 text-base text-heading"
                       placeholder="Enter street address"
                       value={deliveryAddress}
                       onChangeText={setDeliveryAddress}
                       multiline
+                      placeholderTextColor={Colors.body}
                     />
                   </View>
                   <View>
-                    <Text className="text-sm font-medium text-gray-700 mb-2">Apartment/Suite (Optional)</Text>
+                    <Text className="text-sm font-medium text-heading mb-2">Apartment/Suite (Optional)</Text>
                     <TextInput
-                      className="border border-gray-300 rounded-lg px-4 py-3 text-base text-heading"
+                      className="border border-border rounded-lg px-4 py-3 text-base text-heading"
                       placeholder="Apt, Suite, Floor"
                       value={deliveryApartment}
                       onChangeText={setDeliveryApartment}
+                      placeholderTextColor={Colors.body}
                     />
                   </View>
                 </View>
@@ -133,7 +139,7 @@ const AddressModal: React.FC<AddressModalProps> = ({ visible, onClose, onSubmit,
 
             {/* Footer Button */}
             <View className="px-6 py-4 border-t border-border">
-              <TouchableOpacity onPress={handleSubmit} className="bg-blue-600 rounded-lg py-4 items-center">
+              <TouchableOpacity onPress={handleSubmit} className="bg-primary rounded-lg py-4 items-center">
                 <Text className="text-white text-base font-semibold">Confirm Addresses</Text>
               </TouchableOpacity>
             </View>

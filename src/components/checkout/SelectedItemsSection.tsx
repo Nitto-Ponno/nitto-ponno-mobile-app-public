@@ -4,6 +4,7 @@ import { useAppSelector } from "@/store";
 import SelectedItemCard from "./SelectedItemCard";
 import NText from "../global/NText";
 import { MousePointerClick } from "lucide-react-native";
+import { Colors } from "@/context/ThemeProvider";
 
 const SelectedItemsSection = () => {
   const { cartItems, selectedCart } = useAppSelector((state) => state.cart);
@@ -12,7 +13,7 @@ const SelectedItemsSection = () => {
   return (
     <View className="px-4 pb-2 pt-4 bg-foreground rounded-xl border border-border">
       <View className="flex-row items-center gap-2">
-        <MousePointerClick />
+        <MousePointerClick color={Colors.heading} />
         <NText className="text-xl font-bold text-heading">Selected Items</NText>
       </View>
       <View className="mt-4">

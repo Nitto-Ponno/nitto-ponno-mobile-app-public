@@ -36,7 +36,7 @@ const CartItemCard = ({
       {/* Variations */}
       {item.variations.length > 0 && (
         <View className="mb-4">
-          <Text className="text-xs font-semibold text-gray-500 uppercase mb-2">Services</Text>
+          <Text className="text-xs font-semibold text-body uppercase mb-2">Services</Text>
           {item.variations.map((v) => (
             <VariationItem key={v._id} variation={v} />
           ))}
