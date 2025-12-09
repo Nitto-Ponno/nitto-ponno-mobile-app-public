@@ -5,7 +5,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
 import { View, ScrollView, TouchableOpacity, Image, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Grid, Tag, Sparkles } from "lucide-react-native";
+import { Grid, Tag, Sparkles, ArrowLeft } from "lucide-react-native";
+import { Colors } from "@/context/ThemeProvider";
+import Images from "@/constants/Images";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = (width - 48) / 2;
@@ -36,13 +38,13 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, onPress }) => {
   return (
     <TouchableOpacity
       onPress={() => onPress(category)}
-      className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden mb-4 border border-gray-100 dark:border-gray-800"
+      className="bg-accent  rounded-2xl overflow-hidden mb-4 border border-border "
       style={{ width: CARD_WIDTH }}
       activeOpacity={0.8}
     >
       {/* Image Section */}
       <View className="relative">
-        <Image source={{ uri: category.image }} className="w-full h-32 bg-gray-100 dark:bg-gray-800" resizeMode="cover" />
+        <Image source={Images.LOGO} className="w-full h-32 bg-foreground " resizeMode="cover" />
         {category.isFeatured && (
           <View className="absolute top-2 right-2 bg-yellow-400 rounded-full p-1.5">
             <Sparkles size={12} color="#000" />
@@ -52,13 +54,13 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, onPress }) => {
 
       {/* Content Section */}
       <View className="p-3">
-        <NText className="text-sm font-bold text-gray-900 dark:text-white" numberOfLines={1}>
+        <NText className="text-sm font-bold text-heading " numberOfLines={1}>
           {category.name}
         </NText>
         {subCount > 0 && (
           <View className="flex-row items-center mt-2">
-            <Grid size={12} color="#9CA3AF" />
-            <NText className="text-xs text-gray-500 dark:text-gray-400 ml-1">{subCount} categories</NText>
+            <Grid size={12} color={Colors.body} />
+            <NText className="text-xs text-body  ml-1">{subCount} categories</NText>
           </View>
         )}
       </View>
@@ -77,16 +79,16 @@ const SubCategoryItem: React.FC<SubCategoryItemProps> = ({ category, onPress }) 
   return (
     <TouchableOpacity
       onPress={() => onPress(category)}
-      className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-2 flex-row items-center border border-gray-100 dark:border-gray-800"
+      className="bg-foreground  rounded-xl p-3 mb-2 flex-row items-center border border-border "
       activeOpacity={0.7}
     >
-      <Image source={{ uri: category.image }} className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-800" resizeMode="cover" />
+      <Image source={Images.LOGO} className="w-12 h-12 rounded-lg bg-foreground " resizeMode="cover" />
       <View className="flex-1 ml-3">
         <View className="flex-row items-center">
-          <NText className="text-sm font-semibold text-gray-900 dark:text-white">{category.name}</NText>
+          <NText className="text-sm font-semibold text-heading ">{category.name}</NText>
           {category.isFeatured && <View className="ml-2 w-1.5 h-1.5 bg-yellow-400 rounded-full" />}
         </View>
-        {subCount > 0 && <NText className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{subCount} subcategories</NText>}
+        {subCount > 0 && <NText className="text-xs text-body mt-0.5">{subCount} subcategories</NText>}
       </View>
       <Tag size={16} color="#D1D5DB" />
     </TouchableOpacity>
@@ -129,21 +131,13 @@ const CategoryScreen: React.FC = () => {
   const isSubView = selectedCategory !== null;
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-black">
+    <SafeAreaView className="flex-1 bg-background">
       {/* Header */}
-      <View className="px-4 py-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <View className="flex-row items-center justify-between">
-          <View className="flex-1">
-            <NText className="font-bold text-2xl text-gray-900 dark:text-white">{selectedCategory?.name || "Categories"}</NText>
-            {breadcrumb.length > 0 && (
-              <TouchableOpacity onPress={handleBack} className="mt-1">
-                <NText className="text-sm text-blue-600 dark:text-blue-400">
-                  ← Back to {breadcrumb[breadcrumb.length - 2]?.name || "all categories"}
-                </NText>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
+      <View className="px-4 pb-4 bg-background border-b border-border ">
+        <TouchableOpacity onPress={handleBack} disabled={!selectedCategory?.name} className="flex-row items-center gap-2">
+          {selectedCategory?.name && <ArrowLeft size={25} color={Colors.heading} />}
+          <NText className="font-bold text-2xl text-heading capitalize">{selectedCategory?.name || "Categories"}</NText>
+        </TouchableOpacity>
       </View>
 
       {/* Content */}
@@ -167,7 +161,7 @@ const CategoryScreen: React.FC = () => {
         ) : (
           <View className="flex-1 items-center justify-center py-20">
             <Grid size={48} color="#D1D5DB" />
-            <NText className="text-gray-400 dark:text-gray-600 text-base mt-4">No categories available</NText>
+            <NText className="text-gray-400  text-base mt-4">No categories available</NText>
           </View>
         )}
 

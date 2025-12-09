@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } 
 import env from "@/services/env";
 import store, { clearStore, dispatch } from "../store";
 import { setAccessToken } from "@/store/reducer/authReducer";
+import { token } from "@/utils/commonFunction";
 
 const API_BASE_URL = env.ENDPOINT;
 
@@ -52,13 +53,12 @@ export const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     // ✅ Get fresh accessToken on EVERY request
-    const { accessToken } = store.getState().auth;
 
-    console.log("token", accessToken ? "exists" : "missing");
+    console.log("token", token ? "exists" : "missing");
 
-    if (accessToken) {
+    if (token) {
       config.headers = config.headers ?? {};
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },

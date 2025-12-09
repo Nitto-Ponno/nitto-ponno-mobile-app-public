@@ -1,6 +1,6 @@
 import { View, Text, Modal, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Package,
   MapPin,
@@ -16,6 +16,7 @@ import {
   Truck,
   CreditCard,
   Home,
+  CheckCircle,
 } from "lucide-react-native";
 import { Colors } from "@/context/ThemeProvider";
 import NText from "../global/NText";
@@ -28,6 +29,8 @@ type props = {
 };
 
 const OrderPlacedModal = ({ visible, onClose, order }: props) => {
+  console.log("order", JSON.stringify(order, null, 2));
+  const { top, bottom } = useSafeAreaInsets();
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString("en-US", {
@@ -79,35 +82,49 @@ const OrderPlacedModal = ({ visible, onClose, order }: props) => {
 
   const statusColors = getStatusColor(order.status);
   return (
-    <Modal visible={visible}>
-      <SafeAreaView className="flex-1 bg-background">
+    <Modal visible={visible} animationType="slide">
+      <View style={{ paddingTop: top, paddingBottom: bottom }} className="flex-1 bg-background">
         <ScrollView className="flex-1 bg-background">
           <View className="p-4 gap-4">
+            <View className="items-center rounded-3xl bg-foreground border border-border pt-16 pb-8 px-6">
+              <View className="mb-6">
+                <CheckCircle size={80} color="#10b981" strokeWidth={2} />
+              </View>
+              <Text className="text-3xl font-bold text-heading mb-2">Order Placed Successfully!</Text>
+              <Text className="text-base text-body text-center">
+                Thank you for your order. We'll send you a confirmation email shortly.
+              </Text>
+            </View>
             {/* Header Card */}
-            <View className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-3xl p-6 shadow-lg">
-              <View className="flex-row items-center justify-between mb-4">
-                <View className="flex-row items-center gap-3">
-                  <View className="bg-white/20 p-3 rounded-2xl">
-                    <Package size={28} color={Colors.body} />
-                  </View>
-                  <View>
-                    <Text className="text-body text-xs font-semibold mb-1">ORDER ID</Text>
-                    <Text className="text-heading text-lg font-bold">{order.orderId}</Text>
-                  </View>
-                </View>
+
+            <View className="bg-foreground rounded-2xl p-5 border border-border">
+              <View className="flex-row justify-between items-center mb-4">
+                <Text className="text-lg font-semibold text-heading">Order Details</Text>
                 <View className={`px-4 py-2 rounded-full ${statusColors.bg} border ${statusColors.border}`}>
                   <Text className={`${statusColors.text} font-bold text-sm uppercase`}>{order.status.replace("_", " ")}</Text>
                 </View>
               </View>
 
-              <View className="flex-row items-center gap-2 bg-white/10 rounded-xl p-3">
-                <Calendar size={16} color={Colors.body} />
-                <Text className="text-body text-sm">Placed on {formatDate(order.createdAt)}</Text>
+              <View className="">
+                <View className="flex-row items-center">
+                  <Package size={20} color={Colors.body} />
+                  <View className="ml-3 flex-1">
+                    <Text className="text-sm text-body">Order Number</Text>
+                    <Text className="text-base font-semibold text-heading">{order.orderId}</Text>
+                  </View>
+                </View>
+                <View className="flex-row items-center mt-3">
+                  <Calendar size={20} color={Colors.body} />
+                  <View className="ml-3 flex-1">
+                    <Text className="text-sm text-body">Placed at</Text>
+                    <Text className="text-base font-semibold text-heading">{formatDate(order.createdAt)}</Text>
+                  </View>
+                </View>
               </View>
             </View>
 
             {/* Addresses Card */}
-            <View className="bg-foreground rounded-3xl p-5 shadow-sm">
+            <View className="bg-foreground border border-border rounded-3xl p-5 shadow-sm">
               <View className="flex-row items-center gap-2 mb-4">
                 <MapPin size={22} color="#3B82F6" />
                 <Text className="text-lg font-bold text-heading">Addresses</Text>
@@ -192,7 +209,7 @@ const OrderPlacedModal = ({ visible, onClose, order }: props) => {
                 <View key={index} className="flex-row items-center justify-between border border-border rounded-2xl p-4 mb-2">
                   <View className="flex-1">
                     <Text className="text-heading font-semibold text-base mb-1">Laundry Service</Text>
-                    <Text className="text-gray-500 text-sm">Quantity: {item.quantity}</Text>
+                    <Text className="text-body text-sm">Quantity: {item.quantity}</Text>
                   </View>
                   <View className="items-end">
                     <Text className="text-heading font-bold text-lg">৳{item.subtotal}</Text>
@@ -227,7 +244,7 @@ const OrderPlacedModal = ({ visible, onClose, order }: props) => {
                     <View className={`p-2 rounded-xl ${order.perfume ? "bg-pink-100" : "bg-gray-100"}`}>
                       <Sparkles size={20} color={order.perfume ? "#EC4899" : "#9CA3AF"} />
                     </View>
-                    <Text className={`font-semibold ${order.perfume ? "text-pink-700" : "text-gray-500"}`}>Add Perfume</Text>
+                    <Text className={`font-semibold ${order.perfume ? "text-pink-700" : "text-body"}`}>Add Perfume</Text>
                   </View>
                   {order.perfume && <CheckCircle2 size={24} color="#EC4899" />}
                 </View>
@@ -238,7 +255,7 @@ const OrderPlacedModal = ({ visible, onClose, order }: props) => {
                     <View className={`p-2 rounded-xl ${order.foldOnly ? "bg-purple-100" : "bg-gray-100"}`}>
                       <Shirt size={20} color={order.foldOnly ? "#8B5CF6" : "#9CA3AF"} />
                     </View>
-                    <Text className={`font-semibold ${order.foldOnly ? "text-purple-700" : "text-gray-500"}`}>Fold Only</Text>
+                    <Text className={`font-semibold ${order.foldOnly ? "text-purple-700" : "text-body"}`}>Fold Only</Text>
                   </View>
                   {order.foldOnly && <CheckCircle2 size={24} color="#8B5CF6" />}
                 </View>
@@ -356,7 +373,7 @@ const OrderPlacedModal = ({ visible, onClose, order }: props) => {
         >
           <NText className="font-semibold text-lg text-white">Continue Shopping</NText>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     </Modal>
   );
 };

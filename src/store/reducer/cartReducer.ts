@@ -24,11 +24,13 @@ const cartSlice = createSlice({
       const p1 = exists?.productId ? exists : null;
       const check = checkExistence(p1, action.payload);
       if (check === "ADD_NEW") {
+        const newCartId = generateSimpleUniqueId();
         state.cartItems.push({
           ...action.payload,
           subtotal: calculateItemSubtotal(action.payload),
-          cartId: generateSimpleUniqueId(),
+          cartId: newCartId,
         });
+        state.selectedCart.push(newCartId);
       }
       if (check === "UPDATE") {
         const idx = state.cartItems.findIndex((i) => i.productId === action.payload.productId);

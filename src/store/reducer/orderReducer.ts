@@ -66,10 +66,13 @@ const orderSlice = createSlice({
     updateOrderPayload: (state, action: PayloadAction<{ key: keyof OrderState; value: any }>) => {
       setValue(state, action.payload.key, action.payload.value);
     },
+    clearOrderState: () => {
+      return initialState;
+    },
   },
 });
 
-export const { updateOrderPayload } = orderSlice.actions;
+export const { updateOrderPayload, clearOrderState } = orderSlice.actions;
 
 export default orderSlice.reducer;
 function setValue<T extends object>(state: T, key: keyof T, value: T[keyof T]) {

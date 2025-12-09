@@ -7,13 +7,14 @@ import SelectedItemsSection from "@/components/checkout/SelectedItemsSection";
 import { TouchableOpacity } from "react-native";
 import { OrderInfo, OrderInfoSection } from "@/components/cart/OrderInfoSection";
 import { dispatch, useAppSelector } from "@/store";
-import { updateOrderPayload } from "@/store/reducer/orderReducer";
+import { clearOrderState, updateOrderPayload } from "@/store/reducer/orderReducer";
 import { KeyboardAvoiderScrollView } from "@good-react-native/keyboard-avoider";
 import NText from "@/components/global/NText";
 import OrderPlacedModal from "@/components/checkout/OrderPlacedModal";
 import { OrderData } from "@/services/types/orderTypes";
 import { OrderApi, transformCart, validateOrderData } from "@/services/api/orderApi";
 import { handleErrorResponse } from "@/utils/handlers";
+import { showSuccessAlert } from "@/utils/commonFunction";
 
 const CheckoutScreen = () => {
   const { paymentMethod, preferredPickupSlot, specialInstructions, preferredDeliverySlot, perfume, foldOnly, totalWeightKg, source } =
@@ -34,6 +35,7 @@ const CheckoutScreen = () => {
     totalWeightKg,
     source,
   };
+
   const handleChange = (key: keyof OrderInfo, value: any) => {
     // setOrderInfo((prev) => ({ ...prev, [key]: value }));
     dispatch(updateOrderPayload({ key, value }));
@@ -52,7 +54,11 @@ const CheckoutScreen = () => {
     }
     try {
       const response = await OrderApi.placeOrder(payload);
-      response.data && setOrder(response.data);
+      if (response.data) {
+        // dispatch(clearOrderState());
+        response.data && setOrder(response.data);
+        showSuccessAlert({ message: "Order placed successfully!" });
+      }
       return response.data;
     } catch (err: any) {
       handleErrorResponse(err, "Order place");

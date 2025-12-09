@@ -3,6 +3,7 @@ import Toast from "react-native-toast-message";
 import { Linking, Share } from "react-native";
 import { Discount, Variation } from "@/services/types/productTypes";
 import { CartItem } from "@/services/types/cartTypes";
+import store from "@/store";
 
 interface ToastOptions {
   message?: string;
@@ -187,3 +188,12 @@ export const generateSimpleUniqueId = () => {
   const randomness = Math.random().toString(36).substring(2); // Get random part
   return `${timestamp}${randomness}`;
 };
+
+let token: string | null = "";
+
+store.subscribe(() => {
+  const state = store.getState();
+  token = state.auth.accessToken || null;
+});
+
+export { token };

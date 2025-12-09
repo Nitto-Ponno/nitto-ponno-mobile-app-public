@@ -7,18 +7,16 @@ import ForgotPasswordScreen from "@/screens/auth/ForgotPasswordScreen";
 import OTPVerificationScreen from "@/screens/auth/OTPVerificationScreen";
 import SetNewPasswordScreen from "@/screens/auth/SetNewPasswordScreen";
 import ChangePasswordScreen from "@/screens/auth/ChangePasswordScreen";
-import { useAppSelector } from "@/store";
 import ProductDetailsScreen from "@/screens/product/ProductDetailsScreen";
 import CheckoutScreen from "@/screens/cart/CheckoutScreen";
+import { token } from "@/utils/commonFunction";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppStack = () => {
-  const { accessToken } = useAppSelector((state) => state.auth);
-  console.log("accessToken", JSON.stringify(accessToken, null, 2));
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {accessToken ? (
+      {token ? (
         <>
           <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
           <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
