@@ -1,5 +1,5 @@
 {
-  "name": "nityoponno",
+  "name": "nittoponno",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
@@ -7,7 +7,8 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "apk": "cd android && ./gradlew clean && ./gradlew assembleRelease  && cd .. && rm android"
+    "apk": "cd android && ./gradlew clean && ./gradlew assembleRelease  && cd .. && rm android",
+    "expo-apk": "eas build --platform android --profile preview"
   },
   "dependencies": {
     "@good-react-native/keyboard-avoider": "^1.1.4",

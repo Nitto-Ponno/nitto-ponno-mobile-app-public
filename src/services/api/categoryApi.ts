@@ -28,7 +28,6 @@ export const CategoryApi = {
 };
 
 export const GetAllCategories = async () => {
-  console.log("Called---------");
   try {
     const response = await CategoryApi.getAll();
     if (response.success) {
