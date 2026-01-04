@@ -6,11 +6,11 @@ import { X } from "lucide-react-native";
 
 import ProductSelection from "./ProductSelection";
 
-// Mock data - replace with useAppSelector
-
 const SelectionModal = () => {
   const { selectionModal } = useAppSelector((state) => state.product);
-
+  if (!selectionModal) {
+    return;
+  }
   return (
     <Modal visible={selectionModal} transparent statusBarTranslucent={true}>
       <View className="flex-1 bg-black/20 justify-end">

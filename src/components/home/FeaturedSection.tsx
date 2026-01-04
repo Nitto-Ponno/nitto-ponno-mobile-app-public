@@ -6,6 +6,7 @@ import { getFeaturedProducts } from "@/services/api/productApi";
 import { navigate } from "@/utils/NavigationUtils";
 import { setSelectedProduct, setSelectionModal } from "@/store/reducer/productReducer";
 import { showToast } from "@/utils/commonFunction";
+import SelectionModal from "../product/SelectionModal";
 
 const FeaturedSection = () => {
   const { products } = useAppSelector((state) => state.product);
@@ -19,7 +20,6 @@ const FeaturedSection = () => {
 
   return (
     <View className="pb-3">
-      <Text className="px-3 text-2xl font-bold text-heading mb-2">Laundry Products</Text>
       <View className="px-3 gap-3">
         {products &&
           products.length > 0 &&
@@ -38,6 +38,7 @@ const FeaturedSection = () => {
               }}
             />
           ))}
+        <SelectionModal />
       </View>
     </View>
   );

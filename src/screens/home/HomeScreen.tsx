@@ -53,8 +53,9 @@ export default function HomeScreen() {
       <ScrollView showsVerticalScrollIndicator={false} bounces={true} className="flex-1">
         <CategoryChips categories={categories} activeId={activeCategory} onSelect={handleSelectCategory} />
         <PromoCarousel promos={promos} />
+        <Text className="px-3 text-2xl font-bold text-heading mb-2">Laundry Products</Text>
+
         <FeaturedSection />
-        <SelectionModal />
       </ScrollView>
     </SafeAreaView>
   );
@@ -233,7 +234,7 @@ const products = [
 const TopBar = ({ notificationCount = 5 }) => {
   const { toggleTheme } = useTheme();
   const { cartItems } = useAppSelector((state) => state.cart);
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, accessToken } = useAppSelector((state) => state.auth);
   return (
     <View className="flex-row items-center justify-between px-4 py-3 bg-background">
       <View className="flex-row items-center gap-3">
@@ -252,7 +253,7 @@ const TopBar = ({ notificationCount = 5 }) => {
       </View>
 
       <View className="flex-row items-center gap-4">
-        <Pressable
+        {/* <Pressable
           onPress={() => {
             toggleTheme();
           }}
@@ -261,10 +262,10 @@ const TopBar = ({ notificationCount = 5 }) => {
           accessibilityLabel="Notifications"
         >
           <CloudSun size={28} color={Colors.heading} />
-        </Pressable>
+        </Pressable> */}
         <Pressable
           onPress={() => {
-            showToast({ message: "Coming soon..." });
+            accessToken ? navigate("Notification") : navigate("Signin");
           }}
           className="relative"
           accessibilityRole="button"

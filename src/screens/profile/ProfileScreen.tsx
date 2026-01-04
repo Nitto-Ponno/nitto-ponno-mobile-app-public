@@ -181,7 +181,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         {/* Profile Card */}
         <View className="bg-foreground p-5 rounded-2xl mb-6">
           <View className="flex-row items-center mb-4">
-            <Image source={Images.LOGO} className="w-20 h-20 rounded-full mr-4" />
+            <View className="h-20 w-20 rounded-full overflow-hidden">
+              <Image source={Images.LOGO} className="w-20 h-20 rounded-full mr-4  bg-primary" />
+            </View>
             <View className="flex-1">
               <Text className="text-heading text-xl font-bold">{user?.fullName}</Text>
               <Text className="text-body text-sm mt-1">{user?.email}</Text>
@@ -223,6 +225,16 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
             badge={stats.wishlistItems > 0 ? stats.wishlistItems.toString() : undefined}
             iconColor="#ef4444"
           />
+          <MenuItem
+            icon={Bell}
+            title="Notification"
+            subtitle="Order updates and offers"
+            onPress={() => {
+              accessToken ? navigate("Notification") : navigate("Signin");
+            }}
+            badge={stats.wishlistItems > 0 ? stats.wishlistItems.toString() : undefined}
+            iconColor="#ef4444"
+          />
           <MenuItem icon={MapPin} title="Saved Addresses" subtitle="Manage delivery locations" onPress={onAddresses} iconColor="#8b5cf6" />
           <MenuItem
             icon={CreditCard}
@@ -237,7 +249,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         {/* Account Section */}
         <View className="mb-6">
           <Text className="text-heading text-lg font-bold mb-4">Account</Text>
-          <MenuItem icon={Bell} title="Notifications" subtitle="Order updates and offers" onPress={onNotifications} iconColor="#3b82f6" />
           <MenuItem
             icon={Shield}
             title="Security & Privacy"
