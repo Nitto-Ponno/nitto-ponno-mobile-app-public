@@ -4,7 +4,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // Define the auth state
 interface AuthState {
   user: User | null;
-  token: string | null;
   accessToken: string | null;
   refreshToken: string | null;
   authInfo: {
@@ -19,15 +18,20 @@ interface AuthState {
       lastName: string;
     };
   } | null;
+  redirectTo: {
+    stack: string;
+    screen: string;
+    params?: any;
+  } | null;
 }
 
 // Initial state
 const initialState: AuthState = {
   user: null,
-  token: null,
   authInfo: null,
   accessToken: null,
   refreshToken: null,
+  redirectTo: null,
 };
 
 // Create the auth slice
@@ -50,11 +54,10 @@ const authSlice = createSlice({
       }
       state.authInfo = { ...state.authInfo, ...action.payload };
     },
-    setToken: (state, action: PayloadAction<string | null>) => {
-      state.token = action.payload;
-    },
+
     removeToken: (state) => {
-      state.token = null;
+      state.accessToken = null;
+      state.refreshToken = null;
     },
     updateUser: (state, action: PayloadAction<Partial<any>>) => {
       if (state.user) {
@@ -64,11 +67,14 @@ const authSlice = createSlice({
         };
       }
     },
+    setRedirectTo: (state, action) => {
+      state.redirectTo = action.payload;
+    },
   },
 });
 
 // Export actions
-export const { setUser, updateUser, setToken, removeToken, setAuthInfo, setAccessToken, setRefreshToken } = authSlice.actions;
+export const { setUser, updateUser, removeToken, setAuthInfo, setAccessToken, setRefreshToken, setRedirectTo } = authSlice.actions;
 
 // Export reducer
 export default authSlice.reducer;

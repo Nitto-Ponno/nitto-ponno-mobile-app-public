@@ -3,6 +3,12 @@ import React from "react";
 import BottomTabNavigator from "./BottomTabNavigator";
 import ProductDetailsScreen from "@/screens/product/ProductDetailsScreen";
 import CheckoutScreen from "@/screens/cart/CheckoutScreen";
+import SignInScreen from "@/screens/auth/SigninScreen";
+import SignUpScreen from "@/screens/auth/SignupScreen";
+import ForgotPasswordScreen from "@/screens/auth/ForgotPasswordScreen";
+import OTPVerificationScreen from "@/screens/auth/OTPVerificationScreen";
+import SetNewPasswordScreen from "@/screens/auth/SetNewPasswordScreen";
+import ChangePasswordScreen from "@/screens/auth/ChangePasswordScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -11,6 +17,12 @@ const AppStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
       <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+      <Stack.Screen name="Signin" component={SignInScreen} />
+      <Stack.Screen name="Signup" component={SignUpScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+      <Stack.Screen name="OTPVerification" component={OTPVerificationScreen} />
+      <Stack.Screen name="SetNewPassword" component={SetNewPasswordScreen} />
+      <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
       <Stack.Screen name="Checkout" component={CheckoutScreen} />
     </Stack.Navigator>
   );

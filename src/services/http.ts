@@ -54,8 +54,6 @@ api.interceptors.request.use(
     // ✅ Get fresh accessToken on EVERY request
     const token = store.getState().auth.accessToken;
 
-    console.log("token", token ? "exists" : "missing");
-
     if (token) {
       config.headers = config.headers ?? {};
       config.headers.Authorization = `Bearer ${token}`;

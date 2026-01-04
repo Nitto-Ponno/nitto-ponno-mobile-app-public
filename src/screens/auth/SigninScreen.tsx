@@ -2,30 +2,22 @@ import OTPVerificationModal from "@/components/auth/OTPVerificationModal";
 import AppInput from "@/components/global/AppInput";
 import { Colors } from "@/context/ThemeProvider";
 import { AuthApi } from "@/services/api/authApi";
-import { tokenStorage } from "@/services/storage";
-import { setAccessToken, setRefreshToken, setUser } from "@/store/reducer/authReducer";
+import { useAppSelector } from "@/store";
+import { setAccessToken, setRedirectTo, setRefreshToken, setUser } from "@/store/reducer/authReducer";
 import { showSuccessAlert } from "@/utils/commonFunction";
 import { handleErrorResponse } from "@/utils/handlers";
 import { goBack, navigate } from "@/utils/NavigationUtils";
-import { ArrowLeftCircle, Eye, EyeClosed, LockIcon, Mail } from "lucide-react-native";
+import { ArrowLeftCircle } from "lucide-react-native";
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Platform,
-} from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
+type SignInScreenProps = {};
 
-const SignInScreen = () => {
+const SignInScreen: React.FC<SignInScreenProps> = () => {
   const [email, setEmail] = useState("shuvajitmaitra+3@gmail.com");
   const [password, setPassword] = useState("Shuvajit#1");
+  const { redirectTo } = useAppSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [verificationModalVisible, setVerificationModalVisible] = useState(false);
 
@@ -37,16 +29,21 @@ const SignInScreen = () => {
         return;
       }
       if (response.success) {
-        tokenStorage.setAccessToken(response.data.accessToken);
-        tokenStorage.setRefreshToken(response.data.refreshToken);
         dispatch(setAccessToken(response.data.accessToken));
         dispatch(setRefreshToken(response.data.refreshToken));
         dispatch(setUser(response.data.user));
         showSuccessAlert({ message: "Logged in successfully" });
         const myData = await AuthApi.getMyData();
-        console.log("myData", JSON.stringify(myData, null, 2));
-        console.log("response.data", JSON.stringify(response.data, null, 2));
         dispatch(setUser(myData.data));
+        if (redirectTo?.stack && redirectTo?.screen) {
+          navigate("BottomTabNavigator", {
+            screen: redirectTo.stack,
+            params: {
+              screen: redirectTo.screen,
+            },
+          });
+        } else if (redirectTo?.stack || redirectTo?.screen) navigate(redirectTo.stack || redirectTo.screen);
+        dispatch(setRedirectTo(null));
       }
     } catch (error: any) {
       handleErrorResponse(error, "Sign in");

@@ -10,7 +10,6 @@ import ProductSelection from "./ProductSelection";
 
 const SelectionModal = () => {
   const { selectionModal } = useAppSelector((state) => state.product);
-  console.log("selectionModal", JSON.stringify(selectionModal, null, 2));
 
   return (
     <Modal visible={selectionModal} transparent statusBarTranslucent={true}>

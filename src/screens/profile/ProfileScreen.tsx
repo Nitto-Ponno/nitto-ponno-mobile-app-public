@@ -20,9 +20,8 @@ import { Colors } from "@/context/ThemeProvider";
 import { navigate } from "@/utils/NavigationUtils";
 import { showToast } from "@/utils/commonFunction";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { setUser } from "@/store/reducer/authReducer";
+import { removeToken, setRedirectTo, setUser } from "@/store/reducer/authReducer";
 import Images from "@/constants/Images";
-import { tokenStorage } from "@/services/storage";
 
 interface ProfileScreenProps {
   user?: {
@@ -67,7 +66,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onHelp = () => showToast({ message: "Coming soon..." }),
   onSettings = () => showToast({ message: "Coming soon..." }),
 }) => {
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, accessToken } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const MenuItem = ({
     icon: Icon,
@@ -114,7 +113,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
     </View>
   );
 
-  if (tokenStorage.getAccessToken) {
+  if (!accessToken) {
     return (
       <SafeAreaView className="flex-1 bg-background">
         <ScrollView className="flex-1 px-5 pt-6">
@@ -134,8 +133,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
               Sign in to track orders, save favorites, and enjoy a personalized shopping experience
             </Text>
             <View className="flex-row gap-3">
-              <TouchableOpacity onPress={() => navigate("Signin")} className="flex-1 bg-primary py-3.5 rounded-xl active:opacity-80">
-                <Text className="text-heading text-center font-bold text-base">Sign In</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigate("Signin");
+                  dispatch(setRedirectTo({ stack: "ProfileStack", screen: "Profile" }));
+                }}
+                className="flex-1 bg-primary py-3.5 rounded-xl active:opacity-80"
+              >
+                <Text className="text-white text-center font-bold text-base">Sign In</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={onSignUp} className="flex-1 bg-secondary py-3.5 rounded-xl border border-border active:opacity-80">
                 <Text className="text-gray-800 text-center font-bold text-base">Sign Up</Text>
@@ -184,23 +189,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
               <Text className="text-body text-sm mt-1">{user?.email}</Text>
             </View>
           </View>
-
-          {/* Loyalty Points */}
-          <View className="bg-gradient-to-r from-[#14b8a6] to-[#0891b2] p-4 rounded-xl flex-row items-center justify-between">
-            <View className="flex-row items-center">
-              <View className="w-10 h-10 bg-secondary rounded-full items-center justify-center mr-3">
-                <Star size={20} color={Colors.heading} fill={Colors.heading} />
-              </View>
-              <View>
-                <Text className="text-heading/80 text-xs font-medium">Loyalty Points</Text>
-                <Text className="text-heading text-2xl font-bold">---</Text>
-              </View>
-            </View>
-            <TouchableOpacity onPress={onRewards} className="bg-secondary px-4 py-2 rounded-lg active:opacity-80">
-              <Text className="text-heading font-semibold text-sm">Redeem</Text>
-            </TouchableOpacity>
+          <View className="flex-row gap-3">
+            <StatCard icon={Package} value={stats.totalOrders} label="Orders" iconColor="#14b8a6" />
+            <StatCard icon={Heart} value={stats.wishlistItems} label="Wishlist" iconColor="#ef4444" />
+            <StatCard icon={MapPin} value={stats.savedAddresses} label="Addresses" iconColor="#8b5cf6" />
           </View>
-
           {/* Edit Profile Button */}
           <TouchableOpacity onPress={onEditProfile} className="bg-primary py-3 rounded-xl mt-4 active:opacity-80">
             <Text className="text-white text-center font-semibold text-base">Edit Profile</Text>
@@ -208,11 +201,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         </View>
 
         {/* Stats */}
-        <View className="flex-row gap-3 mb-6">
-          <StatCard icon={Package} value={stats.totalOrders} label="Orders" iconColor="#14b8a6" />
-          <StatCard icon={Heart} value={stats.wishlistItems} label="Wishlist" iconColor="#ef4444" />
-          <StatCard icon={MapPin} value={stats.savedAddresses} label="Addresses" iconColor="#8b5cf6" />
-        </View>
 
         {/* Shopping Section */}
         <View className="mb-6">
@@ -264,8 +252,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         {/* Logout Button */}
         <TouchableOpacity
           onPress={() => {
-            tokenStorage.clearAll();
             dispatch(setUser(null));
+            dispatch(removeToken());
           }}
           className="bg-foreground border border-border p-4 rounded-xl mb-8 flex-row items-center justify-center active:opacity-80"
         >

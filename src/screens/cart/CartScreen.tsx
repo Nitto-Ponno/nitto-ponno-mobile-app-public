@@ -7,10 +7,12 @@ import EmptyCart from "@/components/cart/EmptyCart";
 import CartItemCard from "@/components/cart/CartItemCard";
 import OrderSummary from "@/components/cart/OrderSummary";
 import { navigate } from "@/utils/NavigationUtils";
+import { setRedirectTo } from "@/store/reducer/authReducer";
 
 const CartScreen = () => {
   const dispatch = useAppDispatch();
   const { cartItems, selectedCart } = useAppSelector((state) => state.cart);
+  const { accessToken } = useAppSelector((state) => state.auth);
 
   const calculateTotal = () => {
     return cartItems
@@ -20,7 +22,12 @@ const CartScreen = () => {
   };
 
   const handleCheckout = () => {
-    navigate("Checkout");
+    if (accessToken) {
+      navigate("Checkout");
+    } else {
+      navigate("Signin");
+      dispatch(setRedirectTo({ stack: "Checkout", screen: "" }));
+    }
   };
 
   return (

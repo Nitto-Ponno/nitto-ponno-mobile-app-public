@@ -131,7 +131,7 @@ const ChooseMethodModal = () => {
               >
                 <View className="flex-row items-center gap-4">
                   <View className={`w-12 h-12 rounded-full items-center justify-center ${isEmailSelected ? "bg-primary" : "bg-gray-300"}`}>
-                    <Ionicons name="mail-border" size={24} color={isEmailSelected ? "white" : "#666"} />
+                    <Ionicons name="mail" size={24} color={isEmailSelected ? "white" : "#666"} />
                   </View>
                   <View>
                     <NText className="text-lg font-semibold">Send code via Email</NText>
@@ -156,7 +156,7 @@ const ChooseMethodModal = () => {
               >
                 <View className="flex-row items-center gap-4">
                   <View className={`w-12 h-12 rounded-full items-center justify-center ${isPhoneSelected ? "bg-primary" : "bg-gray-300"}`}>
-                    <Ionicons name="call-border" size={24} color={isPhoneSelected ? "white" : "#666"} />
+                    <Ionicons name="call" size={24} color={isPhoneSelected ? "white" : "#666"} />
                   </View>
                   <View>
                     <NText className="text-lg font-semibold">Send code via SMS</NText>

@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/context/ThemeProvider";
 import { goBack } from "@/utils/NavigationUtils";
 import ProductSelection from "@/components/product/ProductSelection";
+import { Heart } from "lucide-react-native";
 
 // Mock data - replace with useAppSelector
 const selectedProduct = {
@@ -58,7 +59,7 @@ const ProductDetailsScreen = () => {
   if (!selectedProduct) {
     return (
       <View className="flex-1 items-center justify-center bg-foreground">
-        <Ionicons name="alert-circle-border" size={48} color={Colors.body} />
+        <Ionicons name="alert-circle" size={48} color={Colors.body} />
         <Text className="mt-4 text-gray-500">Product not found</Text>
       </View>
     );
@@ -73,7 +74,7 @@ const ProductDetailsScreen = () => {
         </Pressable>
         <Text className="flex-1 text-center text-lg font-semibold text-heading">Product Details</Text>
         <Pressable className="w-10 h-10 items-center justify-center rounded-full bg-gray-100">
-          <Ionicons name="heart-border" size={24} color="#374151" />
+          <Heart size={24} color="#374151" />
         </Pressable>
       </View>
       <ProductSelection />
