@@ -8,24 +8,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Grid, Tag, Sparkles, ArrowLeft } from "lucide-react-native";
 import { Colors } from "@/context/ThemeProvider";
 import Images from "@/constants/Images";
+import { Category } from "@/services/types/categoryTypes";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = (width - 48) / 2;
-
-interface Category {
-  _id: string;
-  name: string;
-  slug: string;
-  parent_id: string | null;
-  isDeleted: boolean;
-  isFeatured: boolean;
-  image: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-  subCategories: Category[];
-}
 
 interface CategoryCardProps {
   category: Category;

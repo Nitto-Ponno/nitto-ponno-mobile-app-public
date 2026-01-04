@@ -4,7 +4,7 @@
     "slug": "nittoponno",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/splash.png",
+    "icon": "./src/assets/images/app_icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/app_icon.png",
         "backgroundColor": "#facc14"
       },
       "edgeToEdgeEnabled": true,

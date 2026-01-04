@@ -1,37 +1,17 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import BottomTabNavigator from "./BottomTabNavigator";
-import SignUpScreen from "@/screens/auth/SignupScreen";
-import SignInScreen from "@/screens/auth/SigninScreen";
-import ForgotPasswordScreen from "@/screens/auth/ForgotPasswordScreen";
-import OTPVerificationScreen from "@/screens/auth/OTPVerificationScreen";
-import SetNewPasswordScreen from "@/screens/auth/SetNewPasswordScreen";
-import ChangePasswordScreen from "@/screens/auth/ChangePasswordScreen";
 import ProductDetailsScreen from "@/screens/product/ProductDetailsScreen";
 import CheckoutScreen from "@/screens/cart/CheckoutScreen";
-import { token } from "@/utils/commonFunction";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {token ? (
-        <>
-          <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
-          <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
-          <Stack.Screen name="Checkout" component={CheckoutScreen} />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="Signin" component={SignInScreen} />
-          <Stack.Screen name="Signup" component={SignUpScreen} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-          <Stack.Screen name="OTPVerification" component={OTPVerificationScreen} />
-          <Stack.Screen name="SetNewPassword" component={SetNewPasswordScreen} />
-          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
-        </>
-      )}
+      <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
+      <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+      <Stack.Screen name="Checkout" component={CheckoutScreen} />
     </Stack.Navigator>
   );
 };

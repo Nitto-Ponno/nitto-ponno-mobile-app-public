@@ -189,11 +189,20 @@ export const generateSimpleUniqueId = () => {
   return `${timestamp}${randomness}`;
 };
 
-let token: string | null = "";
+export const token = new Proxy(
+  {},
+  {
+    get(_, prop: string | symbol) {
+      const currentToken = store.getState().auth.accessToken || null;
 
-store.subscribe(() => {
-  const state = store.getState();
-  token = state.auth.accessToken || null;
-});
+      if (prop === Symbol.toPrimitive || prop === "valueOf") {
+        return () => currentToken;
+      }
+      if (prop === "toString") {
+        return () => currentToken || "";
+      }
 
-export { token };
+      return currentToken?.[prop as keyof typeof currentToken];
+    },
+  }
+) as unknown as string | null;

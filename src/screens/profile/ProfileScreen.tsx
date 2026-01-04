@@ -14,13 +14,12 @@ import {
   ChevronRight,
   ShoppingBag,
   Star,
-  Clock,
 } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/context/ThemeProvider";
 import { navigate } from "@/utils/NavigationUtils";
 import { showToast } from "@/utils/commonFunction";
-import { useAppDispatch } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { setUser } from "@/store/reducer/authReducer";
 import Images from "@/constants/Images";
 import { tokenStorage } from "@/services/storage";
@@ -52,13 +51,6 @@ interface ProfileScreenProps {
 }
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({
-  user = {
-    name: "Sarah Johnson",
-    email: "sarah.johnson@email.com",
-    avatar: "https://i.pravatar.cc/150?img=5",
-    memberSince: "January 2023",
-    loyaltyPoints: 2450,
-  },
   stats = {
     totalOrders: 24,
     wishlistItems: 12,
@@ -75,6 +67,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onHelp = () => showToast({ message: "Coming soon..." }),
   onSettings = () => showToast({ message: "Coming soon..." }),
 }) => {
+  const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const MenuItem = ({
     icon: Icon,
@@ -187,12 +180,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
           <View className="flex-row items-center mb-4">
             <Image source={Images.LOGO} className="w-20 h-20 rounded-full mr-4" />
             <View className="flex-1">
-              <Text className="text-heading text-xl font-bold">{user.name}</Text>
-              <Text className="text-body text-sm mt-1">{user.email}</Text>
-              <View className="flex-row items-center mt-2">
-                <Clock size={14} color={Colors.body} />
-                <Text className="text-body text-xs ml-1.5">Member since {user.memberSince}</Text>
-              </View>
+              <Text className="text-heading text-xl font-bold">{user?.fullName}</Text>
+              <Text className="text-body text-sm mt-1">{user?.email}</Text>
             </View>
           </View>
 
@@ -204,7 +193,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
               </View>
               <View>
                 <Text className="text-heading/80 text-xs font-medium">Loyalty Points</Text>
-                <Text className="text-heading text-2xl font-bold">{user.loyaltyPoints?.toLocaleString()}</Text>
+                <Text className="text-heading text-2xl font-bold">---</Text>
               </View>
             </View>
             <TouchableOpacity onPress={onRewards} className="bg-secondary px-4 py-2 rounded-lg active:opacity-80">
@@ -276,7 +265,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         <TouchableOpacity
           onPress={() => {
             tokenStorage.clearAll();
-
             dispatch(setUser(null));
           }}
           className="bg-foreground border border-border p-4 rounded-xl mb-8 flex-row items-center justify-center active:opacity-80"

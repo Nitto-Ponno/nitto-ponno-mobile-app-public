@@ -6,6 +6,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming, run
 import { gGap } from "@/utils/Sizes";
 import { Home, LayoutGrid, ShoppingCart, User } from "lucide-react-native";
 import { Colors } from "@/context/ThemeProvider";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width: screenWidth } = Dimensions.get("window");
 
@@ -93,6 +94,7 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
   const tabWidth = screenWidth / state.routes.length;
   const indicatorPosition = useSharedValue(0);
   const indicatorOpacity = useSharedValue(0);
+  const { bottom } = useSafeAreaInsets();
 
   useEffect(() => {
     // Animate indicator position
@@ -122,27 +124,19 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
       className="bg-background"
       style={{
         flexDirection: "row",
-        paddingBottom: Platform.OS === "ios" ? gGap(20) : gGap(10),
+        paddingBottom: gGap(bottom / 2) + gGap(5),
         paddingTop: gGap(5),
-        shadowColor: Colors.foreground,
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
         borderTopWidth: 1,
         borderTopColor: Colors.border,
       }}
     >
+      {/* Animated Indicator */}
       <Animated.View
         style={[
           indicatorStyle,
           {
             position: "absolute",
-            bottom: Platform.OS === "ios" ? gGap(15) : gGap(3),
+            bottom: gGap(bottom / 2),
             width: tabWidth * 0.6,
             marginLeft: tabWidth * 0.2,
             height: 3,
@@ -151,7 +145,6 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
           },
         ]}
       />
-
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const isFocused = state.index === index;

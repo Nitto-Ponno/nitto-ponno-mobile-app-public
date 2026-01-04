@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { View, Text, ScrollView, Pressable, Image, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Search, ShoppingCart, Bell, Heart, Star, ChevronRight, MapPin, Mic, Plus, TrendingUp, Zap, CloudSun } from "lucide-react-native";
+import { Search, ShoppingCart, Bell, Heart, Star, ChevronRight, Mic, Plus, TrendingUp, Zap, CloudSun } from "lucide-react-native";
 import { Colors, useTheme } from "@/context/ThemeProvider";
 import Images from "@/constants/Images";
 import FeaturedSection from "@/components/home/FeaturedSection";
 import SelectionModal from "@/components/product/SelectionModal";
 import { showToast } from "@/utils/commonFunction";
 import { navigate } from "@/utils/NavigationUtils";
+import { useAppSelector } from "@/store";
 
 // Main Screen
 export default function HomeScreen() {
@@ -46,44 +47,14 @@ export default function HomeScreen() {
   const featuredProducts = productsWithFavorites.filter((p) => p.tags.includes("featured"));
 
   return (
-    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-background " edges={["top"]}>
       <TopBar />
       <SearchBar onSearch={handleSearch} />
-
       <ScrollView showsVerticalScrollIndicator={false} bounces={true} className="flex-1">
         <CategoryChips categories={categories} activeId={activeCategory} onSelect={handleSelectCategory} />
         <PromoCarousel promos={promos} />
         <FeaturedSection />
         <SelectionModal />
-
-        <SectionHeader title="Featured" onSeeAll={() => handleSeeAll("featured")} icon={<TrendingUp size={24} color="#00a303" />} />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerClassName="px-4 gap-3">
-          {featuredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onToggleFavorite={handleToggleFavorite}
-              onAddToCart={handleAddToCart}
-              horizontal
-            />
-          ))}
-        </ScrollView>
-
-        <SectionHeader title="All Products" onSeeAll={() => handleSeeAll("all")} />
-
-        <View className="px-4 pb-4">
-          <View className="flex-row flex-wrap gap-3">
-            {productsWithFavorites.map((product) => (
-              <View key={product.id} className="w-[48%]">
-                <ProductCard product={product} onToggleFavorite={handleToggleFavorite} onAddToCart={handleAddToCart} />
-              </View>
-            ))}
-          </View>
-        </View>
-
-        {showBanner && <BottomBanner onDismiss={() => setShowBanner(false)} />}
-
-        <View className="h-4" />
       </ScrollView>
     </SafeAreaView>
   );
@@ -259,23 +230,25 @@ const products = [
 ];
 
 // Components
-const TopBar = ({ cartCount = 3, notificationCount = 5 }) => {
+const TopBar = ({ notificationCount = 5 }) => {
   const { toggleTheme } = useTheme();
+  const { cartItems } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.auth);
   return (
     <View className="flex-row items-center justify-between px-4 py-3 bg-background">
       <View className="flex-row items-center gap-3">
-        <View className="w-10 h-10 bg-primary rounded-full items-center justify-center">
-          <Text className="text-white text-xl font-bold">S</Text>
-        </View>
+        {
+          <View className="w-10 h-10 bg-primary rounded-full items-center justify-center">
+            <Text className="text-white text-xl font-bold">{user?.fullName.slice(0, 1) || "U"}</Text>
+          </View>
+        }
         <View>
-          <Text className="text-xs text-body">Hello,</Text>
-          <Text className="text-base font-bold text-heading">Sarah</Text>
+          <Text className="text-base font-bold text-heading">
+            <Text className="text-xs text-body">Hello,</Text>
+            {user?.name.firstName || "User"}
+          </Text>
+          <Text className="text-sm text-body opacity-70">Welcome back 👋</Text>
         </View>
-      </View>
-
-      <View className="flex-row items-center gap-1">
-        <MapPin size={14} color="#00a303" />
-        <Text className="text-xs text-body">New York, NY</Text>
       </View>
 
       <View className="flex-row items-center gap-4">
@@ -314,9 +287,9 @@ const TopBar = ({ cartCount = 3, notificationCount = 5 }) => {
           accessibilityLabel="Shopping cart"
         >
           <ShoppingCart size={24} color={Colors.heading} />
-          {cartCount > 0 && (
+          {cartItems.length > 0 && (
             <View className="absolute -top-1 -right-1 bg-primary rounded-full w-4 h-4 items-center justify-center">
-              <Text className="text-white text-[10px] font-bold">{cartCount}</Text>
+              <Text className="text-white text-[10px] font-bold">{cartItems.length}</Text>
             </View>
           )}
         </Pressable>

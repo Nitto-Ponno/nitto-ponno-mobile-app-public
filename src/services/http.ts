@@ -2,7 +2,6 @@ import axios, { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } 
 import env from "@/services/env";
 import store, { clearStore, dispatch } from "../store";
 import { setAccessToken } from "@/store/reducer/authReducer";
-import { token } from "@/utils/commonFunction";
 
 const API_BASE_URL = env.ENDPOINT;
 
@@ -53,6 +52,7 @@ export const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     // ✅ Get fresh accessToken on EVERY request
+    const token = store.getState().auth.accessToken;
 
     console.log("token", token ? "exists" : "missing");
 

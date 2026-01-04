@@ -18,8 +18,8 @@ const FeaturedSection = () => {
   }, []);
 
   return (
-    <View>
-      <Text className=" px-3 text-2xl font-bold text-heading mb-2">Laundry Products</Text>
+    <View className="pb-3">
+      <Text className="px-3 text-2xl font-bold text-heading mb-2">Laundry Products</Text>
       <View className="px-3 gap-3">
         {products &&
           products.length > 0 &&
