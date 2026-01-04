@@ -193,7 +193,7 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ flowType = 
         </View>
 
         {/* Form */}
-        <View className="space-y-6">
+        <View className="gap-6">
           {/* Current Password - Only for settings flow */}
           {flowType === "settings" && (
             <View>

@@ -5,6 +5,7 @@ import { handleErrorResponse } from "@/utils/handlers";
 import { Pagination } from "@/services/types/genericTypes";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NText from "@/components/global/NText";
+import MyOrdersScreen from "./MyOrderScreen";
 
 const OrdersScreen = () => {
   const [orders, setOrders] = useState<any | null>(null);
@@ -25,7 +26,7 @@ const OrdersScreen = () => {
       setOrders(response.data);
       response.meta && setPagination(response?.meta);
     } catch (err: any) {
-      handleErrorResponse(err, "Get All Orders");
+      // handleErrorResponse(err, "Get All Orders");
       console.log("err.response.data.message", JSON.stringify(err.response.data, null, 2));
     }
   };
@@ -35,11 +36,7 @@ const OrdersScreen = () => {
     return () => {};
   }, []);
 
-  return (
-    <SafeAreaView className="flex-1 bg-background">
-      <NText>OrdersScreen</NText>
-    </SafeAreaView>
-  );
+  return <MyOrdersScreen />;
 };
 
 export default OrdersScreen;

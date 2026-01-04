@@ -216,7 +216,7 @@ const SetNewPasswordScreen: React.FC<SetNewPasswordScreenProps> = ({
         </View>
 
         {/* Form */}
-        <View className="space-y-6">
+        <View className="gap-6">
           {/* New Password */}
           <View>
             <NText className="text-gray-700 text-base mb-3 font-medium">New Password</NText>
