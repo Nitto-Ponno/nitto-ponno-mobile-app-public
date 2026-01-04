@@ -1,5 +1,10 @@
 import Images from "@/constants/Images";
+import { Colors } from "@/context/ThemeProvider";
 import { Product } from "@/services/types/productTypes";
+import { dispatch, useAppSelector } from "@/store";
+import { addToWishlist } from "@/store/reducer/wishlistReducer";
+import { Ionicons } from "@expo/vector-icons";
+
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
@@ -10,6 +15,7 @@ interface ProductCardV1Props {
 }
 
 export const ProductCardV1: React.FC<ProductCardV1Props> = ({ product, onPress, onAddToCart }) => {
+  const { wishlist } = useAppSelector((state) => state.wishlist);
   const hasDiscount = product.discount && product.discount.value > 0;
   const discountText = hasDiscount
     ? product.discount?.type === "percent"
@@ -19,7 +25,7 @@ export const ProductCardV1: React.FC<ProductCardV1Props> = ({ product, onPress, 
 
   const availableVariations = product.variations.filter((v) => v.isAvailable);
   const hasVariations = availableVariations.length > 0;
-
+  const isListed = wishlist?.some((item) => item._id === product._id);
   return (
     <TouchableOpacity
       className="bg-card rounded-3xl border border-border  overflow-hidden"
@@ -29,7 +35,14 @@ export const ProductCardV1: React.FC<ProductCardV1Props> = ({ product, onPress, 
       {/* Image Section */}
       <View className="relative">
         <Image source={Images.LOGO} className="w-full h-32 bg-gray-100" resizeMode="cover" />
-
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(addToWishlist(product));
+          }}
+          className="z-10 absolute h-10 w-10 rounded-full justify-center items-center top-3 right-3"
+        >
+          <Ionicons name={isListed ? "heart" : "heart-outline"} size={30} color={Colors.primary} />
+        </TouchableOpacity>
         {/* Discount Badge */}
         {hasDiscount && (
           <View className="absolute top-2 left-2 bg-red-500 px-2 py-1 rounded-full">

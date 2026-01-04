@@ -9,6 +9,7 @@ import ForgotPasswordScreen from "@/screens/auth/ForgotPasswordScreen";
 import OTPVerificationScreen from "@/screens/auth/OTPVerificationScreen";
 import SetNewPasswordScreen from "@/screens/auth/SetNewPasswordScreen";
 import ChangePasswordScreen from "@/screens/auth/ChangePasswordScreen";
+import WishlistScreen from "@/screens/home/WishlistScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -24,6 +25,7 @@ const AppStack = () => {
       <Stack.Screen name="SetNewPassword" component={SetNewPasswordScreen} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
       <Stack.Screen name="Checkout" component={CheckoutScreen} />
+      <Stack.Screen name="Wishlist" component={WishlistScreen} />
     </Stack.Navigator>
   );
 };
@@ -49,4 +51,5 @@ export type RootStackParamList = {
   ChangePassword: undefined;
   Auth: undefined;
   Checkout: undefined;
+  Wishlist: undefined;
 };

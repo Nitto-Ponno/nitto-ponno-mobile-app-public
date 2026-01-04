@@ -56,7 +56,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   },
   onSignUp = () => navigate("Signup"),
   onEditProfile = () => showToast({ message: "Coming soon..." }),
-  onWishlist = () => showToast({ message: "Coming soon..." }),
   onAddresses = () => showToast({ message: "Coming soon..." }),
   onPayments = () => showToast({ message: "Coming soon..." }),
   onRewards = () => showToast({ message: "Coming soon..." }),
@@ -218,7 +217,9 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
             icon={Heart}
             title="Wishlist"
             subtitle="Saved items and favorites"
-            onPress={onWishlist}
+            onPress={() => {
+              accessToken ? navigate("Wishlist") : navigate("Signin");
+            }}
             badge={stats.wishlistItems > 0 ? stats.wishlistItems.toString() : undefined}
             iconColor="#ef4444"
           />
