@@ -3,7 +3,7 @@ import React from "react";
 import { goBack } from "@/utils/NavigationUtils";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeft } from "lucide-react-native";
-import FeaturedSection from "@/components/home/FeaturedSection";
+import ProductsSection from "@/components/home/ProductsSection";
 
 const CategoryProductsScreen = () => {
   return (
@@ -15,7 +15,7 @@ const CategoryProductsScreen = () => {
         <Text className="text-2xl font-bold text-gray-900 ">Categorized Products</Text>
       </View>
 
-      <FeaturedSection />
+      <ProductsSection />
     </SafeAreaView>
   );
 };
