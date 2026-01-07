@@ -10,6 +10,8 @@ import { Product } from "@/services/types/productTypes";
 
 const ProductsSection = () => {
   const { products } = useAppSelector((state) => state.product);
+
+  console.log("products", JSON.stringify(products, null, 2));
   useEffect(() => {
     (async () => {
       await getFeaturedProducts();

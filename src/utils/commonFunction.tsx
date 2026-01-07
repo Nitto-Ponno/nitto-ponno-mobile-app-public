@@ -206,3 +206,45 @@ export const token = new Proxy(
     },
   }
 ) as unknown as string | null;
+
+/**
+ * Calculate final price after discount
+ * Supports discount types: "percent" | "flat"
+ * @param {number} price - base price
+ * @param {{type: string, value: number} | undefined | null} discount
+ * @returns {{finalPrice: number, discountAmount: number, originalPrice: number}}
+ */
+export function calculateFinalPrice(
+  price: number,
+  discount: { type: string; value: number }
+): { finalPrice: number; discountAmount: number; originalPrice: number } {
+  const originalPrice = Number(price) || 0;
+
+  if (!discount || !discount.type || !discount.value) {
+    return {
+      finalPrice: originalPrice,
+      discountAmount: 0,
+      originalPrice,
+    };
+  }
+
+  const value = Number(discount.value) || 0;
+  let discountAmount = 0;
+
+  if (discount.type === "percent") {
+    discountAmount = (originalPrice * value) / 100;
+  } else if (discount.type === "flat") {
+    discountAmount = value;
+  }
+
+  // discount never more than price
+  discountAmount = Math.min(discountAmount, originalPrice);
+
+  const finalPrice = Math.round(originalPrice - discountAmount);
+
+  return {
+    finalPrice,
+    discountAmount: Math.round(discountAmount),
+    originalPrice,
+  };
+}

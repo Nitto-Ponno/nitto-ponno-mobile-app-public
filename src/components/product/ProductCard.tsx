@@ -8,6 +8,8 @@ import { addToWishlist } from "@/store/reducer/wishlistReducer";
 import { Colors } from "@/context/ThemeProvider";
 import { PressableScale } from "../common/PressableScale";
 import { setSelectedProduct, setSelectionModal } from "@/store/reducer/productReducer";
+import NText from "../global/NText";
+import { calculateDiscountedPrice, calculateFinalPrice } from "@/utils/commonFunction";
 
 const ProductCard = ({
   product,
@@ -31,12 +33,16 @@ const ProductCard = ({
   const isListed = wishlist?.some((item) => item._id === product._id);
   const containerStyle = variant === "v1" ? { flex: 0.5 } : {};
   const containerWidth = variant === "v2" ? "w-64" : "";
+  const { finalPrice, originalPrice } = calculateFinalPrice(
+    product.variations[0].price || 0,
+    product.variations[0].discount || { type: "percent", value: 0 }
+  );
   return (
     <PressableScale
       onPress={() => {
         onPress && onPress(product);
       }}
-      className={cn("bg-card border border-border overflow-hidden rounded-3xl", containerWidth)}
+      className={cn("bg-foreground border border-border overflow-hidden rounded-3xl", containerWidth)}
       style={containerStyle}
     >
       <View className="relative">
@@ -52,62 +58,60 @@ const ProductCard = ({
         {/* Discount Badge */}
         {hasDiscount && (
           <View className="absolute top-2 left-2 bg-red-500 px-2 py-1 rounded-full">
-            <Text className="text-white text-xs font-bold">{discountText}</Text>
+            <NText className="text-white text-xs font-bold">{discountText}</NText>
           </View>
         )}
 
         {/* Availability Badge */}
         {!hasVariations && (
           <View className="absolute top-2 right-2 bg-gray-800/70 px-2 py-1 rounded-full">
-            <Text className="text-white text-xs">Out of Stock</Text>
+            <NText className="text-white text-xs">Out of Stock</NText>
           </View>
         )}
       </View>
 
       {/* Content Section */}
-      <View className="p-3">
+      <View className="p-3 gap-1">
         {/* Service Tags */}
         {product.services.length > 0 && (
-          <View className="flex-row flex-wrap gap-1 mb-2">
+          <View className="flex-row flex-wrap gap-1">
             {product.services.slice(0, 2).map((service) => (
-              <View key={service._id} className="bg-blue-50 px-2 py-0.5 rounded-full">
-                <Text className="text-blue-600 text-xs font-medium" numberOfLines={1}>
+              <View key={service._id} className="bg-blue-50 border border-blue-300 px-2 py-0.5 rounded-full">
+                <NText className="text-blue-600 text-xs font-medium" numberOfLines={1}>
                   {service.name}
-                </Text>
+                </NText>
               </View>
             ))}
             {product.services.length > 2 && (
               <View className="bg-gray-100 px-2 py-0.5 rounded-full">
-                <Text className="text-body text-xs">+{product.services.length - 2}</Text>
+                <NText className="text-body text-xs">+{product.services.length - 2}</NText>
               </View>
             )}
           </View>
         )}
 
         {/* Product Name */}
-        <Text className="text-heading font-semibold text-base mb-1" numberOfLines={1}>
+        <NText className="text-heading font-semibold text-base" numberOfLines={1}>
           {product.name}
-        </Text>
-
-        {/* Description */}
-        <Text className="text-body text-xs mb-2" numberOfLines={2}>
-          {product.description}
-        </Text>
+        </NText>
 
         {/* Attributes */}
         {product.attributes.length > 0 && (
           <View className="flex-row flex-wrap gap-1">
             {product.attributes.map((attr) => (
-              <View key={attr._id} className="bg-gray-100 px-2 py-0.5 rounded">
-                <Text className="text-body text-xs">{attr.name}</Text>
+              <View key={attr._id} className="bg-gray-100 border border-gray-300 px-2 py-0.5 rounded">
+                <NText className="text-body text-xs">{attr.name}</NText>
               </View>
             ))}
           </View>
         )}
-
+        <View className="flex-row items-center">
+          {originalPrice > finalPrice && <NText className="text-body font-bold text-2xl line-through">৳{originalPrice}</NText>}
+          <NText className="font-bold font-okra text-2xl text-primary">৳{finalPrice}</NText>
+        </View>
         {/* Add to Cart Button */}
         <PressableScale
-          className={`mt-3 h-12  justify-center rounded-3xl items-center ${hasVariations ? "bg-primary" : "bg-body"}`}
+          className={`mt-2 h-12  justify-center rounded-3xl items-center ${hasVariations ? "bg-primary" : "bg-body"}`}
           disabled={!hasVariations}
           onPress={() => {
             dispatch(setSelectedProduct(product));
@@ -115,9 +119,9 @@ const ProductCard = ({
           }}
           // activeOpacity={0.8}
         >
-          <Text className={`font-bold text-lg ${hasVariations ? "text-white" : "text-body"}`}>
+          <NText className={`font-bold text-lg ${hasVariations ? "text-white" : "text-body"}`}>
             {hasVariations ? "Add to Cart" : "Unavailable"}
-          </Text>
+          </NText>
         </PressableScale>
       </View>
     </PressableScale>
