@@ -2,22 +2,19 @@ import Images from "@/constants/Images";
 import { Product } from "@/services/types/productTypes";
 import { dispatch, useAppSelector } from "@/store";
 import { cn } from "@/utils/cn";
-import { Image, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { addToWishlist } from "@/store/reducer/wishlistReducer";
 import { Colors } from "@/context/ThemeProvider";
+import { PressableScale } from "../common/PressableScale";
+import { setSelectedProduct, setSelectionModal } from "@/store/reducer/productReducer";
 
 const ProductCard = ({
   product,
-  //   onToggleFavorite,
-  onAddToCart,
   variant = "v1",
   onPress,
 }: {
   product: Product;
-  onToggleFavorite?: (id: string) => void;
-  onAddToCart?: (product: Product) => void;
-  horizontal?: boolean;
   variant: "v1" | "v2";
   onPress: (product: Product) => void;
 }) => {
@@ -34,9 +31,8 @@ const ProductCard = ({
   const isListed = wishlist?.some((item) => item._id === product._id);
   const containerStyle = variant === "v1" ? { flex: 0.5 } : {};
   const containerWidth = variant === "v2" ? "w-64" : "";
-
   return (
-    <Pressable
+    <PressableScale
       onPress={() => {
         onPress && onPress(product);
       }}
@@ -110,18 +106,21 @@ const ProductCard = ({
         )}
 
         {/* Add to Cart Button */}
-        <TouchableOpacity
+        <PressableScale
           className={`mt-3 h-12  justify-center rounded-3xl items-center ${hasVariations ? "bg-primary" : "bg-body"}`}
           disabled={!hasVariations}
-          onPress={() => onAddToCart?.(product)}
+          onPress={() => {
+            dispatch(setSelectedProduct(product));
+            dispatch(setSelectionModal(true));
+          }}
           // activeOpacity={0.8}
         >
           <Text className={`font-bold text-lg ${hasVariations ? "text-white" : "text-body"}`}>
             {hasVariations ? "Add to Cart" : "Unavailable"}
           </Text>
-        </TouchableOpacity>
+        </PressableScale>
       </View>
-    </Pressable>
+    </PressableScale>
   );
 };
 
