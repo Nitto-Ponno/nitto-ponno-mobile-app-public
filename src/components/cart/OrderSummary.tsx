@@ -12,7 +12,7 @@ const OrderSummary = ({ selectedCount, total, onCheckout }: { selectedCount: num
 
       <View className="items-end">
         <Text className="text-xs text-body uppercase mb-1">Total Amount</Text>
-        <Text className="text-2xl font-bold text-primary">₹{total}</Text>
+        <Text className="text-2xl font-bold text-primary">৳{total}</Text>
       </View>
     </View>
 

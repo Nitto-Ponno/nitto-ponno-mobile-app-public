@@ -32,7 +32,7 @@ const SelectedItemCard = ({ item }: { item: CartItem }) => (
       {/* Subtotal */}
       <View className="flex-row justify-end items-center">
         <Text className="text-gray-600 mr-2">Subtotal:</Text>
-        <Text className="text-primary font-bold text-lg">₹{item.subtotal.toFixed(2)}</Text>
+        <Text className="text-primary font-bold text-lg">৳{item.subtotal.toFixed(2)}</Text>
       </View>
     </View>
   </View>

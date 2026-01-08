@@ -160,7 +160,7 @@
 
 // export default CategoryScreen;
 import React, { useMemo } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { View, ScrollView, TouchableOpacity, Image } from "react-native";
 import { navigate } from "@/utils/NavigationUtils";
 // optional toast
 import { showToast } from "@/utils/commonFunction";
@@ -168,6 +168,8 @@ import { showToast } from "@/utils/commonFunction";
 // Lucide Icons
 import { Shirt, Pill, ShoppingBasket, ArrowRight, Lock, Sparkles } from "lucide-react-native";
 import TitleHeader from "@/components/common/TitleHeader";
+import { cn } from "@/utils/cn";
+import NText from "@/components/global/NText";
 
 // Types
 interface Category {
@@ -249,10 +251,10 @@ const CategoryScreen = () => {
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false} contentContainerClassName="px-4 pb-10">
         {/* Section Title */}
         <View className="flex-row items-center justify-between mb-3">
-          <Text className="text-lg font-bold text-gray-900">Services</Text>
+          <NText className="text-lg font-bold text-gray-900">Services</NText>
           <View className="flex-row items-center bg-gray-100 px-3 py-1.5 rounded-full">
             <Sparkles size={14} color="#111827" />
-            <Text className="text-xs text-gray-800 ml-1">New features coming</Text>
+            <NText className="text-xs text-gray-800 ml-1">New features coming</NText>
           </View>
         </View>
 
@@ -265,14 +267,14 @@ const CategoryScreen = () => {
               key={category._id}
               onPress={() => handleCategoryPress(category)}
               activeOpacity={category.isActive ? 0.85 : 1}
-              className={`rounded-2xl mb-4 overflow-hidden bg-white shadow-sm ${category.isActive ? "" : "opacity-70"}`}
+              className={`rounded-2xl mb-4 overflow-hidden bg-white shadow-sm ${category.isActive ? "" : "opacity-40"}`}
             >
               {/* Image */}
               <View className="relative">
                 <Image source={{ uri: category.image }} className="w-full h-44" resizeMode="cover" />
 
                 {/* overlay */}
-                <View className="absolute inset-0 bg-black/35" />
+                <View className={cn("absolute inset-0 bg-black/50")} />
 
                 {/* Icon badge */}
                 <View
@@ -285,24 +287,24 @@ const CategoryScreen = () => {
 
                 {/* Status badge */}
                 <View className={`absolute top-4 right-4 px-3 py-1.5 rounded-full ${category.isActive ? "bg-green-600" : "bg-gray-800"}`}>
-                  <Text className="text-xs font-semibold text-white">{category.isActive ? "AVAILABLE" : "COMING SOON"}</Text>
+                  <NText className="text-xs font-semibold text-white">{category.isActive ? "AVAILABLE" : "COMING SOON"}</NText>
                 </View>
 
                 {/* Title / Desc */}
                 <View className="absolute bottom-0 left-0 right-0 p-4">
-                  <Text className="text-2xl font-bold text-white">{category.name}</Text>
-                  <Text className="text-sm text-white/90 mt-1">{category.description}</Text>
+                  <NText className="text-2xl font-bold text-white">{category.name}</NText>
+                  <NText className="text-sm text-white/90 mt-1">{category.description}</NText>
 
                   {/* item count */}
                   <View className="mt-3 flex-row items-center">
                     <View className="bg-white/20 px-3 py-1 rounded-full">
-                      <Text className="text-xs text-white font-semibold">{category.itemCount}+ items</Text>
+                      <NText className="text-xs text-white font-semibold">{category.itemCount}+ items</NText>
                     </View>
 
                     {!category.isActive && (
                       <View className="ml-2 flex-row items-center bg-white/20 px-3 py-1 rounded-full">
                         <Lock size={14} color="white" />
-                        <Text className="text-xs text-white font-semibold ml-1">Locked</Text>
+                        <NText className="text-xs text-white font-semibold ml-1">Locked</NText>
                       </View>
                     )}
                   </View>
@@ -313,13 +315,13 @@ const CategoryScreen = () => {
               <View className="flex-row items-center justify-between p-4 border-t border-gray-100">
                 <View className="flex-row items-center">
                   <View className={`w-2 h-2 rounded-full mr-2 ${category.isActive ? "bg-green-500" : "bg-gray-400"}`} />
-                  <Text className="text-sm text-gray-700">{category.isActive ? "Available now" : "Launching soon — stay tuned"}</Text>
+                  <NText className="text-sm text-gray-700">{category.isActive ? "Available now" : "Launching soon — stay tuned"}</NText>
                 </View>
 
                 <View className="flex-row items-center">
-                  <Text className={`font-semibold mr-1 ${category.isActive ? "text-green-600" : "text-gray-400"}`}>
+                  <NText className={`font-semibold mr-1 ${category.isActive ? "text-green-600" : "text-gray-400"}`}>
                     {category.isActive ? "Explore" : "Soon"}
-                  </Text>
+                  </NText>
                   <ArrowRight size={18} color={category.isActive ? "#16a34a" : "#9ca3af"} />
                 </View>
               </View>

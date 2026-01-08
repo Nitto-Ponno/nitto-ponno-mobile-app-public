@@ -213,7 +213,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                             </View>
                             <NText
                               className={`text-base font-semibold ${
-                                isSelected ? "text-primary" : isAvailable ? "text-heading" : "text-gray-400"
+                                isSelected ? "text-primary" : isAvailable ? "text-heading" : "text-body"
                               }`}
                             >
                               {service.name}
@@ -237,10 +237,10 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                               </View>
                             )}
                             <NText className={`text-lg font-bold ${isSelected ? "text-primary" : "text-heading"}`}>
-                              ${pricing.final.toFixed(2)}
+                              ৳{pricing.final.toFixed(2)}
                             </NText>
                             {pricing.discountAmt > 0 && (
-                              <NText className="text-sm text-gray-400 line-through">${pricing.original.toFixed(2)}</NText>
+                              <NText className="text-sm text-body line-through">৳{pricing.original.toFixed(2)}</NText>
                             )}
                           </View>
                         )}
@@ -283,7 +283,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
             {/* Order Summary */}
             {selectedServiceIds.length > 0 && (
               <View className="mb-24">
-                <NText className="text-lg font-semibold text-heading mb-4">Order Summary</NText>
+                <NText className="text-lg font-semibold text-heading mb-2 mt-4">Order Summary</NText>
 
                 {/* Selected Services */}
                 <View className="bg-foreground border border-border rounded-xl p-4 mb-4">
@@ -294,10 +294,8 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                     >
                       <NText className="text-gray-600 flex-1">{item.name}</NText>
                       <View className="flex-row items-center">
-                        {item.discountAmt > 0 && (
-                          <NText className="text-gray-400 line-through text-sm mr-2">${item.original.toFixed(2)}</NText>
-                        )}
-                        <NText className="text-heading font-medium">${item.final.toFixed(2)}</NText>
+                        {item.discountAmt > 0 && <NText className="text-body line-through text-sm mr-2">৳{item.original.toFixed(2)}</NText>}
+                        <NText className="text-heading font-medium">৳{item.final.toFixed(2)}</NText>
                       </View>
                     </View>
                   ))}
@@ -307,13 +305,13 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                 <View className="border-t border-border pt-4">
                   <View className="flex-row justify-between mb-2">
                     <NText className="text-gray-500">Subtotal</NText>
-                    <NText className="text-gray-700">${orderSummary.subtotal.toFixed(2)}</NText>
+                    <NText className="text-gray-700">৳{orderSummary.subtotal.toFixed(2)}</NText>
                   </View>
 
                   {orderSummary.totalDiscount > 0 && (
                     <View className="flex-row justify-between mb-2">
                       <NText className="text-green-600">Total Discount</NText>
-                      <NText className="text-green-600 font-medium">-${orderSummary.totalDiscount.toFixed(2)}</NText>
+                      <NText className="text-green-600 font-medium">-৳{orderSummary.totalDiscount.toFixed(2)}</NText>
                     </View>
                   )}
 
@@ -324,7 +322,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
 
                   <View className="flex-row justify-between pt-3 mt-2 border-t border-dashed border-gray-300">
                     <NText className="text-lg font-bold text-heading">Grand Total</NText>
-                    <NText className="text-xl font-bold text-primary">${orderSummary.finalTotal.toFixed(2)}</NText>
+                    <NText className="text-xl font-bold text-primary">৳{orderSummary.finalTotal.toFixed(2)}</NText>
                   </View>
                 </View>
               </View>
@@ -334,7 +332,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
             {selectedServiceIds.length === 0 && (
               <View className="bg-foreground mt-2 py-8 mb-36 items-center">
                 <Ionicons name="cart" size={48} color="#D1D5DB" />
-                <NText className="mt-3 text-gray-400 text-center">Select services above to see order summary</NText>
+                <NText className="mt-3 text-body text-center">Select services above to see order summary</NText>
               </View>
             )}
           </View>
@@ -346,7 +344,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
             {selectedServiceIds.length} service{selectedServiceIds.length !== 1 ? "s" : ""} • {quantity} item
             {quantity !== 1 ? "s" : ""}
           </NText>
-          <NText className="text-2xl font-bold text-heading">${orderSummary.finalTotal.toFixed(2)}</NText>
+          <NText className="text-2xl font-bold text-heading">৳{orderSummary.finalTotal.toFixed(2)}</NText>
         </View>
         <Pressable
           onPress={handleAddToCart}

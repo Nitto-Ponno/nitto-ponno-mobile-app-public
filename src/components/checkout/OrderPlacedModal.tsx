@@ -8,7 +8,6 @@ import {
   Clock,
   DollarSign,
   Tag,
-  Weight,
   Sparkles,
   Shirt,
   MessageSquare,
@@ -29,7 +28,6 @@ type props = {
 };
 
 const OrderPlacedModal = ({ visible, onClose, order }: props) => {
-  console.log("order", JSON.stringify(order, null, 2));
   const { top, bottom } = useSafeAreaInsets();
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
@@ -85,7 +83,7 @@ const OrderPlacedModal = ({ visible, onClose, order }: props) => {
     <Modal visible={visible} animationType="slide">
       <View style={{ paddingTop: top, paddingBottom: bottom }} className="flex-1 bg-background">
         <ScrollView className="flex-1 bg-background">
-          <View className="p-4 gap-4">
+          <View className="px-4 gap-4">
             <View className="items-center rounded-3xl bg-foreground border border-border pt-16 pb-8 px-6">
               <View className="mb-6">
                 <CheckCircle size={80} color="#10b981" strokeWidth={2} />
@@ -228,7 +226,7 @@ const OrderPlacedModal = ({ visible, onClose, order }: props) => {
 
               <View className="gap-3">
                 {/* Weight */}
-                <View className="flex-row items-center justify-between border border-border rounded-2xl p-4">
+                {/* <View className="flex-row items-center justify-between border border-border rounded-2xl p-4">
                   <View className="flex-row items-center gap-3">
                     <View className="bg-green-100 p-2 rounded-xl">
                       <Weight size={20} color="#10B981" />
@@ -236,7 +234,7 @@ const OrderPlacedModal = ({ visible, onClose, order }: props) => {
                     <Text className="text-body font-semibold">Total Weight</Text>
                   </View>
                   <Text className="text-heading font-bold text-lg">{order.totalWeightKg} KG</Text>
-                </View>
+                </View> */}
 
                 {/* Perfume */}
                 <View className={`flex-row items-center justify-between rounded-2xl p-4 border border-border`}>

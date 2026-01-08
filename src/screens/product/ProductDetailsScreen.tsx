@@ -60,7 +60,7 @@ const ProductDetailsScreen = () => {
     return (
       <View className="flex-1 items-center justify-center bg-foreground">
         <Ionicons name="alert-circle" size={48} color={Colors.body} />
-        <Text className="mt-4 text-gray-500">Product not found</Text>
+        <Text className="mt-4 text-body">Product not found</Text>
       </View>
     );
   }

@@ -47,7 +47,7 @@ const CheckoutScreen = () => {
 
     let payload: any = orderData;
     if (finalItems.length > 0 && finalItems && user) {
-      payload = { ...payload, paymentMethod: "cod", ...transformCart(finalItems), user: user?._id };
+      payload = { ...payload, totalWeightKg: 10, paymentMethod: "cod", ...transformCart(finalItems), user: user?._id };
     }
     try {
       const response = await OrderApi.placeOrder(payload);

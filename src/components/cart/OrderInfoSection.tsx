@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TextInput, Pressable, Animated } from "react-native";
-import { Calendar, Clock, Package, Truck, MessageSquare, Weight, Sparkles, Shirt, AlertCircle } from "lucide-react-native";
+import { Calendar, Clock, Package, Truck, MessageSquare, Sparkles, Shirt, AlertCircle } from "lucide-react-native";
 import { SlotPickerModal } from "./SlotPickerModal";
 import { Colors } from "@/context/ThemeProvider";
 
@@ -251,7 +251,7 @@ export const OrderInfoSection = ({ value, onChange }: { value: OrderInfo; onChan
       </View>
 
       {/* Weight */}
-      <View>
+      {/* <View>
         <View className="flex-row items-center gap-2 mb-3">
           <Weight size={20} color="#10B981" />
           <Text className="font-bold text-lg text-heading">Total Weight</Text>
@@ -269,7 +269,7 @@ export const OrderInfoSection = ({ value, onChange }: { value: OrderInfo; onChan
             <Text className="text-gray-600 font-bold">KG</Text>
           </View>
         </View>
-      </View>
+      </View> */}
 
       {/* Modals */}
       <SlotPickerModal

@@ -49,9 +49,9 @@ const AddressSection: React.FC = () => {
           <MapPinIcon color={Colors.heading} />
           <Text className="text-lg font-bold text-heading ml-2">Addresses</Text>
         </View>
-        <TouchableOpacity onPress={() => setModalVisible(true)} className="flex-row items-center bg-secondary px-3 py-2 rounded-lg">
-          <EditIcon color={"black"} />
-          <Text className=" font-semibold text-black ml-1">Change</Text>
+        <TouchableOpacity onPress={() => setModalVisible(true)} className="flex-row items-center bg-primary px-3 py-2 rounded-lg">
+          <EditIcon color={"white"} absoluteStrokeWidth={true} strokeWidth={1.5} />
+          <Text className=" font-medium text-white ml-1">Change</Text>
         </TouchableOpacity>
       </View>
 
