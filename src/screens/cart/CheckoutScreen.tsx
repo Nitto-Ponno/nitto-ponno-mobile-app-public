@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import CheckoutHeader from "@/components/checkout/CheckoutHeader";
-
 import AddressSection from "@/components/checkout/AddressSection";
 import SelectedItemsSection from "@/components/checkout/SelectedItemsSection";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { OrderInfo, OrderInfoSection } from "@/components/cart/OrderInfoSection";
 import { dispatch, useAppSelector } from "@/store";
 import { updateOrderPayload } from "@/store/reducer/orderReducer";
@@ -14,6 +11,7 @@ import OrderPlacedModal from "@/components/checkout/OrderPlacedModal";
 import { OrderData } from "@/services/types/orderTypes";
 import { OrderApi, transformCart, validateOrderData } from "@/services/api/orderApi";
 import { handleErrorResponse } from "@/utils/handlers";
+import TitleHeader from "@/components/common/TitleHeader";
 
 const CheckoutScreen = () => {
   const { paymentMethod, preferredPickupSlot, specialInstructions, preferredDeliverySlot, perfume, foldOnly, totalWeightKg, source } =
@@ -64,14 +62,16 @@ const CheckoutScreen = () => {
     }
   };
   return (
-    <SafeAreaView className="flex-1 bg-background px-4">
-      <CheckoutHeader />
+    <View className="flex-1 bg-background pb-6">
+      <TitleHeader title="Checkout" />
       <KeyboardAvoiderScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <AddressSection />
-        <SelectedItemsSection />
-        <OrderInfoSection value={value} onChange={handleChange} />
+        <View className="gap-4 mx-4">
+          <AddressSection />
+          <SelectedItemsSection />
+          <OrderInfoSection value={value} onChange={handleChange} />
+        </View>
       </KeyboardAvoiderScrollView>
-      <TouchableOpacity onPress={handleCreateOrder} className="h-12 justify-center items-center bg-primary rounded-2xl mt-2">
+      <TouchableOpacity onPress={handleCreateOrder} className="h-12 mx-4 justify-center items-center bg-primary rounded-2xl mt-2">
         <NText className="font-semibold text-white">Confirm Order</NText>
       </TouchableOpacity>
       {order?._id && (
@@ -83,7 +83,7 @@ const CheckoutScreen = () => {
           order={order}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

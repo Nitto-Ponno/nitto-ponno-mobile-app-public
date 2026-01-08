@@ -2,14 +2,14 @@ import Images from "@/constants/Images";
 import { Product } from "@/services/types/productTypes";
 import { dispatch, useAppSelector } from "@/store";
 import { cn } from "@/utils/cn";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { addToWishlist } from "@/store/reducer/wishlistReducer";
 import { Colors } from "@/context/ThemeProvider";
 import { PressableScale } from "../common/PressableScale";
 import { setSelectedProduct, setSelectionModal } from "@/store/reducer/productReducer";
 import NText from "../global/NText";
-import { calculateDiscountedPrice, calculateFinalPrice } from "@/utils/commonFunction";
+import { calculateFinalPrice } from "@/utils/commonFunction";
 
 const ProductCard = ({
   product,
@@ -106,7 +106,7 @@ const ProductCard = ({
           </View>
         )}
         <View className="flex-row items-center">
-          {originalPrice > finalPrice && <NText className="text-body font-bold text-2xl line-through">৳{originalPrice}</NText>}
+          {originalPrice > finalPrice && <NText className="text-body font-semibold text-lg line-through">৳{originalPrice}</NText>}
           <NText className="font-bold font-okra text-2xl text-primary">৳{finalPrice}</NText>
         </View>
         {/* Add to Cart Button */}

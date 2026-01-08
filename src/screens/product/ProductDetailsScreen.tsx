@@ -3,9 +3,9 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/context/ThemeProvider";
-import { goBack } from "@/utils/NavigationUtils";
+import { goBack, navigate, navigateToStack } from "@/utils/NavigationUtils";
 import ProductSelection from "@/components/product/ProductSelection";
-import { Heart } from "lucide-react-native";
+import { Heart, ShoppingCart } from "lucide-react-native";
 
 // Mock data - replace with useAppSelector
 const selectedProduct = {
@@ -70,12 +70,27 @@ const ProductDetailsScreen = () => {
       {/* Header */}
       <View className=" pb-4 flex-row items-center border-b border-border">
         <Pressable onPress={() => goBack()} className="w-10 h-10 items-center justify-center rounded-full bg-gray-100">
-          <Ionicons name="arrow-back" size={24} color="#374151" />
+          <Ionicons name="arrow-back" size={24} color={Colors.body} />
         </Pressable>
-        <Text className="flex-1 text-center text-lg font-semibold text-heading">Product Details</Text>
-        <Pressable className="w-10 h-10 items-center justify-center rounded-full bg-gray-100">
-          <Heart size={24} color="#374151" />
-        </Pressable>
+        <Text className="flex-1 text-center text-xl font-semibold text-heading">Product Details</Text>
+        <View className="flex-row items-center gap-3">
+          <Pressable
+            onPress={() => {
+              navigate("Wishlist");
+            }}
+            className="w-10 h-10 items-center justify-center rounded-full bg-foreground border border-border"
+          >
+            <Heart size={22} color={Colors.body} />
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              navigateToStack("CartStack", { screen: "Cart", params: { from: "ProductDetails" } });
+            }}
+            className="w-10 h-10 items-center justify-center rounded-full bg-foreground border border-border"
+          >
+            <ShoppingCart size={22} color={Colors.body} />
+          </Pressable>
+        </View>
       </View>
       <ProductSelection />
     </SafeAreaView>

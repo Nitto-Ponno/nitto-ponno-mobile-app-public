@@ -31,6 +31,23 @@ export async function resetAndNavigate(routeName: string) {
   }
 }
 
+type StackParams = {
+  screen?: string;
+  params?: Record<string, any>;
+};
+
+export function navigateToStack(stackName: string, options?: StackParams) {
+  navigate("BottomTabNavigator", {
+    screen: stackName,
+    params: options?.screen
+      ? {
+          screen: options.screen,
+          params: options.params,
+        }
+      : options?.params,
+  });
+}
+
 export async function goBack() {
   if (navigationRef.isReady()) {
     // Check if canGoBack is true

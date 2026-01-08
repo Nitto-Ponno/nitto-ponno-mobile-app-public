@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { goBack } from "@/utils/NavigationUtils";
+import { BackButton } from "@/components/common/TitleHeader";
 
 // Types
 interface Notification {
@@ -186,10 +187,8 @@ const NotificationScreen = () => {
       {/* Header */}
       <View className="bg-background pb-4 px-5 border-b border-border">
         {/* Back Button and Title Row */}
-        <View className="flex-row items-center mb-4">
-          <TouchableOpacity onPress={goBack} className="w-10 h-10 items-center justify-center mr-2 -ml-2">
-            <Text className="text-2xl text-heading">←</Text>
-          </TouchableOpacity>
+        <View className="flex-row items-center mb-4 gap-3">
+          <BackButton onPress={goBack} />
 
           <View className="flex-1">
             <Text className="text-2xl font-bold text-heading">Notifications</Text>
@@ -204,7 +203,7 @@ const NotificationScreen = () => {
         </View>
 
         {/* Filter Tabs */}
-        <View className="flex-row space-x-2">
+        <View className="flex-row gap-2">
           <TouchableOpacity
             onPress={() => setFilter("all")}
             className={`px-4 py-2 rounded-full ${filter === "all" ? "bg-green-600" : "bg-gray-100"}`}

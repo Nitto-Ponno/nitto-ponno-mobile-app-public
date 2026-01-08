@@ -13,5 +13,5 @@ const CartStack = () => {
 
 export default CartStack;
 export type CartStackParamList = {
-  Cart: undefined;
+  Cart: { from?: string };
 };

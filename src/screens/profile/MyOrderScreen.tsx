@@ -1,8 +1,6 @@
-import { goBack } from "@/utils/NavigationUtils";
-import { ArrowLeft } from "lucide-react-native";
 import React, { useState } from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity, RefreshControl, Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import TitleHeader from "@/components/common/TitleHeader";
+import { View, Text, ScrollView, Image, TouchableOpacity, RefreshControl } from "react-native";
 
 // Types
 interface User {
@@ -265,14 +263,9 @@ const MyOrdersScreen = () => {
   });
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <View className="flex-1 bg-background">
       {/* Header */}
-      <View className="flex-row items-center pb-3  gap-3 mb-4 px-5 border-b border-border">
-        <Pressable onPress={() => goBack()} className="w-10 h-10 items-center justify-center rounded-full bg-gray-100">
-          <ArrowLeft size={24} color="#374151" />
-        </Pressable>
-        <Text className="text-2xl font-bold text-gray-900 ">My Orders</Text>
-      </View>
+      <TitleHeader title="My Orders" />
 
       <View className="flex-row gap-2 px-4 pb-4">
         {(["all", "active", "completed"] as const).map((filter) => (
@@ -401,7 +394,7 @@ const MyOrdersScreen = () => {
           )}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

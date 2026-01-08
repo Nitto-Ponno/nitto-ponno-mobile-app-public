@@ -1,18 +1,31 @@
 import { View, Text, FlatList } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppSelector, useAppDispatch } from "@/store";
 import { removeCartItem, toggleSelectCartItem, updateQuantity } from "@/store/reducer/cartReducer";
 import EmptyCart from "@/components/cart/EmptyCart";
 import CartItemCard from "@/components/cart/CartItemCard";
 import OrderSummary from "@/components/cart/OrderSummary";
-import { navigate } from "@/utils/NavigationUtils";
+import { goBack, navigate } from "@/utils/NavigationUtils";
 import { setRedirectTo } from "@/store/reducer/authReducer";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { CartStackParamList } from "@/navigation/CartStack";
+import { BackButton } from "@/components/common/TitleHeader";
+type Props = NativeStackScreenProps<CartStackParamList, "Cart">;
+const CartScreen = ({ route, navigation }: Props) => {
+  const from = route.params?.from;
 
-const CartScreen = () => {
   const dispatch = useAppDispatch();
   const { cartItems, selectedCart } = useAppSelector((state) => state.cart);
   const { accessToken } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("blur", () => {
+      navigation.setParams({ from: undefined });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const calculateTotal = () => {
     return cartItems
@@ -33,11 +46,20 @@ const CartScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-background">
       {/* Header */}
-      <View className="px-4 py-3 border-b border-border">
-        <Text className="text-2xl font-bold text-heading">Shopping Cart</Text>
-        <Text className="text-sm text-body mt-1">
-          {cartItems?.length} {cartItems?.length === 1 ? "item" : "items"} in cart
-        </Text>
+      <View className="flex-row items-center gap-3 px-4 pb-3 border-b border-border">
+        {from === "ProductDetails" && (
+          <BackButton
+            onPress={() => {
+              goBack();
+            }}
+          />
+        )}
+        <View className="">
+          <Text className="text-2xl font-bold text-heading">Shopping Cart</Text>
+          <Text className="text-sm text-body mt-1">
+            {cartItems?.length} {cartItems?.length === 1 ? "item" : "items"} in cart
+          </Text>
+        </View>
       </View>
 
       {/* Cart Items List */}

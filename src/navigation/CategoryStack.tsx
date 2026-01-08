@@ -16,5 +16,5 @@ const CategoryStack = () => {
 export default CategoryStack;
 export type CategoryStackParamList = {
   Category: undefined;
-  CategoryProducts: undefined;
+  CategoryProducts: { slug?: string };
 };

@@ -129,7 +129,7 @@ export const OrderInfoSection = ({ value, onChange }: { value: OrderInfo; onChan
   const slotError = validateSlots();
 
   return (
-    <View className="bg-foreground border border-border mt-4 p-4 rounded-lg gap-4 mb-4">
+    <View className="bg-foreground border border-border p-4 rounded-lg gap-4 mb-4">
       {/* Payment Method */}
       <View className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-200">
         <View className="flex-row items-center gap-3">

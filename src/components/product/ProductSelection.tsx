@@ -166,7 +166,7 @@ const ProductSelection = ({ hasHeader, closeModal }: { hasHeader?: boolean; clos
                   onPress={() => handleQuantityChange(-1)}
                   className="w-12 h-12 rounded-xl bg-gray-100 items-center justify-center"
                 >
-                  <Ionicons name="remove" size={24} color="#374151" />
+                  <Ionicons name="remove" size={24} color={Colors.body} />
                 </Pressable>
                 <NText className="mx-6 text-xl font-bold text-heading min-w-[40px] text-center">{quantity}</NText>
                 <Pressable onPress={() => handleQuantityChange(1)} className="w-12 h-12 rounded-xl bg-primary items-center justify-center">

@@ -1,19 +1,6 @@
 import React from "react";
 import { View, ScrollView, TouchableOpacity, Image, Text } from "react-native";
-import {
-  Package,
-  Heart,
-  MapPin,
-  CreditCard,
-  Gift,
-  Bell,
-  Shield,
-  HelpCircle,
-  Settings,
-  LogOut,
-  ChevronRight,
-  ShoppingBag,
-} from "lucide-react-native";
+import { Package, Heart, MapPin, Bell, HelpCircle, Settings, LogOut, ChevronRight, ShoppingBag } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/context/ThemeProvider";
 import { navigate } from "@/utils/NavigationUtils";
@@ -57,10 +44,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onSignUp = () => navigate("Signup"),
   onEditProfile = () => showToast({ message: "Coming soon..." }),
   onAddresses = () => showToast({ message: "Coming soon..." }),
-  onPayments = () => showToast({ message: "Coming soon..." }),
-  onRewards = () => showToast({ message: "Coming soon..." }),
-  onNotifications = () => showToast({ message: "Coming soon..." }),
-  onSecurity = () => showToast({ message: "Coming soon..." }),
   onHelp = () => showToast({ message: "Coming soon..." }),
   onSettings = () => showToast({ message: "Coming soon..." }),
 }) => {
@@ -181,8 +164,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
         {/* Profile Card */}
         <View className="bg-foreground p-5 rounded-2xl mb-6">
           <View className="flex-row items-center mb-4">
-            <View className="h-20 w-20 rounded-full overflow-hidden">
-              <Image source={Images.LOGO} className="w-20 h-20 rounded-full mr-4  bg-primary" />
+            <View className="h-16 w-16 mr-4  rounded-full overflow-hidden">
+              <Image source={Images.LOGO} className="w-16 h-16 rounded-full  bg-primary" />
             </View>
             <View className="flex-1">
               <Text className="text-heading text-xl font-bold">{user?.fullName}</Text>
@@ -236,28 +219,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
             iconColor="#ef4444"
           />
           <MenuItem icon={MapPin} title="Saved Addresses" subtitle="Manage delivery locations" onPress={onAddresses} iconColor="#8b5cf6" />
-          <MenuItem
-            icon={CreditCard}
-            title="Payment Methods"
-            subtitle="Cards and payment options"
-            onPress={onPayments}
-            iconColor="#f59e0b"
-          />
-          <MenuItem icon={Gift} title="Rewards & Offers" subtitle="Exclusive deals and coupons" onPress={onRewards} iconColor="#10b981" />
-        </View>
-
-        {/* Account Section */}
-        <View className="mb-6">
-          <Text className="text-heading text-lg font-bold mb-4">Account</Text>
-          <MenuItem
-            icon={Shield}
-            title="Security & Privacy"
-            subtitle="Password and data settings"
-            onPress={onSecurity}
-            iconColor={Colors.body}
-          />
-          <MenuItem icon={HelpCircle} title="Help & Support" subtitle="FAQs and customer service" onPress={onHelp} iconColor="#8b5cf6" />
-          <MenuItem icon={Settings} title="App Settings" subtitle="Preferences and language" onPress={onSettings} iconColor={Colors.body} />
         </View>
 
         {/* Logout Button */}

@@ -103,7 +103,7 @@ const WishlistScreen = () => {
       <View className="flex-row justify-between items-center pb-3  px-5 border-b border-border">
         <View className="flex-row items-center gap-3 ">
           <Pressable onPress={() => goBack()} className="w-10 h-10 items-center justify-center rounded-full bg-gray-100">
-            <ArrowLeft size={24} color="#374151" />
+            <ArrowLeft size={24} color={Colors.body} />
           </Pressable>
           <Text className="text-2xl font-bold text-heading ">My Wishlist</Text>
         </View>

@@ -21,7 +21,7 @@ const AddressSection: React.FC = () => {
   // If no addresses set, show add button
   if (!pickupAddress?.fullAddress || !deliveryAddress?.fullAddress) {
     return (
-      <View className="bg-foreground rounded-xl p-6 my-3 border-border border">
+      <View className="bg-foreground rounded-xl px-6 my-3 border-border border">
         <View className="flex-row items-center mb-4">
           <MapPinIcon color={Colors.heading} />
           <Text className="text-lg font-bold text-heading ml-2">Addresses</Text>
@@ -42,7 +42,7 @@ const AddressSection: React.FC = () => {
 
   // If addresses exist, show them
   return (
-    <View className="bg-foreground rounded-xl p-5 my-3 border-border border">
+    <View className="bg-foreground rounded-xl p-5 border-border border">
       {/* Header with Edit Button */}
       <View className="flex-row justify-between items-center mb-4">
         <View className="flex-row items-center">

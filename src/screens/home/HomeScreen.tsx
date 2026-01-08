@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, ScrollView } from "react-native";
+import { Text, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ProductsSection from "@/components/home/ProductsSection";
 import PromoCarousel from "@/components/home/PromoCarousel";
@@ -13,13 +13,20 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background " edges={["top"]}>
-      <SearchBar onSearch={handleSearch} />
-      <ScrollView showsVerticalScrollIndicator={false} bounces={true} className="flex-1">
-        <PromoCarousel promos={promos} />
-        <Text className="px-3 text-2xl font-bold text-heading mb-2">Laundry Products</Text>
-        <ProductsSection />
-      </ScrollView>
+    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
+      <FlatList
+        data={[1]}
+        keyExtractor={(item) => item.toString()}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <>
+            <SearchBar onSearch={handleSearch} />
+            <PromoCarousel promos={promos} />
+            <Text className="px-3 text-2xl font-bold text-heading mb-2">Laundry Products</Text>
+          </>
+        }
+        renderItem={() => <ProductsSection />}
+      />
     </SafeAreaView>
   );
 }

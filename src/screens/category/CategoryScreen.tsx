@@ -159,11 +159,15 @@
 // };
 
 // export default CategoryScreen;
-
+import React, { useMemo } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
-import React, { useState } from "react";
 import { navigate } from "@/utils/NavigationUtils";
-import { SafeAreaView } from "react-native-safe-area-context";
+// optional toast
+import { showToast } from "@/utils/commonFunction";
+
+// Lucide Icons
+import { Shirt, Pill, ShoppingBasket, ArrowRight, Lock, Sparkles } from "lucide-react-native";
+import TitleHeader from "@/components/common/TitleHeader";
 
 // Types
 interface Category {
@@ -171,139 +175,159 @@ interface Category {
   name: string;
   slug: string;
   description: string;
-  icon: string;
   image: string;
-  color: string;
   itemCount: number;
   isActive: boolean;
+  gradientLabel: string; // for tag text
 }
 
 const CategoryScreen = () => {
-  const [categories] = useState<Category[]>([
-    {
-      _id: "1",
-      name: "Laundry",
-      slug: "laundry",
-      description: "Professional laundry services at your doorstep",
-      icon: "👔",
-      image: "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=600",
-      color: "bg-blue-500",
-      itemCount: 45,
-      isActive: true,
-    },
-    {
-      _id: "2",
-      name: "Pharmacy",
-      slug: "pharmacy",
-      description: "Order medicines and health products online",
-      icon: "💊",
-      image: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=600",
-      color: "bg-red-500",
-      itemCount: 350,
-      isActive: true,
-    },
-    {
-      _id: "3",
-      name: "Grocery",
-      slug: "grocery",
-      description: "Fresh groceries delivered to your home",
-      icon: "🛒",
-      image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600",
-      color: "bg-green-500",
-      itemCount: 1200,
-      isActive: true,
-    },
-  ]);
+  const categories = useMemo<Category[]>(
+    () => [
+      {
+        _id: "1",
+        name: "Laundry",
+        slug: "laundry",
+        description: "Professional laundry services at your doorstep",
+        image:
+          "https://img.freepik.com/free-vector/apartment-building-site-laundry-room-cartoon-composition-with-tenants-using-washing-machine-detergent-bottles-illustration_1284-64894.jpg?t=st=1767878391~exp=1767881991~hmac=244752fe02344be7d4ecff8ffabf9ac2e273dc0f0fbfc51ec6df62ce6f38ada5&w=2000",
+        itemCount: 45,
+        isActive: true,
+        gradientLabel: "Available now",
+      },
+      {
+        _id: "2",
+        name: "Pharmacy",
+        slug: "pharmacy",
+        description: "Order medicines and health products online",
+        image:
+          "https://img.freepik.com/free-vector/tiny-pharmacist-with-pills-vitamins-flat-vector-illustration-doctors-writing-prescriptions-antibiotics-working-together-helping-patients-cure-pharmacy-business-drugstore-concept_74855-23225.jpg?t=st=1767878516~exp=1767882116~hmac=32e931428bc24f3c6c9b6fde972c8f6907996b8435447470e177a83944c1f603&w=2000",
+        itemCount: 350,
+        isActive: false,
+        gradientLabel: "Coming soon",
+      },
+      {
+        _id: "3",
+        name: "Grocery",
+        slug: "grocery",
+        description: "Fresh groceries delivered to your home",
+        image:
+          "https://img.freepik.com/free-vector/flat-people-order-food-online-grocery-shopping-from-mobile-application-internet-purchases-with-home-delivery-from-supermarket-store-smartphone-screen-with-buy-button-basket-full-products_88138-856.jpg?uid=R154679726&ga=GA1.1.1312291187.1763529352&semt=ais_hybrid&w=740&q=80",
+        itemCount: 1200,
+        isActive: false,
+        gradientLabel: "Coming soon",
+      },
+    ],
+    []
+  );
+
+  const getIcon = (slug: string) => {
+    switch (slug) {
+      case "laundry":
+        return Shirt;
+      case "pharmacy":
+        return Pill;
+      case "grocery":
+        return ShoppingBasket;
+      default:
+        return Sparkles;
+    }
+  };
 
   const handleCategoryPress = (category: Category) => {
-    navigate("CategoryProducts");
+    if (!category.isActive) {
+      showToast?.({ message: `${category.name} coming soon...` });
+      return;
+    }
+    navigate("CategoryProducts", { slug: "laundry" });
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      {/* Header */}
-      <View className="bg-background pb-4 px-5 border-b border-gray-200">
-        <View className="flex-row items-center">
-          <View className="flex-1">
-            <Text className="text-2xl font-bold text-gray-900">Categories</Text>
-            <Text className="text-sm text-gray-500 mt-0.5">Choose a service category</Text>
+    <View className="flex-1 bg-background">
+      <TitleHeader title="Categories" canGoBack={false} />
+
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false} contentContainerClassName="px-4 pb-10">
+        {/* Section Title */}
+        <View className="flex-row items-center justify-between mb-3">
+          <Text className="text-lg font-bold text-gray-900">Services</Text>
+          <View className="flex-row items-center bg-gray-100 px-3 py-1.5 rounded-full">
+            <Sparkles size={14} color="#111827" />
+            <Text className="text-xs text-gray-800 ml-1">New features coming</Text>
           </View>
         </View>
-      </View>
 
-      {/* Categories List */}
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false} contentContainerClassName="p-4">
-        {categories.map((category) => (
-          <TouchableOpacity
-            key={category._id}
-            onPress={() => handleCategoryPress(category)}
-            className="bg-white rounded-2xl mb-4 overflow-hidden shadow-sm"
-            activeOpacity={0.7}
-          >
-            {/* Category Image */}
-            <View className="relative">
-              <Image source={{ uri: category.image }} className="w-full h-48" resizeMode="cover" />
-              {/* Overlay Gradient Effect */}
-              <View className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        {/* Main Cards */}
+        {categories.map((category) => {
+          const Icon = getIcon(category.slug);
 
-              {/* Icon Badge */}
-              <View className={`absolute top-4 left-4 w-14 h-14 rounded-full ${category.color} items-center justify-center shadow-lg`}>
-                <Text className="text-3xl">{category.icon}</Text>
-              </View>
+          return (
+            <TouchableOpacity
+              key={category._id}
+              onPress={() => handleCategoryPress(category)}
+              activeOpacity={category.isActive ? 0.85 : 1}
+              className={`rounded-2xl mb-4 overflow-hidden bg-white shadow-sm ${category.isActive ? "" : "opacity-70"}`}
+            >
+              {/* Image */}
+              <View className="relative">
+                <Image source={{ uri: category.image }} className="w-full h-44" resizeMode="cover" />
 
-              {/* Item Count Badge */}
-              <View className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full">
-                <Text className="text-sm font-semibold text-gray-900">{category.itemCount}+ items</Text>
-              </View>
+                {/* overlay */}
+                <View className="absolute inset-0 bg-black/35" />
 
-              {/* Category Name Overlay */}
-              <View className="absolute bottom-0 left-0 right-0 p-4">
-                <Text className="text-2xl font-bold text-white mb-1">{category.name}</Text>
-                <Text className="text-sm text-white/90">{category.description}</Text>
-              </View>
-            </View>
+                {/* Icon badge */}
+                <View
+                  className={`absolute top-4 left-4 w-12 h-12 rounded-2xl items-center justify-center ${
+                    category.isActive ? "bg-white/90" : "bg-white/70"
+                  }`}
+                >
+                  <Icon size={26} color="#111827" />
+                </View>
 
-            {/* Quick Action Footer */}
-            <View className="flex-row items-center justify-between p-4 border-t border-gray-100">
-              <View className="flex-row items-center">
-                <View className="w-2 h-2 bg-green-500 rounded-full mr-2" />
-                <Text className="text-sm text-gray-600">Available now</Text>
-              </View>
-              <View className="flex-row items-center">
-                <Text className="text-green-600 font-semibold mr-1">Explore</Text>
-                <Text className="text-green-600">→</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        ))}
+                {/* Status badge */}
+                <View className={`absolute top-4 right-4 px-3 py-1.5 rounded-full ${category.isActive ? "bg-green-600" : "bg-gray-800"}`}>
+                  <Text className="text-xs font-semibold text-white">{category.isActive ? "AVAILABLE" : "COMING SOON"}</Text>
+                </View>
 
-        {/* Coming Soon Categories */}
-        <View className="mt-4">
-          <Text className="text-lg font-bold text-gray-900 mb-4 px-1">Coming Soon</Text>
+                {/* Title / Desc */}
+                <View className="absolute bottom-0 left-0 right-0 p-4">
+                  <Text className="text-2xl font-bold text-white">{category.name}</Text>
+                  <Text className="text-sm text-white/90 mt-1">{category.description}</Text>
 
-          <View className="flex-row flex-wrap -mx-2">
-            {[
-              { name: "Electronics", icon: "📱", color: "bg-purple-500" },
-              { name: "Beauty", icon: "💄", color: "bg-pink-500" },
-              { name: "Food Delivery", icon: "🍔", color: "bg-orange-500" },
-              { name: "Pet Care", icon: "🐕", color: "bg-yellow-500" },
-            ].map((item, idx) => (
-              <View key={idx} className="w-1/2 p-2">
-                <View className="bg-white rounded-xl p-4 items-center opacity-60">
-                  <View className={`w-16 h-16 rounded-full ${item.color} items-center justify-center mb-3`}>
-                    <Text className="text-3xl">{item.icon}</Text>
-                  </View>
-                  <Text className="font-semibold text-gray-900 mb-1">{item.name}</Text>
-                  <View className="bg-gray-100 px-3 py-1 rounded-full">
-                    <Text className="text-xs text-gray-600">Coming Soon</Text>
+                  {/* item count */}
+                  <View className="mt-3 flex-row items-center">
+                    <View className="bg-white/20 px-3 py-1 rounded-full">
+                      <Text className="text-xs text-white font-semibold">{category.itemCount}+ items</Text>
+                    </View>
+
+                    {!category.isActive && (
+                      <View className="ml-2 flex-row items-center bg-white/20 px-3 py-1 rounded-full">
+                        <Lock size={14} color="white" />
+                        <Text className="text-xs text-white font-semibold ml-1">Locked</Text>
+                      </View>
+                    )}
                   </View>
                 </View>
               </View>
-            ))}
-          </View>
-        </View>
+
+              {/* Footer */}
+              <View className="flex-row items-center justify-between p-4 border-t border-gray-100">
+                <View className="flex-row items-center">
+                  <View className={`w-2 h-2 rounded-full mr-2 ${category.isActive ? "bg-green-500" : "bg-gray-400"}`} />
+                  <Text className="text-sm text-gray-700">{category.isActive ? "Available now" : "Launching soon — stay tuned"}</Text>
+                </View>
+
+                <View className="flex-row items-center">
+                  <Text className={`font-semibold mr-1 ${category.isActive ? "text-green-600" : "text-gray-400"}`}>
+                    {category.isActive ? "Explore" : "Soon"}
+                  </Text>
+                  <ArrowRight size={18} color={category.isActive ? "#16a34a" : "#9ca3af"} />
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

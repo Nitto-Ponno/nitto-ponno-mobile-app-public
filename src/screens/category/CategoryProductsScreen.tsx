@@ -1,22 +1,56 @@
-import { View, Text, Pressable } from "react-native";
-import React from "react";
-import { goBack } from "@/utils/NavigationUtils";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ArrowLeft } from "lucide-react-native";
-import ProductsSection from "@/components/home/ProductsSection";
+import { View, FlatList } from "react-native";
+import React, { useEffect } from "react";
+import { navigate } from "@/utils/NavigationUtils";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { CategoryStackParamList } from "@/navigation/CategoryStack";
+import { dispatch, useAppSelector } from "@/store";
+import { getFeaturedProducts } from "@/services/api/productApi";
+import { Product } from "@/services/types/productTypes";
+import ProductCard from "@/components/product/ProductCard";
+import { setSelectedProduct } from "@/store/reducer/productReducer";
+import SelectionModal from "@/components/product/SelectionModal";
+import TitleHeader from "@/components/common/TitleHeader";
+type Props = NativeStackScreenProps<CategoryStackParamList, "CategoryProducts">;
+const CategoryProductsScreen = ({ route }: Props) => {
+  const { slug } = route.params;
+  const { products } = useAppSelector((state) => state.product);
 
-const CategoryProductsScreen = () => {
+  useEffect(() => {
+    (async () => {
+      await getFeaturedProducts();
+    })();
+
+    return () => {};
+  }, []);
+
+  if (!products) return;
+  const renderItem = ({ item }: { item: Product }) => {
+    return (
+      <ProductCard
+        product={item}
+        variant="v1"
+        onPress={(p) => {
+          dispatch(setSelectedProduct(p));
+          navigate("ProductDetails");
+        }}
+      />
+    );
+  };
   return (
-    <SafeAreaView className="pb-3 flex-1 bg-background">
-      <View className="flex-row items-center pb-3  gap-3 mb-4 px-5 border-b border-border">
-        <Pressable onPress={() => goBack()} className="w-10 h-10 items-center justify-center rounded-full bg-gray-100">
-          <ArrowLeft size={24} color="#374151" />
-        </Pressable>
-        <Text className="text-2xl font-bold text-gray-900 ">Categorized Products</Text>
+    <View className="flex-1 bg-background">
+      <TitleHeader title={`${slug} Products`} />
+      <View className="px-4 flex-1">
+        <FlatList
+          data={products}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          numColumns={2}
+          contentContainerClassName="gap-3 flex-1"
+          columnWrapperClassName="gap-3"
+        />
+        <SelectionModal />
       </View>
-
-      <ProductsSection />
-    </SafeAreaView>
+    </View>
   );
 };
 
