@@ -4,14 +4,17 @@ import { Colors } from "@/context/ThemeProvider";
 import { AuthApi } from "@/services/api/authApi";
 import { useAppSelector } from "@/store";
 import { setAccessToken, setRedirectTo, setRefreshToken, setUser } from "@/store/reducer/authReducer";
-import { showSuccessAlert } from "@/utils/commonFunction";
+import { showSuccessAlert, showToast } from "@/utils/commonFunction";
 import { handleErrorResponse } from "@/utils/handlers";
-import { goBack, navigate } from "@/utils/NavigationUtils";
+import { goBack, navigate, navigateToStack } from "@/utils/NavigationUtils";
 import { ArrowLeftCircle } from "lucide-react-native";
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
+import { View, TouchableOpacity, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch } from "react-redux";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import NText from "@/components/global/NText";
+
 type SignInScreenProps = {};
 
 const SignInScreen: React.FC<SignInScreenProps> = () => {
@@ -52,7 +55,7 @@ const SignInScreen: React.FC<SignInScreenProps> = () => {
 
   const handleGoogleSignIn = () => {
     // Handle Google sign in logic here
-    console.log("Google sign in pressed");
+    showToast({ message: "Coming soon..." });
   };
 
   const handleForgotPassword = () => {
@@ -86,8 +89,8 @@ const SignInScreen: React.FC<SignInScreenProps> = () => {
               />
               {/* Header */}
               <View className="mt-12 mb-12">
-                <Text className="text-4xl font-bold text-heading text-center mb-4">Sign In</Text>
-                <Text className="text-body text-center text-base leading-6">Welcome back! Please sign in to your account</Text>
+                <NText className="text-4xl font-bold text-heading text-center mb-4">Sign In</NText>
+                <NText className="text-body text-center text-base leading-6">Welcome back! Please sign in to your account</NText>
               </View>
 
               {/* Form */}
@@ -117,43 +120,48 @@ const SignInScreen: React.FC<SignInScreenProps> = () => {
               {/* Forgot Password Link */}
               <View className="my-4">
                 <TouchableOpacity onPress={handleForgotPassword}>
-                  <Text className="text-heading text-right text-base underline">Forgot Password?</Text>
+                  <NText className="text-heading text-right text-base underline">Forgot Password?</NText>
                 </TouchableOpacity>
               </View>
 
               {/* Sign In Button */}
               <TouchableOpacity className="bg-green-500 rounded-lg py-4 mb-4" onPress={handleSignIn}>
-                <Text className="text-white text-center text-lg font-semibold">Sign In</Text>
+                <NText className="text-white text-center text-lg font-semibold">Sign In</NText>
               </TouchableOpacity>
 
               {/* Google Sign In Button */}
               <TouchableOpacity
-                className="bg-blue-600 rounded-lg py-4 mb-8 flex-row items-center justify-center"
+                className="bg-blue-600 rounded-lg py-4 mb-8 flex-row gap-3 items-center justify-center"
                 onPress={handleGoogleSignIn}
               >
-                <Text className="text-white text-2xl mr-3">G</Text>
-                <Text className="text-white text-lg font-bold">Sign In With Google</Text>
+                <AntDesign name="google" size={24} color="white" />
+                <NText className="text-white text-lg font-bold">Sign In With Google</NText>
               </TouchableOpacity>
 
               {/* Divider */}
               <View className="flex-row items-center mb-8">
                 <View className="flex-1 h-px bg-body" />
-                <Text className="mx-4 text-body text-sm">OR</Text>
+                <NText className="mx-4 text-body text-sm">OR</NText>
                 <View className="flex-1 h-px bg-body" />
               </View>
 
               {/* Bottom Sign Up Link */}
               <View className="flex-row justify-center items-center mb-8">
-                <Text className="text-body text-base">Don't have an account? </Text>
+                <NText className="text-body text-base">Don't have an account? </NText>
                 <TouchableOpacity onPress={handleSignUp}>
-                  <Text className="text-green-600 text-base font-semibold">Sign Up</Text>
+                  <NText className="text-green-600 text-base font-semibold">Sign Up</NText>
                 </TouchableOpacity>
               </View>
 
               {/* Additional Options */}
               <View className="items-center mb-8">
-                <TouchableOpacity className="mb-4">
-                  <Text className="text-body text-base">Continue as Guest</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigateToStack("HomeStack", { screen: "Home" });
+                  }}
+                  className="mb-4"
+                >
+                  <NText className="text-body text-base">Continue as Guest</NText>
                 </TouchableOpacity>
               </View>
             </View>

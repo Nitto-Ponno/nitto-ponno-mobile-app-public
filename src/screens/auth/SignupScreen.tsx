@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { View, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { goBack, navigate } from "@/utils/NavigationUtils";
 import { Colors } from "@/context/ThemeProvider";
 import { ArrowLeftCircle } from "lucide-react-native";
@@ -10,6 +10,8 @@ import { setAuthInfo } from "@/store/reducer/authReducer";
 import ChooseMethodModal from "@/components/auth/ChooseMethodModal";
 import AppInput from "@/components/global/AppInput";
 import { KeyboardAvoiderScrollView } from "@good-react-native/keyboard-avoider";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { showToast } from "@/utils/commonFunction";
 
 const SignUpScreen = () => {
   const [info, setInfo] = useState({
@@ -90,10 +92,6 @@ const SignUpScreen = () => {
         },
       })
     );
-  };
-
-  const handleGoogleSignUp = () => {
-    console.log("Google sign up pressed");
   };
 
   return (
@@ -201,12 +199,13 @@ const SignUpScreen = () => {
 
               {/* Google */}
               <TouchableOpacity
-                className="bg-blue-600 rounded-lg py-4 mb-4 flex-row items-center justify-center"
-                onPress={handleGoogleSignUp}
-                activeOpacity={0.8}
+                className="bg-blue-600 rounded-lg py-4 mb-8 flex-row gap-3 items-center justify-center"
+                onPress={() => {
+                  showToast({ message: "Coming soon..." });
+                }}
               >
-                <NText className="text-white text-2xl mr-3">G</NText>
-                <NText className="text-white text-lg font-semibold">Sign Up With Google</NText>
+                <AntDesign name="google" size={24} color="white" />
+                <NText className="text-white text-lg font-bold">Sign In With Google</NText>
               </TouchableOpacity>
 
               {/* Bottom Login */}

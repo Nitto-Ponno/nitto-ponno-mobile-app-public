@@ -25,7 +25,6 @@ interface ProfileScreenProps {
   onSignUp?: () => void;
   onEditProfile?: () => void;
   onWishlist?: () => void;
-  onAddresses?: () => void;
   onPayments?: () => void;
   onRewards?: () => void;
   onNotifications?: () => void;
@@ -43,7 +42,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
   },
   onSignUp = () => navigate("Signup"),
   onEditProfile = () => showToast({ message: "Coming soon..." }),
-  onAddresses = () => showToast({ message: "Coming soon..." }),
   onHelp = () => showToast({ message: "Coming soon..." }),
   onSettings = () => showToast({ message: "Coming soon..." }),
 }) => {
@@ -218,7 +216,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({
             badge={stats.wishlistItems > 0 ? stats.wishlistItems.toString() : undefined}
             iconColor="#ef4444"
           />
-          <MenuItem icon={MapPin} title="Saved Addresses" subtitle="Manage delivery locations" onPress={onAddresses} iconColor="#8b5cf6" />
+          <MenuItem
+            icon={MapPin}
+            title="Saved Addresses"
+            subtitle="Manage delivery locations"
+            onPress={() => {
+              navigate("MyAddress");
+            }}
+            iconColor="#8b5cf6"
+          />
         </View>
 
         {/* Logout Button */}
