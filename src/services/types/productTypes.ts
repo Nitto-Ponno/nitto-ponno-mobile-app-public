@@ -70,3 +70,16 @@ export interface GetProductsParams {
   sortBy?: "createdAt" | "price" | "name";
   sortOrder?: "asc" | "desc";
 }
+
+export interface TSlide {
+  id: string;
+  title: string;
+  image: string;
+  isActive: boolean;
+  order: number;
+  linkType?: SliderLinkType;
+  linkUrl?: string;
+  description?: string;
+}
+
+export type SliderLinkType = "internal" | "external";
