@@ -67,14 +67,11 @@ const authSlice = createSlice({
         };
       }
     },
-    setRedirectTo: (state, action) => {
-      state.redirectTo = action.payload;
-    },
   },
 });
 
 // Export actions
-export const { setUser, updateUser, removeToken, setAuthInfo, setAccessToken, setRefreshToken, setRedirectTo } = authSlice.actions;
+export const { setUser, updateUser, removeToken, setAuthInfo, setAccessToken, setRefreshToken } = authSlice.actions;
 
 // Export reducer
 export default authSlice.reducer;

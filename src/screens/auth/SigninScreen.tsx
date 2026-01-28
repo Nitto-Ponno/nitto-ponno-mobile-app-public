@@ -2,9 +2,8 @@ import OTPVerificationModal from "@/components/auth/OTPVerificationModal";
 import AppInput from "@/components/global/AppInput";
 import { Colors } from "@/context/ThemeProvider";
 import { AuthApi } from "@/services/api/authApi";
-import { useAppSelector } from "@/store";
-import { setAccessToken, setRedirectTo, setRefreshToken, setUser } from "@/store/reducer/authReducer";
-import { showSuccessAlert, showToast } from "@/utils/commonFunction";
+import { setAccessToken, setRefreshToken, setUser } from "@/store/reducer/authReducer";
+import { showToast } from "@/utils/commonFunction";
 import { handleErrorResponse } from "@/utils/handlers";
 import { goBack, navigate, navigateToStack } from "@/utils/NavigationUtils";
 import { ArrowLeftCircle } from "lucide-react-native";
@@ -15,12 +14,11 @@ import { useDispatch } from "react-redux";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import NText from "@/components/global/NText";
 
-type SignInScreenProps = {};
+type SignInScreenProps = object;
 
 const SignInScreen: React.FC<SignInScreenProps> = () => {
   const [email, setEmail] = useState("shuvajitmaitra+3@gmail.com");
   const [password, setPassword] = useState("Shuvajit#1");
-  const { redirectTo } = useAppSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [verificationModalVisible, setVerificationModalVisible] = useState(false);
 
@@ -35,18 +33,10 @@ const SignInScreen: React.FC<SignInScreenProps> = () => {
         dispatch(setAccessToken(response.data.accessToken));
         dispatch(setRefreshToken(response.data.refreshToken));
         dispatch(setUser(response.data.user));
-        showSuccessAlert({ message: "Logged in successfully" });
+        goBack();
+        showToast({ message: "Logged in successfully" });
         const myData = await AuthApi.getMyData();
         dispatch(setUser(myData.data));
-        if (redirectTo?.stack && redirectTo?.screen) {
-          navigate("BottomTabNavigator", {
-            screen: redirectTo.stack,
-            params: {
-              screen: redirectTo.screen,
-            },
-          });
-        } else if (redirectTo?.stack || redirectTo?.screen) navigate(redirectTo.stack || redirectTo.screen);
-        dispatch(setRedirectTo(null));
       }
     } catch (error: any) {
       handleErrorResponse(error, "Sign in");
@@ -67,7 +57,7 @@ const SignInScreen: React.FC<SignInScreenProps> = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView className="bg-background flex-1">
       <ArrowLeftCircle onPress={goBack} size={40} color={Colors.heading} style={{ marginLeft: 16 }} className="bg-slate-800" />
 
       {/* Wrap everything in KeyboardAvoidingView */}
@@ -88,8 +78,8 @@ const SignInScreen: React.FC<SignInScreenProps> = () => {
                 }}
               />
               {/* Header */}
-              <View className="mt-12 mb-12">
-                <NText className="text-4xl font-bold text-heading text-center mb-4">Sign In</NText>
+              <View className="mb-12 mt-12">
+                <NText className="text-heading mb-4 text-center text-4xl font-bold">Sign In</NText>
                 <NText className="text-body text-center text-base leading-6">Welcome back! Please sign in to your account</NText>
               </View>
 
@@ -125,36 +115,36 @@ const SignInScreen: React.FC<SignInScreenProps> = () => {
               </View>
 
               {/* Sign In Button */}
-              <TouchableOpacity className="bg-green-500 rounded-lg py-4 mb-4" onPress={handleSignIn}>
-                <NText className="text-white text-center text-lg font-semibold">Sign In</NText>
+              <TouchableOpacity className="mb-4 rounded-lg bg-green-500 py-4" onPress={handleSignIn}>
+                <NText className="text-center text-lg font-semibold text-white">Sign In</NText>
               </TouchableOpacity>
 
               {/* Google Sign In Button */}
               <TouchableOpacity
-                className="bg-blue-600 rounded-lg py-4 mb-8 flex-row gap-3 items-center justify-center"
+                className="mb-8 flex-row items-center justify-center gap-3 rounded-lg bg-blue-600 py-4"
                 onPress={handleGoogleSignIn}
               >
                 <AntDesign name="google" size={24} color="white" />
-                <NText className="text-white text-lg font-bold">Sign In With Google</NText>
+                <NText className="text-lg font-bold text-white">Sign In With Google</NText>
               </TouchableOpacity>
 
               {/* Divider */}
-              <View className="flex-row items-center mb-8">
-                <View className="flex-1 h-px bg-body" />
-                <NText className="mx-4 text-body text-sm">OR</NText>
-                <View className="flex-1 h-px bg-body" />
+              <View className="mb-8 flex-row items-center">
+                <View className="bg-body h-px flex-1" />
+                <NText className="text-body mx-4 text-sm">OR</NText>
+                <View className="bg-body h-px flex-1" />
               </View>
 
               {/* Bottom Sign Up Link */}
-              <View className="flex-row justify-center items-center mb-8">
-                <NText className="text-body text-base">Don't have an account? </NText>
+              <View className="mb-8 flex-row items-center justify-center">
+                <NText className="text-body text-base">Don&apos;t have an account? </NText>
                 <TouchableOpacity onPress={handleSignUp}>
-                  <NText className="text-green-600 text-base font-semibold">Sign Up</NText>
+                  <NText className="text-base font-semibold text-green-600">Sign Up</NText>
                 </TouchableOpacity>
               </View>
 
               {/* Additional Options */}
-              <View className="items-center mb-8">
+              <View className="mb-8 items-center">
                 <TouchableOpacity
                   onPress={() => {
                     navigateToStack("HomeStack", { screen: "Home" });

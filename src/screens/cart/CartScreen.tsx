@@ -6,15 +6,13 @@ import { removeCartItem, toggleSelectCartItem, updateQuantity } from "@/store/re
 import EmptyCart from "@/components/cart/EmptyCart";
 import CartItemCard from "@/components/cart/CartItemCard";
 import OrderSummary from "@/components/cart/OrderSummary";
-import { goBack, navigate } from "@/utils/NavigationUtils";
-import { setRedirectTo } from "@/store/reducer/authReducer";
+import { goBack, navigateProtected } from "@/utils/NavigationUtils";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { CartStackParamList } from "@/navigation/CartStack";
 import { BackButton } from "@/components/common/TitleHeader";
 type Props = NativeStackScreenProps<CartStackParamList, "Cart">;
 const CartScreen = ({ route, navigation }: Props) => {
   const from = route.params?.from;
-
   const dispatch = useAppDispatch();
   const { cartItems, selectedCart } = useAppSelector((state) => state.cart);
   const { accessToken } = useAppSelector((state) => state.auth);
@@ -35,18 +33,13 @@ const CartScreen = ({ route, navigation }: Props) => {
   };
 
   const handleCheckout = () => {
-    if (accessToken) {
-      navigate("Checkout");
-    } else {
-      navigate("Signin");
-      dispatch(setRedirectTo({ stack: "Checkout", screen: "" }));
-    }
+    navigateProtected(navigation, Boolean(accessToken), "Checkout");
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView className="bg-background flex-1">
       {/* Header */}
-      <View className="flex-row items-center gap-3 px-4 pb-3 border-b border-border">
+      <View className="border-border flex-row items-center gap-3 border-b px-4 pb-3">
         {from === "ProductDetails" && (
           <BackButton
             onPress={() => {
@@ -55,8 +48,8 @@ const CartScreen = ({ route, navigation }: Props) => {
           />
         )}
         <View className="">
-          <Text className="text-2xl font-bold text-heading">Shopping Cart</Text>
-          <Text className="text-sm text-body mt-1">
+          <Text className="text-heading text-2xl font-bold">Shopping Cart</Text>
+          <Text className="text-body mt-1 text-sm">
             {cartItems?.length} {cartItems?.length === 1 ? "item" : "items"} in cart
           </Text>
         </View>

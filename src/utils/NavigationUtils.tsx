@@ -26,7 +26,7 @@ export async function resetAndNavigate(routeName: string) {
       CommonActions.reset({
         index: 0,
         routes: [{ name: routeName }],
-      })
+      }),
     );
   }
 }
@@ -59,7 +59,7 @@ export async function goBack() {
         CommonActions.navigate({
           name: "BottomTabNavigator",
           params: { screen: "HomeStack", params: { screen: "Home" } },
-        })
+        }),
       );
     }
   } else {
@@ -76,4 +76,15 @@ export async function push(routeName: string, params?: object) {
 
 export async function prepareNavigation() {
   navigationRef.isReady();
+}
+
+export function navigateProtected(navigation: any, isAuthenticated: boolean, targetRoute: string, params?: any) {
+  if (isAuthenticated) {
+    navigation.navigate(targetRoute, params);
+    return;
+  }
+
+  navigation.navigate("Signin", {
+    redirectTo: { name: targetRoute, params },
+  });
 }

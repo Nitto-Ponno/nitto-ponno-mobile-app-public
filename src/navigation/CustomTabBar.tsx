@@ -7,7 +7,6 @@ import { gGap } from "@/utils/Sizes";
 import { Home, LayoutGrid, ShoppingCart, User } from "lucide-react-native";
 import { Colors } from "@/context/ThemeProvider";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
 const { width: screenWidth } = Dimensions.get("window");
 
 interface TabIconProps {
@@ -95,7 +94,6 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
   const indicatorPosition = useSharedValue(0);
   const indicatorOpacity = useSharedValue(0);
   const { bottom } = useSafeAreaInsets();
-
   useEffect(() => {
     // Animate indicator position
     indicatorPosition.value = withSpring(state.index * tabWidth, {
