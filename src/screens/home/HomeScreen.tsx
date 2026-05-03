@@ -1,28 +1,59 @@
-import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import GContainer from "@/components/global/GContainer";
-import NText from "@/components/global/NText";
-import { Colors, useTheme } from "@/context/ThemeProvider";
-import { Camera, Moon, ThermometerSun } from "lucide-react-native";
+import { Text, FlatList } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import ProductsSection from "@/components/home/ProductsSection";
+import PromoCarousel from "@/components/home/PromoCarousel";
+import SearchBar from "@/components/home/SearchBar";
+import { showToast } from "@/utils/commonFunction";
+import HomeBanner from "@/components/home/HomeBanner";
+export default function HomeScreen() {
+  const handleSearch = () => {
+    showToast({ message: "Coming soon..." });
+  };
 
-const HomeScreen = () => {
-  const { toggleTheme, theme } = useTheme();
   return (
-    <GContainer safe={true} centered={true}>
-      <NText style={{ color: Colors.primary }} className="text-xl font-FFRegular ">
-        Welcome to Nitto Ponno!
-      </NText>
-      <TouchableOpacity
-        className="bg-foreground h-14 flex-row   justify-center items-center px-4 rounded-full"
-        onPress={() => {
-          toggleTheme();
-        }}
-      >
-        <NText className="capitalize text-heading">{theme}</NText>
-        <Moon color={Colors.heading} size={20} />
-      </TouchableOpacity>
-    </GContainer>
+    <SafeAreaView className="flex-1 bg-background" edges={["top"]}>
+      <FlatList
+        data={[1]}
+        keyExtractor={(item) => item.toString()}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <>
+            <SearchBar onSearch={handleSearch} />
+            <HomeBanner />
+            <PromoCarousel promos={promos} />
+            <Text className="px-3 text-2xl font-bold text-heading mb-2">Laundry Products</Text>
+          </>
+        }
+        renderItem={() => <ProductsSection />}
+      />
+    </SafeAreaView>
   );
-};
+}
 
-export default HomeScreen;
+const promos = [
+  {
+    id: "1",
+    title: "Summer Sale",
+    subtitle: "Up to 50% Off",
+    description: "On selected items",
+    image: "https://placeholder.svg?height=200&width=400&query=summer+sale+banner",
+    color: "bg-primary",
+  },
+  {
+    id: "2",
+    title: "New Arrivals",
+    subtitle: "Fresh Styles",
+    description: "Check out the latest trends",
+    image: "https://placeholder.svg?height=200&width=400&query=new+arrivals+fashion",
+    color: "bg-secondary",
+  },
+  {
+    id: "3",
+    title: "Flash Deals",
+    subtitle: "24 Hours Only",
+    description: "Limited time offers",
+    image: "https://placeholder.svg?height=200&width=400&query=flash+deals",
+    color: "bg-primary",
+  },
+];

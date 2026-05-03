@@ -1,0 +1,20 @@
+ <AppInput label="Email Address" value={email} setValue={setEmail} variant="email" placeholder="Enter your email" isRequired />
+
+<AppInput label="Phone Number" value={phone} setValue={setPhone} variant="phone" placeholder="+1 (555) 000-0000" />
+
+<AppInput
+  label="Password"
+  value={password}
+  setValue={setPassword}
+  variant="password"
+  placeholder="Enter password"
+  isRequired
+  error={password.length > 0 && password.length < 6 ? "Password must be at least 6 characters" : undefined}
+/>
+
+<AppInput label="OTP Code" value={otp} setValue={setOtp} variant="otp" placeholder="000000" maxLength={6} />
+
+<AppInput label="Full Name" value={name} setValue={setName} variant="text" placeholder="John Doe" isRequired />
+
+<AppInput label="Disabled Input" value="Cannot edit this" setValue={() => {}} variant="text" disabled />
+              

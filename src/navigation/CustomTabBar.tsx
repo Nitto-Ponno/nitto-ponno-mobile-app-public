@@ -3,10 +3,10 @@ import React, { useEffect } from "react";
 import { View, TouchableOpacity, Text, Platform, Dimensions, Vibration } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming, runOnJS } from "react-native-reanimated";
-import { useTheme } from "../context/ThemeProvider";
 import { gGap } from "@/utils/Sizes";
-import { Home, User } from "lucide-react-native";
-
+import { Home, LayoutGrid, ShoppingCart, User } from "lucide-react-native";
+import { Colors } from "@/context/ThemeProvider";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 const { width: screenWidth } = Dimensions.get("window");
 
 interface TabIconProps {
@@ -15,20 +15,16 @@ interface TabIconProps {
 }
 
 const TabIcon: React.FC<TabIconProps> = ({ routeName, isFocused }) => {
-  const { theme, Colors } = useTheme();
-  const iconColor = isFocused
-    ? theme === "dark"
-      ? Colors.dark.primary
-      : Colors.light.primary
-    : theme === "dark"
-    ? Colors.dark.heading
-    : Colors.light.heading; // orange-500 : gray-400
+  const iconColor = isFocused ? Colors.primary : Colors.heading;
   const contentColor = isFocused ? "#FFFFFF" : "#4B5563"; // white : gray-600
   const getIconContent = () => {
     switch (routeName) {
       case "HomeStack":
-      case "Home":
         return <Home size={20} color={iconColor} />;
+      case "CategoryStack":
+        return <LayoutGrid size={20} color={iconColor} />;
+      case "CartStack":
+        return <ShoppingCart size={20} color={iconColor} />;
       case "ProfileStack":
         return <User size={20} color={iconColor} />;
       default:
@@ -60,10 +56,13 @@ const TabIcon: React.FC<TabIconProps> = ({ routeName, isFocused }) => {
   const getTabLabel = () => {
     switch (routeName) {
       case "HomeStack":
-      case "Home":
         return "Home";
+      case "CategoryStack":
+        return "Categories";
+      case "CartStack":
+        return "Cart";
       case "ProfileStack":
-        return "Account";
+        return "Profile";
       default:
         return routeName;
     }
@@ -81,13 +80,7 @@ const TabIcon: React.FC<TabIconProps> = ({ routeName, isFocused }) => {
         className="font-okra font-semibold"
         style={{
           fontSize: 10,
-          color: isFocused
-            ? theme === "dark"
-              ? Colors.dark.primary
-              : Colors.light.primary
-            : theme === "dark"
-            ? Colors.dark.heading
-            : Colors.light.heading, // orange-500 : gray-500
+          color: iconColor || "white",
         }}
       >
         {getTabLabel()}
@@ -100,14 +93,12 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
   const tabWidth = screenWidth / state.routes.length;
   const indicatorPosition = useSharedValue(0);
   const indicatorOpacity = useSharedValue(0);
-
-  const { theme, Colors } = useTheme();
-
+  const { bottom } = useSafeAreaInsets();
   useEffect(() => {
     // Animate indicator position
     indicatorPosition.value = withSpring(state.index * tabWidth, {
-      damping: 20,
-      stiffness: 150,
+      damping: 60,
+      stiffness: 400,
     });
 
     // Animate indicator opacity
@@ -128,22 +119,13 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
 
   return (
     <View
-      className="bg-background "
+      className="bg-background"
       style={{
         flexDirection: "row",
-        paddingBottom: Platform.OS === "ios" ? gGap(20) : gGap(10),
+        paddingBottom: gGap(bottom / 2) + gGap(5),
         paddingTop: gGap(5),
-        shadowColor: theme === "dark" ? Colors.dark.foreground : Colors.light.foreground,
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-
-        elevation: 5,
         borderTopWidth: 1,
-        borderTopColor: theme === "dark" ? Colors.dark.border : Colors.light.border,
+        borderTopColor: Colors.border,
       }}
     >
       {/* Animated Indicator */}
@@ -152,16 +134,15 @@ const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigat
           indicatorStyle,
           {
             position: "absolute",
-            bottom: Platform.OS === "ios" ? gGap(15) : gGap(3),
+            bottom: gGap(bottom / 2),
             width: tabWidth * 0.6,
             marginLeft: tabWidth * 0.2,
             height: 3,
-            backgroundColor: theme === "dark" ? Colors.dark.primary : Colors.light.primary, // orange-500
+            backgroundColor: Colors.primary,
             borderRadius: 1.5,
           },
         ]}
       />
-
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const isFocused = state.index === index;

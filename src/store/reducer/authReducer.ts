@@ -1,0 +1,77 @@
+import { User } from "@/services/types/authTypes";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+// Define the auth state
+interface AuthState {
+  user: User | null;
+  accessToken: string | null;
+  refreshToken: string | null;
+  authInfo: {
+    selectedMethod: "email" | "phone";
+    chooseMethodVisible: boolean;
+    email: string;
+    password: string;
+    phoneNumber: string;
+    name: {
+      firstName: string;
+      middleName: string;
+      lastName: string;
+    };
+  } | null;
+  redirectTo: {
+    stack: string;
+    screen: string;
+    params?: any;
+  } | null;
+}
+
+// Initial state
+const initialState: AuthState = {
+  user: null,
+  authInfo: null,
+  accessToken: null,
+  refreshToken: null,
+  redirectTo: null,
+};
+
+// Create the auth slice
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setUser: (state, action: PayloadAction<User | null>) => {
+      state.user = action.payload;
+    },
+    setAccessToken: (state, action: PayloadAction<string | null>) => {
+      state.accessToken = action.payload;
+    },
+    setRefreshToken: (state, action: PayloadAction<string | null>) => {
+      state.refreshToken = action.payload;
+    },
+    setAuthInfo: (state, action: PayloadAction<any | null>) => {
+      if (action.payload === null) {
+        state.authInfo = null;
+      }
+      state.authInfo = { ...state.authInfo, ...action.payload };
+    },
+
+    removeToken: (state) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+    },
+    updateUser: (state, action: PayloadAction<Partial<any>>) => {
+      if (state.user) {
+        state.user = {
+          ...state.user,
+          ...action.payload,
+        };
+      }
+    },
+  },
+});
+
+// Export actions
+export const { setUser, updateUser, removeToken, setAuthInfo, setAccessToken, setRefreshToken } = authSlice.actions;
+
+// Export reducer
+export default authSlice.reducer;

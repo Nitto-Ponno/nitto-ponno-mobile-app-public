@@ -5,6 +5,8 @@ import CustomTabBar from "./CustomTabBar";
 import { NavigatorScreenParams } from "@react-navigation/native";
 import HomeStack, { HomeStackParamList } from "./HomeStack";
 import ProfileStack from "./ProfileStack";
+import CartStack from "./CartStack";
+import CategoryStack from "./CategoryStack";
 
 const Tab = createBottomTabNavigator<BottomTabNavigatorParamList>();
 const renderCustomTabBar = (props: any) => <CustomTabBar {...props} />;
@@ -18,6 +20,8 @@ const BottomTabNavigator: React.FC = () => {
       }}
     >
       <Tab.Screen name="HomeStack" component={HomeStack} />
+      <Tab.Screen name="CategoryStack" component={CategoryStack} />
+      <Tab.Screen name="CartStack" component={CartStack} />
       <Tab.Screen name="ProfileStack" component={ProfileStack} />
     </Tab.Navigator>
   );
@@ -28,6 +32,6 @@ export type BottomTabNavigatorParamList = {
   HomeStack: NavigatorScreenParams<HomeStackParamList>;
   SearchStack: undefined;
   ProfileStack: undefined;
-  MyLearningStack: undefined;
-  WishlistStack: undefined;
+  CategoryStack: undefined;
+  CartStack: undefined;
 };

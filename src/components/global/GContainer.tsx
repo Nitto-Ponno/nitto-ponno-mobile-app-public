@@ -1,5 +1,6 @@
 import { Colors, useTheme } from "@/context/ThemeProvider";
-import React, { ReactNode, useMemo } from "react";
+import { cn } from "@/utils/cn";
+import React, { ReactNode, useMemo, useRef } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -20,7 +21,7 @@ type StatusBarStyle = "light-content" | "dark-content" | "default";
 
 export interface GContainerProps {
   children?: ReactNode;
-
+  className?: string;
   /** Layout */
   scroll?: boolean; // Use ScrollView when true, View otherwise
   contentContainerStyle?: StyleProp<ViewStyle>;
@@ -76,6 +77,7 @@ export const GContainer: React.FC<GContainerProps> = ({
   header,
   footer,
   testID,
+  className,
 }) => {
   const { theme } = useTheme();
   const ContainerBg = useMemo(
@@ -83,10 +85,13 @@ export const GContainer: React.FC<GContainerProps> = ({
     [backgroundColor, style, centered, padding]
   );
 
+  const contentWrapperRef = useRef<ScrollView | View>(null);
+
   const ContentWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
     if (scroll) {
       return (
         <ScrollView
+          ref={contentWrapperRef}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={[styles.scrollContent, centered && styles.centered, contentContainerStyle]}
           refreshControl={onRefresh ? <RefreshControl refreshing={!!refreshing} onRefresh={onRefresh} /> : undefined}
@@ -143,7 +148,7 @@ export const GContainer: React.FC<GContainerProps> = ({
   );
 
   return (
-    <View className="bg-background" style={styles.flex} testID={testID}>
+    <View className={cn("bg-background", className)} style={styles.flex} testID={testID}>
       <StatusBar
         barStyle={theme === "dark" ? "light-content" : theme === "light" ? "dark-content" : statusBarStyle}
         backgroundColor={statusBarBg ?? backgroundColor}

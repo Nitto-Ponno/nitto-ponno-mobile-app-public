@@ -2,14 +2,20 @@ import "./global.css";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
-import { ThemeProvider } from "./context/ThemeProvider";
-import Navigation from "./navigation/Navigation";
-
-// Keep splash screen until we hide it manually
+import { ThemeProvider } from "@/context/ThemeProvider";
+import Navigation from "@/navigation/Navigation";
+import { Provider } from "react-redux";
+import store, { persistor } from "@/store/index";
+import { PersistGate } from "redux-persist/integration/react";
+import Splash from "@/components/global/Splash";
+import Toast from "react-native-toast-message";
+import { toastConfig } from "./utils/ToastConfig";
+import { KeyboardAvoiderProvider } from "@good-react-native/keyboard-avoider";
+import NStatusBar from "./components/global/NStatusBar";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  const [] = useFonts({
     Thin: require("./assets/fonts/Roboto-Thin.ttf"),
     Light: require("./assets/fonts/Roboto-Light.ttf"),
     Regular: require("./assets/fonts/Roboto-Regular.ttf"),
@@ -28,8 +34,16 @@ export default function App() {
   }, []);
 
   return (
-    <ThemeProvider>
-      <Navigation />
-    </ThemeProvider>
+    <KeyboardAvoiderProvider>
+      <Provider store={store}>
+        <PersistGate loading={<Splash />} persistor={persistor}>
+          <ThemeProvider>
+            <NStatusBar />
+            <Navigation />
+            <Toast config={toastConfig} />
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
+    </KeyboardAvoiderProvider>
   );
 }
